@@ -12,5 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 // Project Colors
 val mainBackground = Color(0xFFC5CAE9)
-val buttonBackground = Color(0xFF001C64)
-val buttonBackgroundAlt = Color(0xFFE8EAF6)
+val blueBackground = Color(0xFF001C64)
+val darkWhiteBackground = Color(0xFFE8EAF6)

@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.ui.view.MainFeed
 import com.codigotruko.ucahub.ui.view.logInView
+import com.codigotruko.ucahub.ui.view.profileView
 import com.codigotruko.ucahub.ui.view.registerView
 
 class MainActivity : ComponentActivity() {
@@ -24,6 +25,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("register"){
                     registerView(navController)
+                }
+                composable("profile"){
+                    profileView(navController)
                 }
             }
         }

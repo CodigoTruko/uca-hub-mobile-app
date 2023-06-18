@@ -2,6 +2,7 @@ package com.codigotruko.ucahub.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -27,59 +24,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.codigotruko.ucahub.R
-import com.codigotruko.ucahub.navigationbar.NavigationBarItem
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
 
-val bottomNavItems = listOf(
-    NavigationBarItem(
-        name = "Home",
-        route = "Home",
-        icon = Icons.Rounded.Home
-    ),    NavigationBarItem(
-        name = "Communities",
-        route = "Communities",
-        icon = Icons.Rounded.Home
-    ),    NavigationBarItem(
-        name = "Profile",
-        route = "Profile",
-        icon = Icons.Rounded.Person
-    ),    NavigationBarItem(
-        name = "Configuration",
-        route = "Configuration",
-        icon = Icons.Rounded.Settings
-    )
-)
-
-
 @Preview(showBackground = true)
 @Composable
 fun MainFeed () {
-    LazyColumn(horizontalAlignment = Alignment.CenterHorizontally,
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
             .background(mainBackground)) {
 
         item {
-
-            // Header de la homePage.
-            Card(colors = CardDefaults.cardColors(blueBackground),
-                shape = RoundedCornerShape(0.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)) {
-
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 24.dp, vertical = 0.dp)) {
-
-                    Text(text = "UCA HUB", color = Color.White, fontSize = 35.sp, fontWeight = FontWeight.Bold)
-                }
-            }
 
             Card(
                 colors = CardDefaults.cardColors(darkWhiteBackground),
@@ -156,6 +116,24 @@ fun MainFeed () {
             }
 
 
+        }
+    }
+}
+
+@Composable
+fun TopBar() {
+    Card(colors = CardDefaults.cardColors(blueBackground),
+        shape = RoundedCornerShape(0.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)) {
+
+        Row(verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp, vertical = 0.dp)) {
+
+            Text(text = "UCA HUB", color = Color.White, fontSize = 35.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

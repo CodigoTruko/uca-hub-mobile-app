@@ -111,6 +111,7 @@ fun logInView(navController: NavHostController) {
             Text(text = "¿Primera vez en UCA-HUB? ¡Registrate aquí!",
                 color = Color.Black.copy(alpha = 0.4f),
                 modifier = Modifier.clickable {
+                    navController.navigate("register")
                 }
             )
 

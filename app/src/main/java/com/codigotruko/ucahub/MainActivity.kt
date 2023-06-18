@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.ui.view.MainFeed
 import com.codigotruko.ucahub.ui.view.logInView
+import com.codigotruko.ucahub.ui.view.registerView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +21,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("mainfeed") {
                     MainFeed()
+                }
+                composable("register"){
+                    registerView(navController)
                 }
             }
         }

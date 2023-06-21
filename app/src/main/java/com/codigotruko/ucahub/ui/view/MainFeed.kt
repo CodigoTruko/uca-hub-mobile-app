@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -31,7 +30,7 @@ import com.codigotruko.ucahub.ui.theme.mainBackground
 
 @Preview(showBackground = true)
 @Composable
-fun MainFeed () {
+fun MainFeedView () {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -61,7 +60,7 @@ fun MainFeed () {
 
                         Card(modifier = Modifier
                             .width(140.dp)
-                            .height(230.dp)
+                            .height(210.dp)
                             .padding(horizontal = 4.dp)) {
                             Image(painter = painterResource(R.drawable.imagen_prueba),
                                 contentDescription = "Imagen de prueba.",
@@ -70,11 +69,14 @@ fun MainFeed () {
 
                         Card(modifier = Modifier
                             .width(140.dp)
-                            .height(230.dp)
-                            .padding(horizontal = 4.dp)) {
-                            Image(painter = painterResource(R.drawable.imagen_prueba),
-                                contentDescription = "Imagen de prueba.",
-                                modifier = Modifier.fillMaxSize())
+                            .height(210.dp)
+                            .padding(horizontal = 4.dp),
+                            colors = CardDefaults.cardColors(blueBackground)) {
+
+                            Text(text = "Entrar a una comunidad",
+                                fontSize = 20.sp,
+                                color = Color.White)
+
                         }
 
                     }
@@ -93,47 +95,47 @@ fun MainFeed () {
                     modifier = Modifier
                         .fillMaxSize()) {
 
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                        Image(painter = painterResource(id = R.drawable.imagen_perfil_prueba),
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.imagen_perfil_prueba),
                             contentDescription = "Imagen de perfil.",
                             modifier = Modifier
                                 .height(80.dp)
-                                .padding(16.dp))
+                                .padding(16.dp)
+                        )
 
-                        Text(text = "Un trolo random", fontSize = 25.sp, fontWeight = FontWeight.Medium)
+                        Text(
+                            text = "Un trolo random",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Medium
+                        )
                     }
 
-                    Text(text = "Descripción de pruebaaaaaaaaaaaaa aaaaaaaaaaaaa",
+                    Text(
+                        text = "Descripción de pruebaaaaaaaaaaaaa aaaaaaaaaaaaa",
                         fontSize = 20.sp,
-                        modifier = Modifier.padding(horizontal = 16.dp))
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
 
-                    Image(painter = painterResource(id = R.drawable.publicacion_prueba),
+                    Image(
+                        painter = painterResource(id = R.drawable.publicacion_prueba),
                         contentDescription = "Publicación de prueba.",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp))
+                            .padding(16.dp)
+                    )
+                    
+                    Row() {
+                        // TODO: Agregar los iconos de la publicación.
+                    }
+                    
                 }
             }
 
 
-        }
-    }
-}
-
-@Composable
-fun TopBar() {
-    Card(colors = CardDefaults.cardColors(blueBackground),
-        shape = RoundedCornerShape(0.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)) {
-
-        Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 0.dp)) {
-
-            Text(text = "UCA HUB", color = Color.White, fontSize = 35.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

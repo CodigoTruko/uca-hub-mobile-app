@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -63,12 +64,12 @@ fun txtFieldFragment(placeHolder: String): MutableState<TextFieldValue> {
 }
 
 @Composable
-fun ButtonNormalFragment(navController: NavHostController, textValue: String, destinationRoute: String = "", icon: String = ""){
+fun ButtonNormalFragment(navController: NavHostController, textValue: String, destinationRoute: String = "", icon: String = "", padding: Dp = 16.dp){
     Button(
         onClick = { if(  destinationRoute.isNotEmpty() ){navController.navigate(destinationRoute)} },
         colors = ButtonDefaults.buttonColors(blueBackground),
         modifier = Modifier
-            .padding(16.dp)
+            .padding(padding)
             .width(300.dp)
     ) {
         if(icon.isNotEmpty()){

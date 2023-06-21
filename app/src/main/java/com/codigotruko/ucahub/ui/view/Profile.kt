@@ -26,7 +26,6 @@ import com.codigotruko.ucahub.ui.view.fragments.PublicationFragment
 
 //navController: NavHostController
 
-
 @Composable
 fun ProfileView(navController: NavHostController, userName: String?, carnet: String?, faculty: String?, carrer: String?, description: String?, userID: String){
 

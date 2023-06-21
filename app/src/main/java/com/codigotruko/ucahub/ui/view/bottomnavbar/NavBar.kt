@@ -113,7 +113,7 @@ fun MenuItem (item : Destinos, selected : Boolean, onItemClick : (Destinos) -> U
             .height(60.dp)
             .padding(6.dp)
             .clip(RoundedCornerShape(12))
-            .background(if (selected) Color.Black.copy(alpha = 0.25f) else Color.Transparent)
+            .background(if (selected) Color.White.copy(alpha = 0.25f) else Color.Transparent)
             .padding(8.dp)
             .clickable { onItemClick(item) }
     ) {
@@ -124,6 +124,6 @@ fun MenuItem (item : Destinos, selected : Boolean, onItemClick : (Destinos) -> U
         Spacer(modifier = Modifier.width(12.dp))
         Text(text = item.title,
             style = TextStyle(fontSize = 18.sp),
-            color = if(selected) Color.White else Color.Black)
+            color = if(selected) Color.Red else Color.White)
     }
 }

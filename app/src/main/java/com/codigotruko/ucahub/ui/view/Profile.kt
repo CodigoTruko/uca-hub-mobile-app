@@ -40,10 +40,7 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
     ){
         item{
 
-            HeaderFragment()
-
             ImageUCAHUB()
-
 
             ButtonNormalFragment(
                 navController = navController,

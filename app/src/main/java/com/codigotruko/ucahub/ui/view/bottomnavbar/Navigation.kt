@@ -38,7 +38,7 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.view.CommunitiesView
 import com.codigotruko.ucahub.ui.view.MainFeedView
-import com.codigotruko.ucahub.ui.view.profileView
+import com.codigotruko.ucahub.ui.view.ProfileView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -84,7 +84,15 @@ fun BottomNavHost(navHostController: NavHostController, scope : CoroutineScope, 
             CommunitiesView(navController = navHostController)
         }
         composable(route = NavBarElements.Profile.route) {
-            profileView(navController = navHostController)
+            ProfileView(
+                navController = navHostController,
+                userName = "Rodrigo",
+                carnet = "00078421",
+                faculty = "Ingenieria y arquitectura",
+                carrer = "Ingenieria Informatica",
+                description = "AAAAAAAAAAAAAAAAAAAAA",
+                userID = "1"
+            )
         }
         composable(route = NavBarElements.Menu.route) {
             scope.launch {

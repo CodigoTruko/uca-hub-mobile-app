@@ -25,7 +25,7 @@ import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
 import com.codigotruko.ucahub.ui.view.fragments.txtFieldFragment
 
 @Composable
-fun registerView(navController: NavHostController){
+fun RegisterView(navController: NavHostController){
     LazyColumn(verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier

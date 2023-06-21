@@ -8,8 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.ui.view.bottomnavbar.StaticItems
 import com.codigotruko.ucahub.ui.view.logInView
-import com.codigotruko.ucahub.ui.view.profileView
-import com.codigotruko.ucahub.ui.view.registerView
+import com.codigotruko.ucahub.ui.view.ProfileView
+import com.codigotruko.ucahub.ui.view.RegisterView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,10 +26,10 @@ class MainActivity : ComponentActivity() {
                     StaticItems()
                 }
                 composable("register"){
-                    registerView(navController)
+                    RegisterView(navController)
                 }
                 composable("profile"){
-                    profileView(navController)
+                    ProfileView(navController,"XD", "00046821", "Ingenieria y Arquitectura", "Informatica", "XDdasdasfasdas", "1")
                 }
             }
         }

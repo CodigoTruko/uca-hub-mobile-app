@@ -38,10 +38,10 @@ fun RegisterView(navController: NavHostController){
 
             Text(
                 text = "Crear cuenta nueva",
-                fontSize = 32.sp,
+                fontSize =32.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(0.dp)
                     .fillMaxWidth()
             )
 
@@ -60,11 +60,12 @@ fun RegisterView(navController: NavHostController){
             ButtonNormalFragment(navController = navController, textValue = "Crear cuenta", destinationRoute = "mainfeed")
 
 
-            Text(text = "¿Primera vez en UCA-HUB? ¡Registrate aquí!",
+            Text(text = "¿Ya posees una cuenta? ¡Inicia sesión aqui!",
                 color = Color.Black.copy(alpha = 0.4f),
                 modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
+                    .padding(horizontal = 0.dp, vertical = 4.dp)
                     .clickable {
+                        navController.navigate("login")
                 }
             )
 

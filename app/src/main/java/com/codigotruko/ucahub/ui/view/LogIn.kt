@@ -36,6 +36,8 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
+import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
+import com.codigotruko.ucahub.ui.view.fragments.txtFieldFragment
 
 
 @Composable
@@ -96,17 +98,9 @@ fun logInView(navController: NavHostController) {
                 Text(text = "Or")
             }
 
-            TxtField()
+            TxtFieldLogIn()
 
-            Button(
-                onClick = { navController.navigate("mainfeed") },
-                colors = ButtonDefaults.buttonColors(blueBackground),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .width(300.dp)
-            ) {
-                Text(text = "Iniciar Sesión")
-            }
+            ButtonNormalFragment(navController = navController, textValue = "Iniciar Sesión", destinationRoute = "mainfeed")
 
             Text(text = "¿Primera vez en UCA-HUB? ¡Registrate aquí!",
                 color = Color.Black.copy(alpha = 0.4f),
@@ -126,28 +120,14 @@ fun logInView(navController: NavHostController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun TxtField() {
-    val userInputValue = remember { mutableStateOf(TextFieldValue()) }
-    val passwordInputValue = remember { mutableStateOf(TextFieldValue()) }
+fun TxtFieldLogIn() {
 
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        OutlinedTextField(value = userInputValue.value, onValueChange = {userInputValue.value = it},
-            placeholder = { Text(text = "Usuario", color = Color.Black.copy(alpha = 0.5f)) },
-            shape = RoundedCornerShape(15.dp),
-            modifier = Modifier
-                .padding(8.dp)
-                .width(350.dp)
-        )
 
-        OutlinedTextField(value = passwordInputValue.value, onValueChange = {passwordInputValue.value = it},
-            placeholder = { Text(text = "Contraseña", color = Color.Black.copy(alpha = 0.5f)) },
-            shape = RoundedCornerShape(15.dp),
-            modifier = Modifier
-                .padding(8.dp)
-                .width(350.dp)
-        )
+        txtFieldFragment(placeHolder = "Usuario" )
+        txtFieldFragment(placeHolder = "Contraseña" )
     }
 }

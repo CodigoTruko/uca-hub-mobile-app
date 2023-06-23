@@ -127,7 +127,7 @@ fun PublicationFragment(userName: String, description: String){
         colors = CardDefaults.cardColors(darkWhiteBackground),
         modifier = Modifier
             .fillMaxWidth()
-            .height(440.dp)
+            .height(430.dp)
             .padding(6.dp)
     ) {
 
@@ -167,12 +167,12 @@ fun PublicationFragment(userName: String, description: String){
             ) {
                 Icon(painter = painterResource(id = R.drawable.heart_icon),
                     contentDescription = "Icono Comentario",
-                    modifier = Modifier.width(30.dp).height(40.dp))
-                Spacer(modifier = Modifier.width(40.dp))
+                    modifier = Modifier.width(26.dp).height(40.dp))
+                Spacer(modifier = Modifier.width(50.dp))
                 Icon(painter = painterResource(id = R.drawable.comments_icon),
                     contentDescription = "Icono Comentario",
                     modifier = Modifier.width(38.dp).height(40.dp))
-                Spacer(modifier = Modifier.width(40.dp))
+                Spacer(modifier = Modifier.width(50.dp))
                 Icon(painter = painterResource(id = R.drawable.bookmark_icon),
                     contentDescription = "Icono BookMark",
                     modifier = Modifier.width(40.dp).height(40.dp))

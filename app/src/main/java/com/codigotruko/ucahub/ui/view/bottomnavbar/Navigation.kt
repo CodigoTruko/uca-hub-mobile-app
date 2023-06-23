@@ -10,6 +10,7 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.view.CommunitiesView
 import com.codigotruko.ucahub.ui.view.MainFeedView
 import com.codigotruko.ucahub.ui.view.ProfileView
+import com.codigotruko.ucahub.ui.view.SearchView
 
 // Clase que contiene la informacion de los elementos.
 sealed class NavBarElements(val tittle: String, val route: String, @DrawableRes val icons: Int) {
@@ -55,7 +56,7 @@ fun BottomNavHost(navHostController: NavHostController) {
             CommunitiesView(navController = navHostController)
         }
         composable(NavBarElements.Search.route) {
-            // TODO : Agregar vista de buscador.
+            SearchView()
         }
         composable(NavBarElements.Profile.route) {
             ProfileView(

@@ -146,7 +146,7 @@ fun MenuItem(item: Destinos, selected: Boolean, onItemClick: (Destinos) -> Unit)
             .padding(8.dp)
             .clickable { onItemClick(item) }) {
         Icon(
-            painter = painterResource(id = R.drawable.home_icon),
+            painter = painterResource(id = item.icon),
             contentDescription = item.title,
             tint = if (selected) Color.Gray else Color.White,
             modifier = Modifier.size(32.dp)

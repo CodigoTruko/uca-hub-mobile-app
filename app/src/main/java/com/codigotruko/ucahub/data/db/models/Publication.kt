@@ -7,14 +7,18 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "publications")
 data class Publication (
 
-    @PrimaryKey var id: Int,
+    //@PrimaryKey var id: Int,
 
-    @SerializedName("user") var user: String,
+    //@SerializedName("user") var user: String,
 
     //@SerializedName("urlUser") var image: String //Imagen
 
-    @SerializedName("description") var description: String
+    //@SerializedName("description") var description: String
 
     //@SerializedName("urlPublication") var image: String //Imagen
-
+    @PrimaryKey var name: String,
+    /**
+     * URL to front image view of pokemon
+     */
+    @SerializedName("url") var image: String
         )

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,6 +28,7 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
+import com.codigotruko.ucahub.ui.view.fragments.PublicationFragment
 
 @Preview(showBackground = true)
 @Composable
@@ -83,58 +85,12 @@ fun MainFeedView () {
                 }
             }
 
-            Card(
-                colors = CardDefaults.cardColors(darkWhiteBackground),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(415.dp)
-                    .padding(6.dp)
-            ) {
+            PublicationFragment(userName = "Username666", description = "Publicacion de prueba")
+            PublicationFragment(userName = "Nexxtor", description = "Publicacion de prueba")
+            PublicationFragment(userName = "Flan", description = "Publicacion de prueba")
+            PublicationFragment(userName = "Mona", description = "Publicacion de prueba")
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()) {
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.imagen_perfil_prueba),
-                            contentDescription = "Imagen de perfil.",
-                            modifier = Modifier
-                                .height(80.dp)
-                                .padding(16.dp)
-                        )
-
-                        Text(
-                            text = "Un trolo random",
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-
-                    Text(
-                        text = "Descripción de pruebaaaaaaaaaaaaa aaaaaaaaaaaaa",
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-
-                    Image(
-                        painter = painterResource(id = R.drawable.publicacion_prueba),
-                        contentDescription = "Publicación de prueba.",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    )
-                    
-                    Row() {
-                        // TODO: Agregar los iconos de la publicación.
-                    }
-                    
-                }
-            }
-
+            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
 
         }
     }

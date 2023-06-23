@@ -6,8 +6,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,7 +32,6 @@ import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.repositories.PublicationRepository
 import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
-import com.codigotruko.ucahub.ui.view.fragments.HeaderFragment
 import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
 import com.codigotruko.ucahub.ui.view.fragments.PublicationFragment
 import kotlinx.coroutines.flow.Flow
@@ -39,8 +40,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emptyFlow
 
-
-//navController: NavHostController
 
 @Composable
 fun ProfileView(navController: NavHostController, userName: String?, carnet: String?, faculty: String?, carrer: String?, description: String?, userID: String){
@@ -95,6 +94,7 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
 
             PublicationFragment(userName = userName.toString(), description = "Descripción")
 
+            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
 
 
         }

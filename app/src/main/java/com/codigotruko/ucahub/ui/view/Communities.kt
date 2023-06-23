@@ -45,7 +45,6 @@ fun CommunitiesView(navController : NavHostController) {
                     .height(240.dp)
                     .padding(6.dp)
             ) {
-
                 Image(
                     painter = painterResource(id = R.drawable.imagen_comunidad),
                     contentDescription = "Imagen de comunidad.",
@@ -54,7 +53,6 @@ fun CommunitiesView(navController : NavHostController) {
                         .padding(8.dp)
                         .clip(RoundedCornerShape(16.dp))
                 )
-
             }
 
             ButtonNormalFragment(navController = navController, textValue = "Crear Nueva Comunidad")

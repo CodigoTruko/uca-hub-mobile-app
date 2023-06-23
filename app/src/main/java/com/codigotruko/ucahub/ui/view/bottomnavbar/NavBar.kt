@@ -2,7 +2,6 @@ package com.codigotruko.ucahub.ui.view.bottomnavbar
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.rememberScaffoldState
@@ -18,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.lightBlueBackground
-import com.codigotruko.ucahub.ui.view.MenuDesplegable.Destinos.*
+import com.codigotruko.ucahub.ui.view.MenuDesplegable.Destinos
 import com.codigotruko.ucahub.ui.view.fragments.BottomNavBar
 import com.codigotruko.ucahub.ui.view.fragments.Menu
 import com.codigotruko.ucahub.ui.view.fragments.TopBar
@@ -39,10 +38,10 @@ fun StaticItems(){
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
     val navigationItems = listOf(
-        Pantalla1,
-        Pantalla2,
-        Pantalla3,
-        Pantalla4
+        Destinos.Pantalla1,
+        Destinos.Pantalla2,
+        Destinos.Pantalla3,
+        Destinos.Pantalla4
     )
 
     androidx.compose.material.Scaffold(

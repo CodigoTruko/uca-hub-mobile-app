@@ -11,7 +11,7 @@ import com.codigotruko.ucahub.data.db.models.RemoteKey
 
 @Database(entities = [Publication::class, RemoteKey::class], version = 1, exportSchema = false)
 abstract class PublicationAppDatabase : RoomDatabase() {
-    abstract fun pokemonDao(): PublicationDao
+    abstract fun publicationDao(): PublicationDao
     abstract fun remoteKeyDao(): RemoteKeyDao
 
     companion object {

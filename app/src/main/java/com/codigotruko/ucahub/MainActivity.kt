@@ -29,9 +29,6 @@ class MainActivity : ComponentActivity() {
                 composable("mainfeed") {
                     StaticItems()
                 }
-                composable("profile"){
-                    ProfileView(navController,"XD", "00046821", "Ingenieria y Arquitectura", "Informatica", "XDdasdasfasdas", "1")
-                }
             }
         }
     }

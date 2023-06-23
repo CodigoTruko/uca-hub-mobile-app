@@ -2,6 +2,7 @@ package com.codigotruko.ucahub.ui.view.fragments
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -125,7 +127,7 @@ fun PublicationFragment(userName: String, description: String){
         colors = CardDefaults.cardColors(darkWhiteBackground),
         modifier = Modifier
             .fillMaxWidth()
-            .height(415.dp)
+            .height(440.dp)
             .padding(6.dp)
     ) {
 
@@ -147,11 +149,34 @@ fun PublicationFragment(userName: String, description: String){
                 fontSize = 20.sp,
                 modifier = Modifier.padding(horizontal = 16.dp))
 
+            Spacer(modifier = Modifier.fillMaxWidth().height(24.dp))
+
             Image(painter = painterResource(id = R.drawable.publicacion_prueba),
                 contentDescription = "Imagen de Publicación",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp))
+                    .padding(horizontal = 16.dp))
+
+            Spacer(modifier = Modifier.fillMaxWidth().height(4.dp))
+
+            Row(horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                Icon(painter = painterResource(id = R.drawable.heart_icon),
+                    contentDescription = "Icono Comentario",
+                    modifier = Modifier.width(30.dp).height(40.dp))
+                Spacer(modifier = Modifier.width(40.dp))
+                Icon(painter = painterResource(id = R.drawable.comments_icon),
+                    contentDescription = "Icono Comentario",
+                    modifier = Modifier.width(38.dp).height(40.dp))
+                Spacer(modifier = Modifier.width(40.dp))
+                Icon(painter = painterResource(id = R.drawable.bookmark_icon),
+                    contentDescription = "Icono BookMark",
+                    modifier = Modifier.width(40.dp).height(40.dp))
+            }
         }
     }
 }
@@ -196,24 +221,6 @@ fun ComunitysContainerFragment(){
                 }
 
             }
-        }
-    }
-}
-
-@Composable
-fun HeaderFragment(){
-    Card(colors = CardDefaults.cardColors(blueBackground),
-        shape = RoundedCornerShape(0.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)) {
-
-        Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 0.dp)) {
-
-            Text(text = "UCA HUB", color = Color.White, fontSize = 35.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

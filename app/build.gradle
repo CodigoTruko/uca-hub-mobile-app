@@ -43,7 +43,8 @@ android {
 }
 
 dependencies {
-
+    
+    // Para que no de error de clases duplicadas
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20") {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")

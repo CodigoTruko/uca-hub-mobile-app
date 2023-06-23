@@ -3,6 +3,7 @@ package com.codigotruko.ucahub.ui.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,7 +46,8 @@ fun CommunitiesView(navController : NavHostController) {
                     .padding(6.dp)
             ) {
 
-                Image(painter = painterResource(id = R.drawable.imagen_comunidad),
+                Image(
+                    painter = painterResource(id = R.drawable.imagen_comunidad),
                     contentDescription = "Imagen de comunidad.",
                     modifier = Modifier
                         .fillMaxSize()
@@ -57,6 +59,8 @@ fun CommunitiesView(navController : NavHostController) {
 
             ButtonNormalFragment(navController = navController, textValue = "Crear Nueva Comunidad")
 
+            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
+            
         }
     }
 }

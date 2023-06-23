@@ -5,7 +5,7 @@ import com.codigotruko.ucahub.R
 sealed class Destinos (
     val icon : Int,
     val title : String,
-    val ruta : String
+    val route : String
     ) {
     object Pantalla1 : Destinos(R.drawable.home_icon, "Following", "followingView")
     object Pantalla2 : Destinos(R.drawable.home_icon, "Bookmarks", "bookmarksView")

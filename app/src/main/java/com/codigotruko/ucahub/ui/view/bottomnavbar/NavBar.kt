@@ -17,9 +17,9 @@ import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.lightBlueBackground
-import com.codigotruko.ucahub.ui.view.MenuDesplegable.Destinos
+import com.codigotruko.ucahub.ui.view.menudesplegable.Destinos
+import com.codigotruko.ucahub.ui.view.menudesplegable.Menu
 import com.codigotruko.ucahub.ui.view.fragments.BottomNavBar
-import com.codigotruko.ucahub.ui.view.fragments.Menu
 import com.codigotruko.ucahub.ui.view.fragments.TopBar
 
 val listItems = listOf(

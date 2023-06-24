@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.MenuDesplegable
+package com.codigotruko.ucahub.ui.view.menudesplegable
 
 import com.codigotruko.ucahub.R
 

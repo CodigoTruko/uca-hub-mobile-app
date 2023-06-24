@@ -3,13 +3,11 @@ package com.codigotruko.ucahub
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.ui.view.bottomnavbar.StaticItems
 import com.codigotruko.ucahub.ui.view.logInView
-import com.codigotruko.ucahub.ui.view.ProfileView
 import com.codigotruko.ucahub.ui.view.RegisterView
 
 class MainActivity : ComponentActivity() {

@@ -53,7 +53,7 @@ fun BottomNavHost(navHostController: NavHostController) {
             MainFeedView()
         }
         composable(NavBarElements.Communities.route) {
-            CommunitiesView(navController = navHostController)
+            CommunitiesView()
         }
         composable(NavBarElements.Search.route) {
             SearchView()

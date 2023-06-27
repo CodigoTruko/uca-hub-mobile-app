@@ -26,7 +26,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.data.presentation.PublicationScreen
+import com.codigotruko.ucahub.data.presentation.PublicationViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
@@ -117,6 +121,12 @@ fun MainFeedView () {
                         }
                     }
                 }
+
+                /*
+                val viewModel = hiltViewModel<PublicationViewModel>()
+                val publications = viewModel.publicationPagingFlow.collectAsLazyPagingItems()
+                PublicationScreen(publications = publications)
+                * */
 
                 PublicationFragment(userName = "Username666", description = "Publicacion de prueba")
                 PublicationFragment(userName = "Nexxtor", description = "Publicacion de prueba")

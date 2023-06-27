@@ -9,7 +9,9 @@ import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.ui.view.bottomnavbar.StaticItems
 import com.codigotruko.ucahub.ui.view.logInView
 import com.codigotruko.ucahub.ui.view.RegisterView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,21 @@ class MainActivity : ComponentActivity() {
                     StaticItems()
                 }
             }
+
+            /*
+            val viewModel = hiltViewModel<PublicationViewModel>()
+
+            val publications = viewModel.publicationPagingFlow.collectAsLazyPagingItems()
+
+            Log.d("XDDD", publications.itemCount.toString())
+
+            PublicationScreen(publications = publications)
+            Log.d("XDDD", publications.itemCount.toString())
+
+
+            */
+
+
         }
     }
 }

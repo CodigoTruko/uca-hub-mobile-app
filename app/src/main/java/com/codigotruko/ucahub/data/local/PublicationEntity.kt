@@ -1,11 +1,10 @@
-package com.codigotruko.ucahub.data.db.models
+package com.codigotruko.ucahub.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "publications")
-data class Publication (
+@Entity
+data class PublicationEntity (
 
     //@PrimaryKey var id: Int,
 
@@ -16,9 +15,11 @@ data class Publication (
     //@SerializedName("description") var description: String
 
     //@SerializedName("urlPublication") var image: String //Imagen
-    @PrimaryKey var name: String,
-    /**
-     * URL to front image view of pokemon
-     */
-    @SerializedName("url") var image: String
-        )
+    @PrimaryKey
+    val id: Int,
+    val name: String,
+    val tagline: String,
+    val description: String,
+    val firstBrewed: String,
+    val imageUrl: String?
+)

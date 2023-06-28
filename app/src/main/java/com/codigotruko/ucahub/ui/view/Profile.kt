@@ -30,6 +30,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.repositories.PublicationRepository
+import com.codigotruko.ucahub.ui.FloatingButton
 import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
@@ -94,11 +95,14 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
 
             PublicationFragment(userName = userName.toString(), description = "Descripción")
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp))
 
 
         }
     }
+    FloatingButton()
 }
 
 @Composable

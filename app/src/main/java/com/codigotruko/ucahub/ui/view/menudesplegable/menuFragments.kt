@@ -19,6 +19,10 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,7 +32,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.codigotruko.ucahub.ui.view.overlapelements.FollowingBox
+import com.codigotruko.ucahub.ui.view.overlapelements.LogOutBox
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 // Vista del Menu desplegable.
@@ -38,19 +45,36 @@ fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: Co
 
     val currentRoute = currentRoute(navController)
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    var showFollowingBox by rememberSaveable() { mutableStateOf(false) }
+    var showLogOutBox by rememberSaveable() { mutableStateOf(false) }
 
     Column(verticalArrangement = Arrangement.Center, modifier = Modifier.padding(20.dp)) {
         menu_items.forEach { item ->
             MenuItem(item = item, selected = currentRoute == item.route) {
-//                    navController.navigate(item.route) {
-//                        launchSingleTop = true
-//                    }
-//                    scope.launch {
-//                        scaffoldState.drawerState.close()
-//                    }
+                // Si da click al boton de personas que sigue
+                if (item.route == "followingView") {
+                    showFollowingBox = true
+                }
+                // Si da click al boton bookmarks
+                if (item.route == "bookmarksView") {
+
+                }
+                // Si da click al boton settings
+                if (item.route == "settingsview") {
+
+                }
+                // Si da click al boton log_out
+                if (item.route == "log_outView") {
+                    showLogOutBox = true
+                }
+                scope.launch { scaffoldState.drawerState.close() }
             }
         }
     }
+
+    // Muestra los dialogos.
+    FollowingBox(showFollowingBox, { showFollowingBox = false }, {  })
+    LogOutBox(showLogOutBox, { showLogOutBox = false }, { showLogOutBox = false })
 
 }
 

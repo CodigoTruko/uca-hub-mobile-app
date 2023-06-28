@@ -12,7 +12,7 @@ class PublicationListViewModel(private val publicationRepository: PublicationRep
 
     @OptIn(ExperimentalPagingApi::class)
     val publications = publicationRepository
-        .getPublicationPage(100)
+        .getPublicationPage(10)
 
 
     companion object {

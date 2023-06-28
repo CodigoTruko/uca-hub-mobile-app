@@ -27,6 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.ui.FloatingButton
+import com.codigotruko.ucahub.ui.list.PublicationListViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
@@ -118,6 +120,8 @@ fun MainFeedView () {
                     }
                 }
 
+
+
                 PublicationFragment(userName = "Username666", description = "Publicacion de prueba")
                 PublicationFragment(userName = "Nexxtor", description = "Publicacion de prueba")
                 PublicationFragment(userName = "Flan", description = "Publicacion de prueba")
@@ -129,6 +133,8 @@ fun MainFeedView () {
 
             }
         }
+
+        FloatingButton()
 
     }
 }

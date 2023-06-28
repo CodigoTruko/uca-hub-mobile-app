@@ -5,7 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.codigotruko.ucahub.data.local.PublicationAppDatabase
+import com.codigotruko.ucahub.data.local.UcaHubAppDatabase
 import com.codigotruko.ucahub.data.local.PublicationEntity
 import com.codigotruko.ucahub.data.mappers.toPublicationEntity
 import retrofit2.HttpException
@@ -13,7 +13,7 @@ import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class PublicationMediator(
-    private val publicationDb: PublicationAppDatabase,
+    private val publicationDb: UcaHubAppDatabase,
     private val ucaHubApi: UcaHubApi
 ): RemoteMediator<Int, PublicationEntity>() {
 
@@ -44,10 +44,10 @@ class PublicationMediator(
 
             publicationDb.withTransaction {
                 if(loadType == LoadType.REFRESH) {
-                    publicationDb.dao.clearAll()
+                    publicationDb.publicationDao.clearAll()
                 }
                 val publicationEntities = publications.map { it.toPublicationEntity() }
-                publicationDb.dao.upsertAll(publicationEntities)
+                publicationDb.publicationDao.upsertAll(publicationEntities)
             }
 
             MediatorResult.Success(

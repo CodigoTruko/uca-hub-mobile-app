@@ -6,7 +6,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
-import com.codigotruko.ucahub.data.local.PublicationAppDatabase
+import com.codigotruko.ucahub.data.local.UcaHubAppDatabase
 import com.codigotruko.ucahub.data.local.PublicationEntity
 import com.codigotruko.ucahub.data.remote.UcaHubApi
 import dagger.Module
@@ -26,10 +26,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePublicationDatabase(@ApplicationContext context: Context): PublicationAppDatabase {
+    fun providePublicationDatabase(@ApplicationContext context: Context): UcaHubAppDatabase {
         return Room.databaseBuilder(
             context,
-            PublicationAppDatabase::class.java,
+            UcaHubAppDatabase::class.java,
             "publications.db"
         ).build()
     }
@@ -46,7 +46,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePublicationPager(publicationDb: PublicationAppDatabase, ucaHubApi: UcaHubApi): Pager<Int, PublicationEntity> {
+    fun providePublicationPager(publicationDb: UcaHubAppDatabase, ucaHubApi: UcaHubApi): Pager<Int, PublicationEntity> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = PublicationMediator(
@@ -54,7 +54,7 @@ object AppModule {
                 ucaHubApi = ucaHubApi
             ),
             pagingSourceFactory = {
-                publicationDb.dao.pagingSource()
+                publicationDb.publicationDao.pagingSource()
             }
         )
     }

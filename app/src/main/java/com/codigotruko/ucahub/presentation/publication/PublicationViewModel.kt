@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.data.presentation
+package com.codigotruko.ucahub.presentation.publication
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

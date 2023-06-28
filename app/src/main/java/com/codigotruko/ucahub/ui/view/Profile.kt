@@ -22,7 +22,6 @@ import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
-import com.codigotruko.ucahub.ui.view.fragments.PublicationFragment
 
 
 @Composable
@@ -74,9 +73,6 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
 
             }
 
-            PublicationFragment(userName = userName.toString(), description = "Descripción")
-
-            PublicationFragment(userName = userName.toString(), description = "Descripción")
 
             Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
 

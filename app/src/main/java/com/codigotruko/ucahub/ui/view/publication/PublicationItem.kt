@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.data.presentation
+package com.codigotruko.ucahub.ui.view.publication
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -22,10 +22,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.domain.Publication
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
@@ -40,7 +42,6 @@ fun PublicationItem(publication: Publication) {
         colors = CardDefaults.cardColors(darkWhiteBackground),
         modifier = Modifier
             .fillMaxWidth()
-            .height(430.dp)
             .padding(6.dp)
     ) {
 
@@ -58,7 +59,7 @@ fun PublicationItem(publication: Publication) {
                 Text(text = publication.name, fontSize = 25.sp, fontWeight = FontWeight.Medium)
             }
 
-            Text(text = publication.name,
+            Text(text = publication.description,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(horizontal = 16.dp))
 
@@ -66,10 +67,11 @@ fun PublicationItem(publication: Publication) {
                 .fillMaxWidth()
                 .height(24.dp))
 
-            Image(painter = painterResource(id = R.drawable.publicacion_prueba),
+            Image(painter = rememberAsyncImagePainter(model = publication.imageUrl, contentScale = ContentScale.FillWidth),
                 contentDescription = "Imagen de Publicación",
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(200.dp)
                     .padding(horizontal = 16.dp))
 
             Spacer(modifier = Modifier

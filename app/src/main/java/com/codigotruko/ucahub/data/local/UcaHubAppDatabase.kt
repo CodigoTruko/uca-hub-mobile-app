@@ -4,8 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(entities = [PublicationEntity::class], version = 1)
-abstract class PublicationAppDatabase : RoomDatabase() {
+abstract class UcaHubAppDatabase : RoomDatabase() {
 
-    abstract val dao: PublicationDao
+    abstract val publicationDao: PublicationDao
 
 }

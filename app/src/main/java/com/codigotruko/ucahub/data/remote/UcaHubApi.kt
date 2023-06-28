@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface UcaHubApi {
-    @GET("publications")
+    @GET("beers")
     suspend fun getPublications(
         @Query("page") page: Int,
         @Query("per_page") pageCount: Int

@@ -43,7 +43,7 @@ import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.view.overlayelements.CommentsBox
+import com.codigotruko.ucahub.ui.view.overlapelements.CommentsBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -47,19 +47,6 @@ fun StaticItems(){
     androidx.compose.material.Scaffold(
         scaffoldState = scaffoldState,
         topBar = { TopBar(scope, scaffoldState) },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                shape = RoundedCornerShape(100),
-                containerColor = lightBlueBackground) {
-
-                Icon(painter = painterResource(
-                    id = R.drawable.add_icon),
-                    modifier = Modifier.height(50.dp),
-                    contentDescription = null, tint = Color.White
-                )
-            }
-        },
         bottomBar = { BottomNavBar(navController = navController, items = listItems) },
         drawerContent = { Menu(menu_items = navigationItems, navController, scope, scaffoldState) },
         drawerGesturesEnabled = true,

@@ -1,7 +1,6 @@
-package com.codigotruko.ucahub.ui.view.overlayelements
+package com.codigotruko.ucahub.ui.view.overlapelements
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -41,15 +40,9 @@ fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
         val inputValue = remember { mutableStateOf(TextFieldValue()) }
 
         Dialog(onDismissRequest = { onDismiss() }) {
-            Box(
-                modifier = Modifier
-                    .height(600.dp)
-                    .width(450.dp)
-            ) {
-
                 Card(
                     colors = CardDefaults.cardColors(darkWhiteBackground),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.height(600.dp).width(450.dp)
                 ) {
                     Text(
                         text = "Comentarios",
@@ -129,8 +122,6 @@ fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
                     }
 
                 }
-
-            }
         }
     }
 }

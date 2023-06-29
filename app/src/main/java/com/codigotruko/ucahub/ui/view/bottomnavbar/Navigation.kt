@@ -50,7 +50,7 @@ fun BottomNavHost(navHostController: NavHostController) {
         startDestination = NavBarElements.Home.route
     ) {
         composable(NavBarElements.Home.route) {
-            MainFeedView()
+            MainFeedView(navHostController)
         }
         composable(NavBarElements.Communities.route) {
             CommunitiesView()

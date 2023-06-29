@@ -1,6 +1,5 @@
 package com.codigotruko.ucahub.ui.view
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,15 +19,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
-import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.view.overlapelements.CommunitiesBox
+import com.codigotruko.ucahub.ui.view.fragments.CommunitieCard
+import com.codigotruko.ucahub.ui.view.overlapelements.AddCommunitieBox
 
 
 @Preview (showBackground = true)
@@ -49,32 +43,23 @@ fun CommunitiesView() {
 
         item {
 
-            Card(
-                colors = CardDefaults.cardColors(darkWhiteBackground),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(240.dp)
-                    .padding(6.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.imagen_comunidad),
-                    contentDescription = "Imagen de comunidad.",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                )
-            }
+            CommunitieCard()
+            CommunitieCard()
+            CommunitieCard()
 
             Button(
                 onClick = { showCommunitieBox = true },
                 colors = ButtonDefaults.buttonColors(blueBackground),
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .padding(vertical = 16.dp)
             ) { Text(text = "Crear nueva comunidad") }
-            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
+
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp))
         }
     }
-    // Muestra la vista
-    CommunitiesBox(showCommunitieBox, { showCommunitieBox = false }, {})
+    // Muestra dialogos.
+    AddCommunitieBox(showCommunitieBox, { showCommunitieBox = false }, {  })
 }

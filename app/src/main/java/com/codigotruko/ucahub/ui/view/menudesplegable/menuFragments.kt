@@ -32,6 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.codigotruko.ucahub.ui.view.overlapelements.ChangePasswordBox
 import com.codigotruko.ucahub.ui.view.overlapelements.FollowingBox
 import com.codigotruko.ucahub.ui.view.overlapelements.LogOutBox
 import kotlinx.coroutines.CoroutineScope
@@ -44,8 +45,8 @@ import kotlinx.coroutines.launch
 fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: CoroutineScope, scaffoldState: ScaffoldState) {
 
     val currentRoute = currentRoute(navController)
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showFollowingBox by rememberSaveable() { mutableStateOf(false) }
+    var showChangePassBox by rememberSaveable() { mutableStateOf(false) }
     var showLogOutBox by rememberSaveable() { mutableStateOf(false) }
 
     Column(verticalArrangement = Arrangement.Center, modifier = Modifier.padding(20.dp)) {
@@ -61,7 +62,7 @@ fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: Co
                 }
                 // Si da click al boton settings
                 if (item.route == "settingsview") {
-
+                    showChangePassBox = true
                 }
                 // Si da click al boton log_out
                 if (item.route == "log_outView") {
@@ -74,6 +75,7 @@ fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: Co
 
     // Muestra los dialogos.
     FollowingBox(showFollowingBox, { showFollowingBox = false }, {  })
+    ChangePasswordBox(showChangePassBox, { showChangePassBox = false }, {})
     LogOutBox(showLogOutBox, { showLogOutBox = false }, { showLogOutBox = false })
 
 }

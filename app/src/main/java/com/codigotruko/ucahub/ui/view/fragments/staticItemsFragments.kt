@@ -68,13 +68,20 @@ fun BottomNavBar(navController: NavHostController, items: List<NavBarElements>) 
                 modifier = Modifier.background(blueBackground),
                 selected = currentRoute == screens.route,
                 onClick = {
-                    navController.navigate(screens.route) {
-
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                    if (screens.route == "communities_route") {
+                        navController.navigate(screens.route) {
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
+                    }
+                    else {
+                        navController.navigate(screens.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 },
                 icon = {

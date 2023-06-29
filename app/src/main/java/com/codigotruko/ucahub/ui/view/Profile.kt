@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.ui.view
 
+import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,17 +9,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.ui.theme.blueBackground
+import com.codigotruko.ucahub.ui.view.fragments.FloatingButton
 import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
@@ -26,8 +37,6 @@ import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
 
 @Composable
 fun ProfileView(navController: NavHostController, userName: String?, carnet: String?, faculty: String?, carrer: String?, description: String?, userID: String){
-
-    val myID = "1" //Check if is my user or other
 
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,13 +48,15 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
 
             ImageUCAHUB()
 
-            ButtonNormalFragment(
-                navController = navController,
-                textValue = if(userID == myID) "Editar" else "Seguir",
-                icon = if(userID == myID) "edit" else "Follow",
-                padding = Dp(0f)
-
-            )
+            Button(onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(blueBackground),
+                shape = RoundedCornerShape(8.dp)) {
+                Icon(painter = painterResource(id = R.drawable.edit_icon),
+                    tint = Color.White,
+                    contentDescription = "Icono editar perfil.")
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = "Editar", fontSize = 18.sp)
+            }
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -74,11 +85,13 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
             }
 
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
-
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp))
 
         }
     }
+    FloatingButton()
 }
 
 @Composable

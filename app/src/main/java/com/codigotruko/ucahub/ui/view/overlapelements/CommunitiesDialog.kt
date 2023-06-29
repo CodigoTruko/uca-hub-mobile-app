@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,10 +37,11 @@ import androidx.compose.ui.window.Dialog
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
+import com.codigotruko.ucahub.ui.view.fragments.CommunitieMember
 
 
 @Composable
-fun CommunitiesBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+fun AddCommunitieBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
 
     val nameInputValue = remember { mutableStateOf(TextFieldValue()) }
     val descriptionInputValue = remember { mutableStateOf(TextFieldValue()) }
@@ -134,24 +136,90 @@ fun CommunitiesBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) 
 
                         Row() {
                             Button(
-                                onClick = { /* TODO : Implementar que guarde la nueva comunidad */  },
-                                colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
-                                modifier = Modifier
-                                    .padding(vertical = 8.dp)
-                            ) { Text(text = "Aceptar", color = Color.White) }
-
-                            Spacer(modifier = Modifier.width(25.dp))
-
-                            Button(
                                 onClick = { onDismiss() },
                                 colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
+                                shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier
                                     .padding(vertical = 8.dp)
                             ) { Text(text = "Cancelar", color = Color.White) }
+                            Spacer(modifier = Modifier.width(25.dp))
+                            Button(
+                                onClick = { /* TODO : Implementar que guarde la nueva comunidad */  },
+                                colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
+                                shape = RoundedCornerShape(8.dp),
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                            ) { Text(text = "Aceptar", color = Color.White) }
                         }
 
                     }
                 }
+        }
+    }
+}
+
+
+@Composable
+fun CommunitieInformationBox(show: Boolean, onDismiss: () -> Unit) {
+
+    if (show) {
+        Dialog(onDismissRequest = { onDismiss() }) {
+            Card(
+                colors = CardDefaults.cardColors(darkWhiteBackground),
+                modifier = Modifier
+                    .height(600.dp)
+                    .width(450.dp)
+            ) {
+                Spacer(modifier = Modifier.padding(8.dp))
+                Text(
+                    text = "Nombre de la comunidad",
+                    textAlign = TextAlign.Center,
+                    fontSize = 23.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+
+                Text(
+                    text = "Descripción de la comunidad aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    textAlign = TextAlign.Justify,
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp, vertical = 16.dp)
+                )
+
+                Text(
+                    text = "Miembros",
+                    textAlign = TextAlign.Center,
+                    fontSize = 23.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    item {
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+                        CommunitieMember()
+
+                    }
+                }
+            }
         }
     }
 }

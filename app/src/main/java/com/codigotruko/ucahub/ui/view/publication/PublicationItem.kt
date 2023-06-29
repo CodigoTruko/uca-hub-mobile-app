@@ -31,7 +31,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.domain.Publication
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.view.overlayelements.CommentsBox
+import com.codigotruko.ucahub.ui.view.overlapelements.CommentsBox
 
 @Composable
 fun PublicationItem(publication: Publication) {

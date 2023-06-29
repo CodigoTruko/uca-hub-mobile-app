@@ -1,6 +1,7 @@
 package com.codigotruko.ucahub.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +22,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
+import com.codigotruko.ucahub.ui.view.CommunitiesView
+import com.codigotruko.ucahub.ui.view.bottomnavbar.NavBarElements
 
 
 @Composable
-fun ComunityItem(){
+fun ComunityItem(navController: NavHostController){
 
     Card(
         colors = CardDefaults.cardColors(darkWhiteBackground),
@@ -61,7 +66,8 @@ fun ComunityItem(){
                     Card(modifier = Modifier
                         .width(140.dp)
                         .height(210.dp)
-                        .padding(horizontal = 4.dp),
+                        .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("communities_route") },
                         colors = CardDefaults.cardColors(blueBackground)) {
 
                         Text(text = "Entrar a una comunidad",

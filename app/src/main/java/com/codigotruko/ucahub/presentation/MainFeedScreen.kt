@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
@@ -18,8 +19,8 @@ import com.codigotruko.ucahub.ui.view.publication.PublicationItem
 
 @Composable
 fun MainFeedScreen(
-    publications: LazyPagingItems<Publication>
-
+    publications: LazyPagingItems<Publication>,
+    navController: NavHostController
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = publications.loadState) {
@@ -43,7 +44,7 @@ fun MainFeedScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item {
-                    ComunityItem()
+                    ComunityItem(navController)
                 }
                 items(publications) { publication ->
                     if (publication != null) {

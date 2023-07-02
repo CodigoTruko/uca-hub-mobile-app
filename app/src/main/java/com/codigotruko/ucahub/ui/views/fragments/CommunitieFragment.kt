@@ -1,7 +1,6 @@
-package com.codigotruko.ucahub.ui.view.fragments
+package com.codigotruko.ucahub.ui.views.fragments
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.view.overlapelements.CommunitieInformationBox
+import com.codigotruko.ucahub.ui.views.overlapelements.CommunitieInformationBox
 
 @Composable
 fun CommunitieCard () {

@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.view.fragments.CommunitieCard
-import com.codigotruko.ucahub.ui.view.overlapelements.AddCommunitieBox
+import com.codigotruko.ucahub.ui.views.fragments.CommunitieCard
+import com.codigotruko.ucahub.ui.views.overlapelements.AddCommunitieBox
 
 
 @Preview (showBackground = true)

@@ -1,8 +1,7 @@
-package com.codigotruko.ucahub.ui.view.fragments
+package com.codigotruko.ucahub.ui.views.fragments
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,22 +18,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -44,7 +38,6 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.presentation.login.LoginViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.view.overlapelements.CommentsBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -125,47 +118,4 @@ fun ImageUCAHUB(){
             .padding(16.dp)
             .fillMaxWidth()
     )
-}
-
-@Composable
-fun ComunitysContainerFragment(){
-    Card(
-        colors = CardDefaults.cardColors(darkWhiteBackground),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(320.dp)
-            .padding(6.dp)
-    ) {
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()) {
-
-            Text(text = "Comunidades", fontSize = 20.sp, modifier = Modifier.padding(16.dp))
-
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)) {
-
-                Card(modifier = Modifier
-                    .width(140.dp)
-                    .height(230.dp)
-                    .padding(horizontal = 4.dp)) {
-                    Image(painter = painterResource(R.drawable.imagen_prueba),
-                        contentDescription = "Imagen de prueba.",
-                        modifier = Modifier.fillMaxSize())
-                }
-
-                Card(modifier = Modifier
-                    .width(140.dp)
-                    .height(230.dp)
-                    .padding(horizontal = 4.dp)) {
-                    Image(painter = painterResource(R.drawable.imagen_prueba),
-                        contentDescription = "Imagen de prueba.",
-                        modifier = Modifier.fillMaxSize())
-                }
-
-            }
-        }
-    }
 }

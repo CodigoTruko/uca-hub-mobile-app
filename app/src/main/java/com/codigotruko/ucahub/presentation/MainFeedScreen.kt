@@ -15,7 +15,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.codigotruko.ucahub.domain.Publication
-import com.codigotruko.ucahub.ui.view.publication.PublicationItem
+import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 
 @Composable
 fun MainFeedScreen(

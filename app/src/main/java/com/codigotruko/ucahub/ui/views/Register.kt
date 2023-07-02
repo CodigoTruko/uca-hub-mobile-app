@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -29,10 +29,10 @@ import com.codigotruko.ucahub.presentation.login.LoginViewModel
 import com.codigotruko.ucahub.presentation.register.RegisterUiStatus
 import com.codigotruko.ucahub.presentation.register.RegisterViewModel
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.view.fragments.ButtonGoogleFragment
-import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
-import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
-import com.codigotruko.ucahub.ui.view.fragments.txtFieldFragment
+import com.codigotruko.ucahub.ui.views.fragments.ButtonGoogleFragment
+import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
+import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
+import com.codigotruko.ucahub.ui.views.fragments.txtFieldFragment
 
 @Composable
 fun RegisterView(navController: NavHostController){

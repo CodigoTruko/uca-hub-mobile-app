@@ -1,11 +1,10 @@
-package com.codigotruko.ucahub.ui.view.overlapelements
+package com.codigotruko.ucahub.ui.views.overlapelements
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,7 +36,7 @@ import androidx.compose.ui.window.Dialog
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.view.fragments.CommunitieMember
+import com.codigotruko.ucahub.ui.views.fragments.CommunitieMember
 
 
 @Composable

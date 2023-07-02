@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.codigotruko.ucahub.ui.view.bottomnavbar.StaticItems
-import com.codigotruko.ucahub.ui.view.logInView
-import com.codigotruko.ucahub.ui.view.RegisterView
+import com.codigotruko.ucahub.ui.views.bottomnavbar.StaticItems
+import com.codigotruko.ucahub.ui.views.logInView
+import com.codigotruko.ucahub.ui.views.RegisterView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,10 +1,9 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,34 +13,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
-import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
-import com.codigotruko.ucahub.ui.view.fragments.txtFieldFragment
+import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
+import com.codigotruko.ucahub.ui.views.fragments.txtFieldFragment
 
 
 @Composable
 fun logInView(navController: NavHostController) {
+
     LazyColumn(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -120,14 +113,10 @@ fun logInView(navController: NavHostController) {
     }
 }
 
-
 @Composable
 fun TxtFieldLogIn() {
 
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally) {
+    txtFieldFragment(placeHolder = "Contraseña" )
+    txtFieldFragment(placeHolder = "Contraseña" )
 
-        txtFieldFragment(placeHolder = "Usuario" )
-        txtFieldFragment(placeHolder = "Contraseña" )
-    }
 }

@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.fragments
+package com.codigotruko.ucahub.ui.views.fragments
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close

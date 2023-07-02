@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.view.fragments.ButtonGoogleFragment
-import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
-import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
-import com.codigotruko.ucahub.ui.view.fragments.txtFieldFragment
+import com.codigotruko.ucahub.ui.views.fragments.ButtonGoogleFragment
+import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
+import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
+import com.codigotruko.ucahub.ui.views.fragments.txtFieldFragment
 
 @Composable
 fun RegisterView(navController: NavHostController){

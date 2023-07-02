@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.menudesplegable
+package com.codigotruko.ucahub.ui.views.menudesplegable
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

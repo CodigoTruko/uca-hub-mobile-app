@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.codigotruko.ucahub.presentation.MainFeedScreen
 import com.codigotruko.ucahub.presentation.publication.PublicationViewModel
-import com.codigotruko.ucahub.ui.view.fragments.FloatingButton
+import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
 
 @Composable
 fun MainFeedView (navController: NavHostController) {

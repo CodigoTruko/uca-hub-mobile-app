@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.fragments
+package com.codigotruko.ucahub.ui.views.fragments
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.lightBlueBackground
-import com.codigotruko.ucahub.ui.view.overlapelements.AddPublicationBox
+import com.codigotruko.ucahub.ui.views.overlapelements.AddPublicationBox
 
 
 @Preview (showBackground = true)

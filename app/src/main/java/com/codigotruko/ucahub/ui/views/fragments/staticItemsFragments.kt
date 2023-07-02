@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.fragments
+package com.codigotruko.ucahub.ui.views.fragments
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
@@ -22,8 +22,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
-import com.codigotruko.ucahub.ui.view.menudesplegable.currentRoute
-import com.codigotruko.ucahub.ui.view.bottomnavbar.NavBarElements
+import com.codigotruko.ucahub.ui.views.menudesplegable.currentRoute
+import com.codigotruko.ucahub.ui.views.bottomnavbar.NavBarElements
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

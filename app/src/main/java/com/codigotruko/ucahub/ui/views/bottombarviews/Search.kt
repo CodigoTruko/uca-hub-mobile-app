@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

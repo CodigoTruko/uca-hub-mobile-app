@@ -11,7 +11,7 @@ interface UcaHubApi {
         @Query("per_page") pageCount: Int
     ): List<PublicationDto>
 
-    companion object {
+    companion object { 
         const val BASE_URL = "https://api.punkapi.com/v2/"
     }
 }

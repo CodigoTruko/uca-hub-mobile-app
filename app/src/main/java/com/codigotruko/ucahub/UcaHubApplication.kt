@@ -3,12 +3,31 @@ package com.codigotruko.ucahub
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.codigotruko.ucahub.data.db.PublicationAppDatabase
 import com.codigotruko.ucahub.data.network.retrofit.RetrofitInstance
+import com.codigotruko.ucahub.data.network.service.UcaHubService
 import com.codigotruko.ucahub.repository.CredentialsRepository
+import com.codigotruko.ucahub.repository.PublicationRepository
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class UcaHubApplication : Application(){
+
+
+    private val database: PublicationAppDatabase by lazy {
+        PublicationAppDatabase.getInstance(this)
+    }
+    private val ucaHubService by lazy {
+        UcaHubService()
+    }
+    val pokemonRepository by lazy {
+        PublicationRepository(database, ucaHubService)
+    }
+
+
+
+
+
 
     private val prefs: SharedPreferences by lazy {
         getSharedPreferences("Retrofit", Context.MODE_PRIVATE)

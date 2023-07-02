@@ -29,7 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.codigotruko.ucahub.R
-import com.codigotruko.ucahub.domain.Publication
+import com.codigotruko.ucahub.data.db.models.Publication
+
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 
@@ -56,7 +57,7 @@ fun PublicationItem(publication: Publication) {
                         .height(80.dp)
                         .padding(16.dp))
 
-                Text(text = publication.name, fontSize = 25.sp, fontWeight = FontWeight.Medium)
+                Text(text = publication.title, fontSize = 25.sp, fontWeight = FontWeight.Medium)
             }
 
             Text(text = publication.description,
@@ -67,7 +68,7 @@ fun PublicationItem(publication: Publication) {
                 .fillMaxWidth()
                 .height(24.dp))
 
-            Image(painter = rememberAsyncImagePainter(model = publication.imageUrl, contentScale = ContentScale.FillWidth),
+            Image(painter = rememberAsyncImagePainter(model = "", contentScale = ContentScale.FillWidth),
                 contentDescription = "Imagen de Publicación",
                 modifier = Modifier
                     .fillMaxWidth()

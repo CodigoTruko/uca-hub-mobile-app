@@ -2,7 +2,7 @@ package com.codigotruko.ucahub.repository
 
 
 import com.codigotruko.ucahub.data.network.ApiResponse
-import com.codigotruko.ucahub.network.dto.login.LoginRequest
+import com.codigotruko.ucahub.data.network.dto.login.LoginRequest
 import com.codigotruko.ucahub.data.network.dto.register.RegisterRequest
 import com.codigotruko.ucahub.data.network.service.AuthService
 import retrofit2.HttpException

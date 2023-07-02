@@ -1,11 +1,9 @@
-package com.codigotruko.ucahub.ui.view.overlapelements
+package com.codigotruko.ucahub.ui.views.overlapelements
 
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.window.DialogProperties
 
 
 @Composable

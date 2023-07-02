@@ -1,26 +1,16 @@
-package com.codigotruko.ucahub.ui.view.bottomnavbar
+package com.codigotruko.ucahub.ui.views.bottomnavbar
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
-import com.codigotruko.ucahub.ui.theme.lightBlueBackground
-import com.codigotruko.ucahub.ui.view.menudesplegable.Destinos
-import com.codigotruko.ucahub.ui.view.menudesplegable.Menu
-import com.codigotruko.ucahub.ui.view.fragments.BottomNavBar
-import com.codigotruko.ucahub.ui.view.fragments.TopBar
+import com.codigotruko.ucahub.ui.views.menudesplegable.Destinos
+import com.codigotruko.ucahub.ui.views.menudesplegable.Menu
+import com.codigotruko.ucahub.ui.views.fragments.BottomNavBar
+import com.codigotruko.ucahub.ui.views.fragments.TopBar
 
 val listItems = listOf(
     NavBarElements.Home,

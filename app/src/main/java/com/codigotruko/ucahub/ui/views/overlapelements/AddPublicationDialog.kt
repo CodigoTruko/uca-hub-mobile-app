@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.overlapelements
+package com.codigotruko.ucahub.ui.views.overlapelements
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,12 +31,11 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 
-@Composable
-fun ChangePasswordBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
 
-    val passwordInput = remember { mutableStateOf(TextFieldValue()) }
-    val newPasswordInput = remember { mutableStateOf(TextFieldValue()) }
-    val ConfirmNewPassInput = remember { mutableStateOf(TextFieldValue()) }
+@Composable
+fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+
+    val publicationDescInput = remember { mutableStateOf(TextFieldValue()) }
 
     if (show) {
         Dialog(onDismissRequest = { onDismiss() }) {
@@ -46,39 +44,37 @@ fun ChangePasswordBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Uni
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                     Text(
-                        text = "Cambiar contraseña",
+                        text = "Crear nueva publicación",
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 20.sp,
                         modifier = Modifier.padding(16.dp))
 
-                    TextField(
-                        value = passwordInput.value,
-                        onValueChange = { passwordInput.value = it },
-                        placeholder = { Text(text = "Contraseña actual") },
-                        singleLine = true,
-                        shape = RoundedCornerShape(4.dp),
+                    Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp))
+                            .padding(16.dp)) {
+                        Image(
+                            painter = painterResource(id = R.drawable.imagen_perfil_prueba),
+                            contentDescription = "Imagen de perfil",
+                            modifier = Modifier.width(25.dp)
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        // TODO : Adaptar una variable para el nombre de usuario.
+                        androidx.compose.material.Text(
+                            text = "Nombre de usuario",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 17.sp
+                        )
+                    }
 
                     TextField(
-                        value = newPasswordInput.value,
-                        onValueChange = { newPasswordInput.value = it },
-                        placeholder = { Text(text = "Contraseña nueva") },
-                        singleLine = true,
+                        value = publicationDescInput.value,
+                        onValueChange = { publicationDescInput.value = it },
+                        placeholder = { androidx.compose.material.Text(text = "Descripción para mi publicación") },
                         shape = RoundedCornerShape(4.dp),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp))
-
-                    TextField(
-                        value = ConfirmNewPassInput.value,
-                        onValueChange = { ConfirmNewPassInput.value = it },
-                        placeholder = { Text(text = "Confirmar contraseña nueva") },
-                        singleLine = true,
-                        shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
+                            .height(160.dp)
                             .padding(16.dp))
 
                     Row() {
@@ -96,11 +92,12 @@ fun ChangePasswordBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Uni
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
-                        ) { androidx.compose.material.Text(text = "Guardar", color = Color.White) }
+                        ) { androidx.compose.material.Text(text = "Aceptar", color = Color.White) }
                     }
 
                 }
             }
         }
     }
+
 }

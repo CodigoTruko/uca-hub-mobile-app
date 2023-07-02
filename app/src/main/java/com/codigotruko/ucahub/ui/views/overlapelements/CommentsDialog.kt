@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.overlapelements
+package com.codigotruko.ucahub.ui.views.overlapelements
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

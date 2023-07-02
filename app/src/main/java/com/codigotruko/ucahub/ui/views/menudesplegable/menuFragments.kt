@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.menudesplegable
+package com.codigotruko.ucahub.ui.views.menudesplegable
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -13,10 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.DrawerValue
 import androidx.compose.material.Icon
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberDrawerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,9 +30,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.codigotruko.ucahub.ui.view.overlapelements.ChangePasswordBox
-import com.codigotruko.ucahub.ui.view.overlapelements.FollowingBox
-import com.codigotruko.ucahub.ui.view.overlapelements.LogOutBox
+import com.codigotruko.ucahub.ui.views.overlapelements.ChangePasswordBox
+import com.codigotruko.ucahub.ui.views.overlapelements.FollowingBox
+import com.codigotruko.ucahub.ui.views.overlapelements.LogOutBox
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

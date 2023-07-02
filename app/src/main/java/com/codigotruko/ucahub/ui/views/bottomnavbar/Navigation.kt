@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.bottomnavbar
+package com.codigotruko.ucahub.ui.views.bottomnavbar
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
@@ -7,10 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.codigotruko.ucahub.R
-import com.codigotruko.ucahub.ui.view.CommunitiesView
-import com.codigotruko.ucahub.ui.view.MainFeedView
-import com.codigotruko.ucahub.ui.view.ProfileView
-import com.codigotruko.ucahub.ui.view.SearchView
+import com.codigotruko.ucahub.ui.views.bottombarviews.CommunitiesView
+import com.codigotruko.ucahub.ui.views.bottombarviews.MainFeedView
+import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileView
+import com.codigotruko.ucahub.ui.views.bottombarviews.SearchView
 
 // Clase que contiene la informacion de los elementos.
 sealed class NavBarElements(val tittle: String, val route: String, @DrawableRes val icons: Int) {

@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view.publication
+package com.codigotruko.ucahub.ui.views.publication
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.domain.Publication
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.view.overlapelements.CommentsBox
+import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 
 @Composable
 fun PublicationItem(publication: Publication) {
@@ -108,6 +108,6 @@ fun PublicationItem(publication: Publication) {
             }
         }
     }
-    // Muestra la view de comentarios.
+    // Muestra la views de comentarios.
     CommentsBox(show, { show = false }, { show = false })
 }

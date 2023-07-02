@@ -1,6 +1,5 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views.bottombarviews
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,26 +16,31 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.blueBackground
-import com.codigotruko.ucahub.ui.view.fragments.FloatingButton
+import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
-import com.codigotruko.ucahub.ui.view.fragments.ImageUCAHUB
+import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
+import com.codigotruko.ucahub.ui.views.overlapelements.EditProfileBox
 
 
 @Composable
 fun ProfileView(navController: NavHostController, userName: String?, carnet: String?, faculty: String?, carrer: String?, description: String?, userID: String){
+
+    var showProfileBox by rememberSaveable() { mutableStateOf(false) }
 
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,7 +52,7 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
 
             ImageUCAHUB()
 
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = { showProfileBox = true },
                 colors = ButtonDefaults.buttonColors(blueBackground),
                 shape = RoundedCornerShape(8.dp)) {
                 Icon(painter = painterResource(id = R.drawable.edit_icon),
@@ -91,6 +95,7 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
 
         }
     }
+    EditProfileBox(showProfileBox, { showProfileBox = false }, {  })
     FloatingButton()
 }
 

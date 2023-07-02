@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.ui.view
+package com.codigotruko.ucahub.ui.views
 
 import android.util.Log
 import android.widget.Toast
@@ -36,22 +36,23 @@ import com.codigotruko.ucahub.presentation.login.LoginUiStatus
 import com.codigotruko.ucahub.presentation.login.LoginViewModel
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
-import com.codigotruko.ucahub.ui.view.fragments.txtFieldFragment
+
 
 import androidx.compose.runtime.livedata.observeAsState
 import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
+import com.codigotruko.ucahub.ui.views.fragments.txtFieldFragment
 
 
 @Composable
-fun logInView(navController: NavHostController) {
+fun LogInView(navController: NavHostController) {
 
     val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
     val app = LocalContext.current.applicationContext as UcaHubApplication
 
     val status: LoginUiStatus? by loginViewModel.status.observeAsState()
 
-    status?.let { handleUiStatus(it, app, navController) }
+    status?.let { HandleUiStatus(it, app, navController) }
 
     LazyColumn(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -87,7 +88,7 @@ fun logInView(navController: NavHostController) {
                     .padding(16.dp)
                     .width(300.dp)
             ) {
-                Row() {
+                Row{
                     Image(painter = painterResource(id = R.drawable.google_icon),
                         contentDescription = "Icono de Google.",
                         modifier = Modifier
@@ -154,7 +155,7 @@ fun TxtFieldLogIn() {
     }
 }
 @Composable
-private fun handleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navController: NavHostController) {
+private fun HandleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navController: NavHostController) {
     Log.d("XD", "NAV")
 
     when (status) {

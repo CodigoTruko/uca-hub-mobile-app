@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.codigotruko.ucahub.ui.views.LogInView
 import com.codigotruko.ucahub.ui.views.bottomnavbar.StaticItems
-import com.codigotruko.ucahub.ui.views.logInView
 import com.codigotruko.ucahub.ui.views.RegisterView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
 
             NavHost(navController = navController, startDestination = "login") {
                 composable("login") {
-                    logInView(navController)
+                    LogInView(navController)
                 }
                 composable("register"){
                     RegisterView(navController)

@@ -23,9 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.codigotruko.ucahub.UcaHubApplication
-import com.codigotruko.ucahub.presentation.login.LoginUiStatus
-import com.codigotruko.ucahub.presentation.login.LoginViewModel
 import com.codigotruko.ucahub.presentation.register.RegisterUiStatus
 import com.codigotruko.ucahub.presentation.register.RegisterViewModel
 import com.codigotruko.ucahub.ui.theme.mainBackground
@@ -41,7 +38,7 @@ fun RegisterView(navController: NavHostController){
 
     val status: RegisterUiStatus? by registerViewModel.status.observeAsState()
 
-    status?.let { handleUiStatus(it, navController) }
+    status?.let { HandleUiStatus(it, navController) }
 
     LazyColumn(verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -115,7 +112,7 @@ fun TxtFieldRegister() {
 }
 
 @Composable
-private fun handleUiStatus(status: RegisterUiStatus, navController: NavHostController){
+private fun HandleUiStatus(status: RegisterUiStatus, navController: NavHostController){
     when(status){
         is RegisterUiStatus.Error -> {
             Toast.makeText(LocalContext.current, "An error has occurred", Toast.LENGTH_SHORT).show()

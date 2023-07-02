@@ -1,9 +1,12 @@
-package com.codigotruko.ucahub.ui.views
+package com.codigotruko.ucahub.ui.view
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,23 +20,38 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.presentation.login.LoginUiStatus
+import com.codigotruko.ucahub.presentation.login.LoginViewModel
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
-import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
-import com.codigotruko.ucahub.ui.views.fragments.txtFieldFragment
+import com.codigotruko.ucahub.ui.view.fragments.ButtonNormalFragment
+import com.codigotruko.ucahub.ui.view.fragments.txtFieldFragment
+
+import androidx.compose.runtime.livedata.observeAsState
+import com.codigotruko.ucahub.UcaHubApplication
 
 
 @Composable
 fun logInView(navController: NavHostController) {
+
+    val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
+    val app = LocalContext.current.applicationContext as UcaHubApplication
+
+    val status: LoginUiStatus? by loginViewModel.status.observeAsState()
+
+    status?.let { handleUiStatus(it, app, navController) }
 
     LazyColumn(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -93,7 +111,14 @@ fun logInView(navController: NavHostController) {
 
             TxtFieldLogIn()
 
-            ButtonNormalFragment(navController = navController, textValue = "Iniciar Sesión", destinationRoute = "mainfeed")
+            ButtonNormalFragment(
+                navController = navController,
+                textValue = "Iniciar Sesión",
+                destinationRoute = "mainfeed",
+                onclick = {
+                    loginViewModel.onLogin()
+                }
+            )
 
             Text(text = "¿Primera vez en UCA-HUB? ¡Registrate aquí!",
                 color = Color.Black.copy(alpha = 0.4f),
@@ -111,12 +136,47 @@ fun logInView(navController: NavHostController) {
             )
         }
     }
+
+
 }
+
 
 @Composable
 fun TxtFieldLogIn() {
 
-    txtFieldFragment(placeHolder = "Contraseña" )
-    txtFieldFragment(placeHolder = "Contraseña" )
+    Column(modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally) {
 
+        val loginViewModel: LoginViewModel = viewModel()
+
+        loginViewModel.email.value = txtFieldFragment(placeHolder = "Usuario" )
+        loginViewModel.password.value = txtFieldFragment(placeHolder = "Contraseña" )
+    }
+}
+@Composable
+private fun handleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navController: NavHostController) {
+    Log.d("XD", "NAV")
+
+    when (status) {
+        is LoginUiStatus.Error -> {
+            Toast.makeText(LocalContext.current, "An error has occurred", Toast.LENGTH_SHORT).show()
+            Log.d("XD", "NAV1")
+
+        }
+        is LoginUiStatus.ErrorWithMessage -> {
+            Toast.makeText(LocalContext.current, status.message, Toast.LENGTH_SHORT).show()
+            Log.d("XD", "NAV2")
+
+        }
+        is LoginUiStatus.Success -> {
+            val loginViewModel: LoginViewModel = viewModel()
+            loginViewModel.clearStatus()
+            loginViewModel.clearData()
+            app.saveAuthToken(status.token)
+            Log.d("TOKEN", app.getToken())
+            navController.navigate("mainfeed")
+        }
+
+        else -> {}
+    }
 }

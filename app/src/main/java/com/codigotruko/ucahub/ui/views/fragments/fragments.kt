@@ -35,12 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.presentation.login.LoginViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun txtFieldFragment(placeHolder: String): MutableState<TextFieldValue> {
+fun txtFieldFragment(placeHolder: String): String {
 
     val inputValue = remember { mutableStateOf(TextFieldValue()) }
 
@@ -49,7 +50,7 @@ fun txtFieldFragment(placeHolder: String): MutableState<TextFieldValue> {
         onValueChange = {
             run {
                 inputValue.value = it
-                Log.d("XDDDDDDD", inputValue.value.toString())
+                Log.d("XDDDDDDD", inputValue.value.text)
             }
         },
         placeholder = { Text(text = placeHolder, color = Color.Black.copy(alpha = 0.5f)) },
@@ -59,13 +60,14 @@ fun txtFieldFragment(placeHolder: String): MutableState<TextFieldValue> {
             .padding(8.dp)
             .width(350.dp)
     )
-    return inputValue
+    return inputValue.value.text
 }
 
 @Composable
-fun ButtonNormalFragment(navController: NavHostController, textValue: String, destinationRoute: String = "", icon: String = "", padding: Dp = 16.dp){
+fun ButtonNormalFragment(navController: NavHostController, textValue: String, destinationRoute: String = "", icon: String = "", padding: Dp = 16.dp, onclick: ()-> Unit){
+
     Button(
-        onClick = { if(  destinationRoute.isNotEmpty() ){navController.navigate(destinationRoute)} },
+        onClick = onclick,
         colors = ButtonDefaults.buttonColors(blueBackground),
         modifier = Modifier
             .padding(padding)

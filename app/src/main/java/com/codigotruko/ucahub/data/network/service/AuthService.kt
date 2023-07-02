@@ -1,6 +1,6 @@
 package com.codigotruko.ucahub.data.network.service
 
-import com.codigotruko.ucahub.network.dto.login.LoginRequest
+import com.codigotruko.ucahub.data.network.dto.login.LoginRequest
 import com.codigotruko.ucahub.data.network.dto.login.LoginResponse
 import com.codigotruko.ucahub.data.network.dto.register.RegisterRequest
 import com.codigotruko.ucahub.data.network.dto.register.RegisterResponse

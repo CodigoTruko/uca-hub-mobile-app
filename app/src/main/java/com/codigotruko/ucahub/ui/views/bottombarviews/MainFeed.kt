@@ -8,23 +8,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.presentation.MainFeedScreen
-import com.codigotruko.ucahub.presentation.publication.PublicationViewModel
+import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
 import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
 
 @Composable
 fun MainFeedView (navController: NavHostController) {
 
-    val viewModel = hiltViewModel<PublicationViewModel>()
-    val publications = viewModel.publicationPagingFlow.collectAsLazyPagingItems()
+
+    val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
+
+    val publications = publicationViewModel.publications.collectAsLazyPagingItems()
 
     Box (modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
 
-        MainFeedScreen(publications = publications, navController)
+        MainFeedScreen(publications = publications, navController = navController )
 
         FloatingButton()
 

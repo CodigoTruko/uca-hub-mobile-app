@@ -20,11 +20,15 @@ class UcaHubApplication : Application(){
     private val ucaHubService by lazy {
         UcaHubService()
     }
-    val pokemonRepository by lazy {
+    val publicationRepository by lazy {
         PublicationRepository(database, ucaHubService)
     }
 
 
+
+    suspend fun changeStateFollow(identifier: String){
+        ucaHubService.changeFollowState(getToken(), identifier)
+    }
 
 
 

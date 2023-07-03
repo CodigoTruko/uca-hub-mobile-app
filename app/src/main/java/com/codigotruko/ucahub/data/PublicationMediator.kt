@@ -17,8 +17,7 @@ import java.io.IOException
 class PublicationMediator (
     private val token: String,
     private val database: PublicationAppDatabase,
-    private val ucaHubService: UcaHubService
-
+    private val ucaHubService: UcaHubService,
 ): RemoteMediator<Int, Publication>(){
 
     private var remoteKeyDao = database.remoteKeyDao()
@@ -51,6 +50,7 @@ class PublicationMediator (
                 state.config.pageSize,
                 loadKey
             )
+
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

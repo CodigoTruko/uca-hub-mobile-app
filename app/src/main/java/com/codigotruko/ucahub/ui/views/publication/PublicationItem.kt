@@ -34,12 +34,15 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.data.db.models.Publication
 
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
+import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileUserView
 import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 
 @Composable
 fun PublicationItem(publication: Publication, navHostController: NavHostController) {
 
     var show by rememberSaveable { mutableStateOf(false) }
+
+    var showUserProfileBox by rememberSaveable { mutableStateOf(false) }
 
     Card(
         colors = CardDefaults.cardColors(darkWhiteBackground),
@@ -53,9 +56,10 @@ fun PublicationItem(publication: Publication, navHostController: NavHostControll
                 .fillMaxSize()) {
 
             Row(verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .clickable {
-                        navHostController.navigate("profile_route")
+                        showUserProfileBox = true
                     }
             ) {
                 Image(painter = painterResource(id = R.drawable.imagen_perfil_prueba),
@@ -118,4 +122,6 @@ fun PublicationItem(publication: Publication, navHostController: NavHostControll
     }
     // Muestra la views de comentarios.
     CommentsBox(show, { show = false }, { show = false })
+
+    ProfileUserView(show = showUserProfileBox, onDismiss = {showUserProfileBox = false}, author = publication.author[0])
 }

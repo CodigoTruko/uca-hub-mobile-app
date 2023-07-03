@@ -3,6 +3,8 @@ package com.codigotruko.ucahub.data.network.service
 import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UcaHubApi {
@@ -21,4 +23,10 @@ interface UcaHubApi {
         @Query("skip") skip: Int,
         @Query("limit") limit: Int
         ): PublicationListResponse
+
+    @PATCH("user/follow/{identifier}")
+    suspend fun changeFollowState(
+        @Header("Authorization") token: String,
+        @Path("identifier") identifier: String = "Makuno"
+    )
 }

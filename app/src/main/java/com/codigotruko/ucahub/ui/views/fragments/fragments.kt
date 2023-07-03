@@ -64,7 +64,7 @@ fun txtFieldFragment(placeHolder: String): String {
 }
 
 @Composable
-fun ButtonNormalFragment(navController: NavHostController, textValue: String, destinationRoute: String = "", icon: String = "", padding: Dp = 16.dp, onclick: ()-> Unit){
+fun ButtonNormalFragment(navController: NavHostController? = null, textValue: String, destinationRoute: String = "", icon: String = "", padding: Dp = 16.dp, onclick: ()-> Unit){
 
     Button(
         onClick = onclick,

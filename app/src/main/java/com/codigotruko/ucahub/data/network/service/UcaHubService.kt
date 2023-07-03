@@ -15,6 +15,6 @@ class UcaHubService {
     suspend fun getPublications(token: String, limit: Int, offset: Int) =
         service.getPublications( "Bearer $token", offset, limit)
 
-    suspend fun changeFollowState(token: String, username: String) =
-        service.changeFollowState("Bearer $token", "Makuno")
+    suspend fun changeFollowState(token: String, identifier: String) =
+        service.changeFollowState("Bearer $token", identifier)
 }

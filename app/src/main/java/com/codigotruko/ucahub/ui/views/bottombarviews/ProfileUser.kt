@@ -44,6 +44,9 @@ import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
 import com.codigotruko.ucahub.ui.views.overlapelements.EditProfileBox
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -52,6 +55,7 @@ fun ProfileUserView(show: Boolean, onDismiss: ()->Unit, author: Author){
     val followStateViewModel: FollowStateViewModel = viewModel(factory = FollowStateViewModel.Factory)
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
+    val scope = CoroutineScope(Dispatchers.Main)
 
     if (show){
         Dialog(onDismissRequest = { onDismiss()}) {
@@ -66,7 +70,9 @@ fun ProfileUserView(show: Boolean, onDismiss: ()->Unit, author: Author){
                     ImageUCAHUB()
 
                     ButtonNormalFragment(textValue = "follow", onclick = {
-                        //app.changeStateFollow(author.username)
+                        scope.launch {
+                            app.changeStateFollow(author.username)
+                        }
                     })
 
                     Column(
@@ -108,4 +114,3 @@ fun ProfileUserView(show: Boolean, onDismiss: ()->Unit, author: Author){
 
 
 }
-

@@ -27,6 +27,6 @@ interface UcaHubApi {
     @PATCH("user/follow/{identifier}")
     suspend fun changeFollowState(
         @Header("Authorization") token: String,
-        @Path("identifier") identifier: String = "Makuno"
+        @Path("identifier") identifier: String
     )
 }

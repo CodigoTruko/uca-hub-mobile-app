@@ -39,6 +39,7 @@ import com.codigotruko.ucahub.ui.theme.mainBackground
 
 
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.views.fragments.txtFieldFragment
@@ -151,7 +152,7 @@ fun TxtFieldLogIn() {
         val loginViewModel: LoginViewModel = viewModel()
 
         loginViewModel.email.value = txtFieldFragment(placeHolder = "Usuario" )
-        loginViewModel.password.value = txtFieldFragment(placeHolder = "Contraseña" )
+        loginViewModel.password.value = txtFieldFragment(placeHolder = "Contraseña", PasswordVisualTransformation() )
     }
 }
 @Composable

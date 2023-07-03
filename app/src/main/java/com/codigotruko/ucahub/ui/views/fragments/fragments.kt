@@ -29,7 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,7 +44,7 @@ import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun txtFieldFragment(placeHolder: String): String {
+fun txtFieldFragment(placeHolder: String, visualT: VisualTransformation = VisualTransformation.None): String {
 
     val inputValue = remember { mutableStateOf(TextFieldValue()) }
 
@@ -53,6 +56,7 @@ fun txtFieldFragment(placeHolder: String): String {
                 Log.d("XDDDDDDD", inputValue.value.text)
             }
         },
+        visualTransformation = visualT,
         placeholder = { Text(text = placeHolder, color = Color.Black.copy(alpha = 0.5f)) },
         colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
         shape = RoundedCornerShape(15.dp),

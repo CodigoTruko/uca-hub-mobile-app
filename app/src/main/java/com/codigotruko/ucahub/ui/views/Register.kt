@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -107,7 +108,7 @@ fun TxtFieldRegister() {
         registerViewModel.carnet.value = txtFieldFragment(placeHolder = "Carnet" )
         registerViewModel.username.value = txtFieldFragment(placeHolder = "Nombre de usuario" )
         registerViewModel.email.value = txtFieldFragment(placeHolder = "Correo eletronico" )
-        registerViewModel.password.value = txtFieldFragment(placeHolder = "Contraseña" )
+        registerViewModel.password.value = txtFieldFragment(placeHolder = "Contraseña", PasswordVisualTransformation() )
     }
 }
 

@@ -37,7 +37,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
-import com.codigotruko.ucahub.presentation.follow.FollowStateViewModel
 import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.mainBackground
@@ -52,7 +51,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileUserView(show: Boolean, onDismiss: ()->Unit, author: Author){
 
-    val followStateViewModel: FollowStateViewModel = viewModel(factory = FollowStateViewModel.Factory)
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
     val scope = CoroutineScope(Dispatchers.Main)

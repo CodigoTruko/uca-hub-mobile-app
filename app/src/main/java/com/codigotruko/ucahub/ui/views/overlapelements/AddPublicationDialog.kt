@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,12 +29,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+
+    val app = LocalContext.current.applicationContext as UcaHubApplication
+    val scope = CoroutineScope(Dispatchers.Main)
 
     val publicationDescInput = remember { mutableStateOf(TextFieldValue()) }
 
@@ -87,7 +95,11 @@ fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Un
                         ) { androidx.compose.material.Text(text = "Cancelar", color = Color.White) }
                         Spacer(modifier = Modifier.width(25.dp))
                         Button(
-                            onClick = { /* TODO : Implementar que guarde la nueva comunidad */  },
+                            onClick = {
+                                scope.launch {
+                                    app.createPublication("titulo", publicationDescInput.value.text)
+                                }
+                            },
                             colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier

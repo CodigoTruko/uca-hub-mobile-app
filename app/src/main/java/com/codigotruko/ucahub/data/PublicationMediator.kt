@@ -46,7 +46,6 @@ class PublicationMediator (
                     remoteKey.nextKey
                 }
             }
-            Log.d("TOKENNNNNN", token)
             val response = ucaHubService.getPublications(
                 token,
                 state.config.pageSize,

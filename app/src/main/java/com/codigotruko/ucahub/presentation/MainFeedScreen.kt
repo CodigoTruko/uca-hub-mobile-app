@@ -49,7 +49,8 @@ fun MainFeedScreen(
                 items(publications) { publication ->
                     if (publication != null) {
                         PublicationItem(
-                            publication = publication
+                            publication = publication,
+                            navHostController = navController
                         )
                     }
                 }

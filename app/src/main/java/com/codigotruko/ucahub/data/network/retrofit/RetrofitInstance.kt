@@ -23,7 +23,6 @@ object RetrofitInstance {
 
     private val authInterceptor = Interceptor { chain ->
         val request = chain.request().newBuilder()
-            .addHeader("Authorization", token)
             .build()
         chain.proceed(request)
     }
@@ -61,15 +60,4 @@ object RetrofitInstance {
     }
 
 
-}
-
-
-class AuthInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val requestBuilder = chain.request().newBuilder()
-        PreferenceHelper.storeToken?.let {
-            requestBuilder.addHeader("Authorization", "Bearer $it")
-        }
-        return chain.proceed(requestBuilder.build())
-    }
 }

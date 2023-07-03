@@ -1,6 +1,7 @@
 package com.codigotruko.ucahub.ui.views.publication
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.data.db.models.Publication
@@ -35,7 +37,7 @@ import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 
 @Composable
-fun PublicationItem(publication: Publication) {
+fun PublicationItem(publication: Publication, navHostController: NavHostController) {
 
     var show by rememberSaveable { mutableStateOf(false) }
 
@@ -50,14 +52,19 @@ fun PublicationItem(publication: Publication) {
             modifier = Modifier
                 .fillMaxSize()) {
 
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+                    .clickable {
+                        navHostController.navigate("profile_route")
+                    }
+            ) {
                 Image(painter = painterResource(id = R.drawable.imagen_perfil_prueba),
                     contentDescription = "Imagen de perfil.",
                     modifier = Modifier
                         .height(80.dp)
                         .padding(16.dp))
 
-                Text(text = publication.title, fontSize = 25.sp, fontWeight = FontWeight.Medium)
+                Text(text = publication.author[0].username, fontSize = 25.sp, fontWeight = FontWeight.Medium)
             }
 
             Text(text = publication.description,
@@ -68,7 +75,7 @@ fun PublicationItem(publication: Publication) {
                 .fillMaxWidth()
                 .height(24.dp))
 
-            Image(painter = painterResource(id = R.drawable.imagen_perfil_prueba) ,
+            Image(painter = painterResource(id = R.drawable.publicacion_prueba) ,
                 contentDescription = "Imagen de Publicación",
                 modifier = Modifier
                     .fillMaxWidth()

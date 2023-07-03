@@ -68,7 +68,7 @@ fun PublicationItem(publication: Publication) {
                 .fillMaxWidth()
                 .height(24.dp))
 
-            Image(painter = rememberAsyncImagePainter(model = "", contentScale = ContentScale.FillWidth),
+            Image(painter = painterResource(id = R.drawable.imagen_perfil_prueba) ,
                 contentDescription = "Imagen de Publicación",
                 modifier = Modifier
                     .fillMaxWidth()

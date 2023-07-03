@@ -7,8 +7,8 @@ import com.codigotruko.ucahub.data.network.service.UcaHubService
 import retrofit2.HttpException
 import java.io.IOException
 
-/*
-* class PublicationPagingSource(private val ucahubservice: UcaHubService) :
+
+class PublicationPagingSource(private val ucahubservice: UcaHubService) :
     PagingSource<Int, Publication>() {
 
     override fun getRefreshKey(state: PagingState<Int, Publication>): Int? {
@@ -40,4 +40,3 @@ import java.io.IOException
         }
     }
 }
-* */

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "authors")
 data class Author(
-    @PrimaryKey var id: String,
+    @PrimaryKey var _id: String,
     @SerializedName("name") var name: String,
     @SerializedName("username") var username: String,
 )

@@ -18,7 +18,7 @@ interface UcaHubApi {
     @GET("event/feed")
     suspend fun getPublications(
         @Header("Authorization") token: String,
-        @Query("offset") offset: Int,
+        @Query("skip") skip: Int,
         @Query("limit") limit: Int
         ): PublicationListResponse
 }

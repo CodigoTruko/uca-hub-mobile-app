@@ -16,16 +16,13 @@ data class Publication (
     //@SerializedName("description") var description: String
 
     //@SerializedName("urlPublication") var image: String //Imagen
-    @PrimaryKey var id: String,
-    /**
-     * URL to front image view of pokemon
-     */
+    @PrimaryKey var _id: String,
 
     @SerializedName("title") var title: String,
 
     @SerializedName("description") var description: String,
 
-    @SerializedName("author") var author: String,
+    @SerializedName("author") var author: List<Author>,
 
     //@SerializedName("url") var image: String
         )

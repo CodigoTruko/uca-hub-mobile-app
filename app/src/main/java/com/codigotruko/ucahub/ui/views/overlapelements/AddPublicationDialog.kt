@@ -99,6 +99,7 @@ fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Un
                                 scope.launch {
                                     app.createPublication("titulo", publicationDescInput.value.text)
                                 }
+                                onDismiss()
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
                             shape = RoundedCornerShape(8.dp),

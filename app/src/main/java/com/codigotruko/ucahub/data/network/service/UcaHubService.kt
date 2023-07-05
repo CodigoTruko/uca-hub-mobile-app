@@ -16,7 +16,7 @@ class UcaHubService {
         service.getPublications( "Bearer $token", offset, limit)
 
     suspend fun createPublication(token: String, title: String, description: String) =
-        service.createPublication("Bearer $token", title, description)
+        service.createPublication("Bearer $token", UcaHubApi.PublicationRequestBody(title, description))
 
     suspend fun changeFollowState(token: String, identifier: String) =
         service.changeFollowState("Bearer $token", identifier)

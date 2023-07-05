@@ -11,11 +11,6 @@ data class Publication (
 
     //@SerializedName("user") var user: String,
 
-    //@SerializedName("urlUser") var image: String //Imagen
-
-    //@SerializedName("description") var description: String
-
-    //@SerializedName("urlPublication") var image: String //Imagen
     @PrimaryKey var _id: String,
 
     @SerializedName("title") var title: String,

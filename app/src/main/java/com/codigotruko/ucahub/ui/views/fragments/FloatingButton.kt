@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.lightBlueBackground
-import com.codigotruko.ucahub.ui.views.overlapelements.AddPublicationBox
+import com.codigotruko.ucahub.ui.views.overlapelements.AddEditPublicationBox
 
 
 @Preview (showBackground = true)
@@ -53,6 +53,6 @@ fun FloatingButton () {
 
     }
 
-    AddPublicationBox(showAddPubliBox, onDismiss = { showAddPubliBox = false }, {  })
+    AddEditPublicationBox(showAddPubliBox, onDismiss = { showAddPubliBox = false },true, null)
 
 }

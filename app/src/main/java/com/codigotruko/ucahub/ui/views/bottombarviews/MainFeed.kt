@@ -25,7 +25,7 @@ import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
 import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 
 @Composable
-fun MainFeedView (navController: NavHostController) {
+fun MainFeedView (navController: NavHostController, ) {
 
 
     val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
@@ -63,7 +63,8 @@ fun MainFeedView (navController: NavHostController) {
                     if (publication != null) {
                         PublicationItem(
                             publication = publication,
-                            navHostController = navController
+                            navController = navController,
+                            myPublication = false
                         )
                     }
                 }

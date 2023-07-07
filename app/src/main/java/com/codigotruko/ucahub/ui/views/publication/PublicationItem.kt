@@ -35,14 +35,19 @@ import com.codigotruko.ucahub.data.db.models.Publication
 
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileUserView
+import com.codigotruko.ucahub.ui.views.overlapelements.AddEditPublicationBox
 import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 
 @Composable
-fun PublicationItem(publication: Publication, navHostController: NavHostController) {
+fun PublicationItem(publication: Publication, navController: NavHostController, myPublication: Boolean) {
 
     var show by rememberSaveable { mutableStateOf(false) }
+    var showEditBox by rememberSaveable { mutableStateOf(false) }
 
-    var showUserProfileBox by rememberSaveable { mutableStateOf(false) }
+    // Parametros para el perfil que se selecciona.
+    var username = publication.author[0].username
+    var name = publication.author[0].name
+    var description = "LA JOURREIIII ESTA BIEN BUENA"
 
     Card(
         colors = CardDefaults.cardColors(darkWhiteBackground),
@@ -59,7 +64,7 @@ fun PublicationItem(publication: Publication, navHostController: NavHostControll
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        showUserProfileBox = true
+                        navController.navigate("anotherUser_profile/$username,$name,$description")
                     }
             ) {
                 Image(painter = painterResource(id = R.drawable.imagen_perfil_prueba),
@@ -69,7 +74,26 @@ fun PublicationItem(publication: Publication, navHostController: NavHostControll
                         .padding(16.dp))
 
                 Text(text = publication.author[0].username, fontSize = 25.sp, fontWeight = FontWeight.Medium)
+
+                Spacer(modifier = Modifier.width(60.dp))
+
+                IconButton(onClick = { showEditBox = true }) {
+                    Icon(painter = painterResource(id = R.drawable.edit_icon), contentDescription = "Boton para editar publicación.")
+                }
+
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(painter = painterResource(id = R.drawable.delete_icon), contentDescription = "Boton para borrar publiación.")
+                }
             }
+
+            Text(text = publication.title,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(horizontal = 16.dp))
+
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp))
 
             Text(text = publication.description,
                 fontSize = 20.sp,
@@ -122,6 +146,5 @@ fun PublicationItem(publication: Publication, navHostController: NavHostControll
     }
     // Muestra la views de comentarios.
     CommentsBox(show, { show = false }, { show = false })
-
-    ProfileUserView(show = showUserProfileBox, onDismiss = {showUserProfileBox = false}, author = publication.author[0])
+    AddEditPublicationBox(showEditBox, { showEditBox = false }, false, publication)
 }

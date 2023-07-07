@@ -10,11 +10,9 @@ import com.codigotruko.ucahub.repository.PublicationRepository
 
 class PublicationListViewModel(private val publicationRepository: PublicationRepository, private val token: String) : ViewModel() {
 
-
     @OptIn(ExperimentalPagingApi::class)
     val publications = publicationRepository
         .getPublicationPage(100, token)
-
 
     companion object {
         val Factory = viewModelFactory {

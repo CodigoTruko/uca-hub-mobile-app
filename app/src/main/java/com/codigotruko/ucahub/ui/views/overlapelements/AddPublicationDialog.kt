@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import kotlinx.coroutines.CoroutineScope
@@ -38,25 +39,37 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication: Boolean, publication: Publication?) {
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
     val scope = CoroutineScope(Dispatchers.Main)
 
+    // Variables de los EditText.
+    val publicationTitleInput = remember { mutableStateOf(TextFieldValue()) }
     val publicationDescInput = remember { mutableStateOf(TextFieldValue()) }
+
+    val editPublicationTitleInput = remember { mutableStateOf(publication?.let { TextFieldValue(it.title) }) }
+    val editPublicationDescInput = remember { mutableStateOf(publication?.let { TextFieldValue(it.description) }) }
 
     if (show) {
         Dialog(onDismissRequest = { onDismiss() }) {
             Card(colors = CardDefaults.cardColors(darkWhiteBackground)) {
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-                    Text(
-                        text = "Crear nueva publicación",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(16.dp))
-
+                    if (addPublication) {
+                        Text(
+                            text = "Crear nueva publicación",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    } else {
+                        Text(
+                            text = "Editar publicación",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(16.dp))
+                    }
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -74,17 +87,53 @@ fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Un
                             fontSize = 17.sp
                         )
                     }
+                    if (addPublication) {
+                        TextField(
+                            value = publicationTitleInput.value,
+                            onValueChange = { publicationTitleInput.value = it },
+                            placeholder = { Text(text = "Titulo para mi publicación") },
+                            singleLine = true,
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(90.dp)
+                                .padding(16.dp))
 
-                    TextField(
-                        value = publicationDescInput.value,
-                        onValueChange = { publicationDescInput.value = it },
-                        placeholder = { androidx.compose.material.Text(text = "Descripción para mi publicación") },
-                        shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(160.dp)
-                            .padding(16.dp))
+                        TextField(
+                            value = publicationDescInput.value,
+                            onValueChange = { publicationDescInput.value = it },
+                            placeholder = { Text(text = "Descripción para mi publicación") },
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(160.dp)
+                                .padding(16.dp))
+                    } else {
+                        editPublicationTitleInput.value?.let {
+                            TextField(
+                                value = it,
+                                onValueChange = { editPublicationTitleInput.value = it },
+                                placeholder = { Text(text = "Titulo para mi publicación") },
+                                singleLine = true,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(90.dp)
+                                    .padding(16.dp))
+                        }
 
+                        editPublicationDescInput.value?.let {
+                            TextField(
+                                value = it,
+                                onValueChange = { editPublicationDescInput.value = it },
+                                placeholder = { Text(text = "Descripción para mi publicación") },
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(160.dp)
+                                    .padding(16.dp))
+                        }
+                    }
                     Row() {
                         Button(
                             onClick = { onDismiss() },
@@ -92,7 +141,7 @@ fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Un
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
-                        ) { androidx.compose.material.Text(text = "Cancelar", color = Color.White) }
+                        ) { Text(text = "Cancelar", color = Color.White) }
                         Spacer(modifier = Modifier.width(25.dp))
                         Button(
                             onClick = {
@@ -105,7 +154,7 @@ fun AddPublicationBox (show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Un
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
-                        ) { androidx.compose.material.Text(text = "Aceptar", color = Color.White) }
+                        ) { Text(text = "Aceptar", color = Color.White) }
                     }
 
                 }

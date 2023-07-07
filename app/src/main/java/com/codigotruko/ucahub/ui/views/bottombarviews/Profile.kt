@@ -48,7 +48,7 @@ import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 
 
 @Composable
-fun ProfileView(navController: NavHostController, userName: String?, carnet: String?, faculty: String?, carrer: String?, description: String?, userID: String){
+fun ProfileView(navController: NavHostController, userName: String?, name: String?, carnet: String?, faculty: String?, carrer: String?, description: String?, userID: String){
 
     val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
 
@@ -102,6 +102,8 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
                         .fillMaxWidth()
                 )
 
+                TextProfileFragment(name = "Nombre", value = name)
+
                 TextProfileFragment(name = "Carnet", value = carnet)
 
                 TextProfileFragment(name = "Facultad", value = faculty)
@@ -110,16 +112,14 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
 
                 TextProfileFragment(name = "Descripción", value = description)
 
-
             }
-
 
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp))
 
         }
-        items(publications){publication ->
+        items(publications){ publication ->
             if(publications.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(
                 )
@@ -128,7 +128,8 @@ fun ProfileView(navController: NavHostController, userName: String?, carnet: Str
                 if (publication != null) {
                     PublicationItem(
                         publication = publication,
-                        navHostController = navController
+                        navController = navController,
+                        myPublication = true
                     )
                 }
             }

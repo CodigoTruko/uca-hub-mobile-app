@@ -3,12 +3,16 @@ package com.codigotruko.ucahub.ui.views.bottomnavbar
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
 import com.codigotruko.ucahub.ui.views.bottombarviews.CommunitiesView
 import com.codigotruko.ucahub.ui.views.bottombarviews.MainFeedView
+import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileUserView
 import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileView
 import com.codigotruko.ucahub.ui.views.bottombarviews.SearchView
 
@@ -45,6 +49,9 @@ sealed class NavBarElements(val tittle: String, val route: String, @DrawableRes 
 @Composable
 fun BottomNavHost(navHostController: NavHostController) {
 
+    val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
+    val publications = publicationViewModel.publications.collectAsLazyPagingItems()
+
     NavHost(
         navController = navHostController,
         startDestination = NavBarElements.Home.route
@@ -61,13 +68,23 @@ fun BottomNavHost(navHostController: NavHostController) {
         composable(NavBarElements.Profile.route) {
             ProfileView(
                 navController = navHostController,
-                userName = "Rodrigo",
+                userName = "RodAnd19",
+                name = "Rodrigo Mena",
                 carnet = "00078421",
                 faculty = "Ingenieria y arquitectura",
                 carrer = "Ingenieria Informatica",
                 description = "AAAAAAAAAAAAAAAAAAAAA",
                 userID = "1"
             )
+        }
+        // Ruta para publicaciones que no son mias.
+        composable("anotherUser_profile/{username},{name},{description}") { backStackEntry ->
+
+            var username = backStackEntry.arguments?.getString("username")
+            var name = backStackEntry.arguments?.getString("name")
+            var description = backStackEntry.arguments?.getString("description")
+
+            ProfileUserView(username!!, name!!, description!!)
         }
     }
 }

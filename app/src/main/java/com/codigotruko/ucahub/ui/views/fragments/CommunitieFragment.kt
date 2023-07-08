@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codigotruko.ucahub.R
@@ -35,7 +36,7 @@ import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.views.overlapelements.CommunitieInformationBox
 
 @Composable
-fun CommunitieCard () {
+fun CommunitieCard (communitieMember: Boolean) {
 
     var showCommunitieInfoBox by rememberSaveable() { mutableStateOf(false) }
 
@@ -69,11 +70,29 @@ fun CommunitieCard () {
                         modifier = Modifier.fillMaxSize())
                 }
 
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(painter = painterResource(id = R.drawable.add_communitie_icon),
-                        tint = Color.White,
-                        contentDescription = "Add communitie icon.",
-                        modifier = Modifier.fillMaxSize())
+                if (!communitieMember) {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(painter = painterResource(id = R.drawable.add_communitie_icon),
+                            tint = Color.White,
+                            contentDescription = "Add communitie icon.",
+                            modifier = Modifier.fillMaxSize())
+                    }
+                }
+
+                if (communitieMember) {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(painter = painterResource(id = R.drawable.edit_icon),
+                            tint = Color.White,
+                            contentDescription = "Edit communitie icon.",
+                            modifier = Modifier.fillMaxSize())
+                    }
+
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(painter = painterResource(id = R.drawable.logout_icon),
+                            tint = Color.White,
+                            contentDescription = "Leave communitie icon.",
+                            modifier = Modifier.fillMaxSize())
+                    }
                 }
 
             }

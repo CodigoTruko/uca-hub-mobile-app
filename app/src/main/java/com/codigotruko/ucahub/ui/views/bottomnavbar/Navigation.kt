@@ -12,6 +12,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
+import com.codigotruko.ucahub.ui.views.LogInView
+import com.codigotruko.ucahub.ui.views.bottombarviews.CommunitieFeedView
 import com.codigotruko.ucahub.ui.views.bottombarviews.CommunitiesView
 import com.codigotruko.ucahub.ui.views.bottombarviews.MainFeedView
 import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileUserView
@@ -75,6 +77,9 @@ fun BottomNavHost(navHostController: NavHostController) {
             var userId = backStackEntry.arguments?.getString("userId")
 
             ProfileUserView(userId!!)
+        }
+        composable("communities_feed") {
+            CommunitieFeedView()
         }
     }
 }

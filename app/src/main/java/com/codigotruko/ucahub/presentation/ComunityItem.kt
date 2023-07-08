@@ -50,15 +50,9 @@ fun ComunityItem(navController: NavHostController){
                 .padding(horizontal = 16.dp, vertical = 8.dp)) {
                 item {
 
-                    Card(modifier = Modifier
-                        .width(140.dp)
-                        .height(210.dp)
-                        .padding(horizontal = 4.dp)) {
-                        Image(painter = painterResource(R.drawable.imagen_prueba),
-                            contentDescription = "Imagen de prueba.",
-                            modifier = Modifier.fillMaxSize())
-                    }
-
+                    CommunitieCard(navController)
+                    CommunitieCard(navController)
+                    CommunitieCard(navController)
 
                     Card(modifier = Modifier
                         .width(140.dp)
@@ -85,9 +79,20 @@ fun ComunityItem(navController: NavHostController){
                     }
                 }
             }
+
         }
-
-
     }
+}
 
+@Composable
+fun CommunitieCard(navController: NavHostController) {
+    Card(modifier = Modifier
+        .width(140.dp)
+        .height(210.dp)
+        .padding(horizontal = 4.dp)
+        .clickable { navController.navigate("communities_feed") }) {
+        Image(painter = painterResource(R.drawable.imagen_prueba),
+            contentDescription = "Imagen de prueba.",
+            modifier = Modifier.fillMaxSize())
+    }
 }

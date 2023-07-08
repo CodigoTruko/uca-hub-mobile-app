@@ -38,12 +38,14 @@ import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.views.overlapelements.AddEditPublicationBox
 import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
+import com.codigotruko.ucahub.ui.views.overlapelements.ConfirmBox
 
 @Composable
 fun PublicationItem(publication: Publication, navController: NavHostController, myPublication: Boolean) {
 
     var show by rememberSaveable { mutableStateOf(false) }
     var showEditBox by rememberSaveable { mutableStateOf(false) }
+    var showConfirmBox by rememberSaveable { mutableStateOf(false) }
 
     val profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
     val profile by profileViewModel.profileResponse.collectAsState()
@@ -76,8 +78,8 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        if (author != null){
-                                navController.navigate("anotherUser_profile/$author")
+                        if (author != null) {
+                            navController.navigate("anotherUser_profile/$author")
                         }
                     }
             ) {
@@ -97,7 +99,7 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                         Icon(painter = painterResource(id = R.drawable.edit_icon), contentDescription = "Boton para editar publicación.")
                     }
 
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { showConfirmBox = true }) {
                         Icon(painter = painterResource(id = R.drawable.delete_icon), contentDescription = "Boton para borrar publiación.")
                     }
                 }
@@ -164,6 +166,7 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
     }
     // Muestra la views de comentarios.
     CommentsBox(show, { show = false }, { show = false })
+    ConfirmBox(showConfirmBox, { showConfirmBox = false })
 
     AddEditPublicationBox(showEditBox, { showEditBox = false }, false, publication, false)
 }

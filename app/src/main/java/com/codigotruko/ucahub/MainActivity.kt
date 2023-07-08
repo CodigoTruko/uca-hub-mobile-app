@@ -30,21 +30,6 @@ class MainActivity : ComponentActivity() {
                     StaticItems()
                 }
             }
-
-            /*
-            val viewModel = hiltViewModel<PublicationViewModel>()
-
-            val publications = viewModel.publicationPagingFlow.collectAsLazyPagingItems()
-
-            Log.d("XDDD", publications.itemCount.toString())
-
-            PublicationScreen(publications = publications)
-            Log.d("XDDD", publications.itemCount.toString())
-
-
-            */
-
-
         }
     }
 }

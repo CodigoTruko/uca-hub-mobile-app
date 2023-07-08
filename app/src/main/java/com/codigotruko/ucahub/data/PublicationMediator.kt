@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.data
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -60,6 +61,7 @@ class PublicationMediator (
                 else -> null
             }
 
+            response?.results?.forEach { Log.d("PUBL", it.description)}
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

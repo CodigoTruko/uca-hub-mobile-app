@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -66,7 +67,7 @@ fun ProfileView(navController: NavHostController){
     }
 
     val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
-    val publications = publicationViewModel.userPublications.collectAsLazyPagingItems()
+    val publications = publicationViewModel.myPublications.collectAsLazyPagingItems()
 
     val context = LocalContext.current
     LaunchedEffect(key1 = publications.loadState) {
@@ -158,7 +159,15 @@ fun ProfileView(navController: NavHostController){
 
     }
     EditProfileBox(showProfileBox, { showProfileBox = false }, {  })
-    FloatingButton()
+
+    if (FloatingButton(false)) {
+        LaunchedEffect(Unit) {
+            publicationViewModel.refreshPublications()
+            publications.refresh()
+            Log.d("PASA", "XD")
+        }
+    }
+
 }
 
 @Composable

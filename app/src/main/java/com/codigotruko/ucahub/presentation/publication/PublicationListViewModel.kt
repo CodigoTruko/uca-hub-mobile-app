@@ -11,8 +11,13 @@ import com.codigotruko.ucahub.repository.PublicationRepository
 class PublicationListViewModel(private val publicationRepository: PublicationRepository, private val token: String) : ViewModel() {
 
     @OptIn(ExperimentalPagingApi::class)
-    val publications = publicationRepository
-        .getPublicationPage(100, token)
+    val feedPublications = publicationRepository
+        .getPublicationPage(100, token, "feed")
+
+    @OptIn(ExperimentalPagingApi::class)
+    val userPublications = publicationRepository
+        .getPublicationPage(100, token, "myProfile")
+
 
     companion object {
         val Factory = viewModelFactory {

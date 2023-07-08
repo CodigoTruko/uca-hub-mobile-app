@@ -7,6 +7,7 @@ import com.codigotruko.ucahub.data.db.PublicationAppDatabase
 import com.codigotruko.ucahub.data.network.retrofit.RetrofitInstance
 import com.codigotruko.ucahub.data.network.service.UcaHubService
 import com.codigotruko.ucahub.repository.CredentialsRepository
+import com.codigotruko.ucahub.repository.ProfileRepository
 import com.codigotruko.ucahub.repository.PublicationRepository
 import dagger.hilt.android.HiltAndroidApp
 
@@ -24,6 +25,9 @@ class UcaHubApplication : Application(){
         PublicationRepository(database, ucaHubService)
     }
 
+    val profileRepository by lazy {
+        ProfileRepository(database, ucaHubService)
+    }
 
 
     suspend fun changeStateFollow(identifier: String){

@@ -1,6 +1,5 @@
 package com.codigotruko.ucahub.data
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -9,6 +8,7 @@ import androidx.room.withTransaction
 import com.codigotruko.ucahub.data.db.PublicationAppDatabase
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.data.db.models.RemoteKey
+import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import com.codigotruko.ucahub.data.network.service.UcaHubService
 import retrofit2.HttpException
 import java.io.IOException
@@ -16,6 +16,7 @@ import java.io.IOException
 @OptIn (ExperimentalPagingApi::class)
 class PublicationMediator (
     private val token: String,
+    private val owner: String,
     private val database: PublicationAppDatabase,
     private val ucaHubService: UcaHubService,
 ): RemoteMediator<Int, Publication>(){
@@ -45,11 +46,19 @@ class PublicationMediator (
                     remoteKey.nextKey
                 }
             }
-            val response = ucaHubService.getPublications(
-                token,
-                state.config.pageSize,
-                loadKey
-            )
+            val response: PublicationListResponse? = when (owner) {
+                "feed" -> ucaHubService.getDFeedPublications(
+                    token,
+                    state.config.pageSize,
+                    loadKey
+                )
+                "myProfile" -> ucaHubService.getUserPublications(
+                    token,
+                    state.config.pageSize,
+                    loadKey
+                )
+                else -> null
+            }
 
 
             database.withTransaction {
@@ -58,15 +67,23 @@ class PublicationMediator (
                     remoteKeyDao.remoteKeyByQuery("all")
                 }
 
-                publicationDao.insertAll(response.results)
-                remoteKeyDao.insertOrReplace(
-                    RemoteKey("all", getOffset(response.next))
-                )
+                if (response != null) {
+                    publicationDao.insertAll(response.results)
+                }
+                if (response != null) {
+                    remoteKeyDao.insertOrReplace(
+                        RemoteKey("all", getOffset(response.next))
+                    )
+                }
             }
 
-            return MediatorResult.Success(
-                endOfPaginationReached = response.next == null
-            )
+            return if (response != null) {
+                MediatorResult.Success(
+                    endOfPaginationReached = response.next == null
+                )
+            } else {
+                MediatorResult.Error(NullPointerException("Response is null"))
+            }
 
         } catch (e: HttpException) {
             return MediatorResult.Error(e)

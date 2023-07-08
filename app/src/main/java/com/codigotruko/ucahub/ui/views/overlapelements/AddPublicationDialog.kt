@@ -146,7 +146,7 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                         Button(
                             onClick = {
                                 scope.launch {
-                                    app.createPublication("titulo", publicationDescInput.value.text)
+                                    app.createPublication(publicationTitleInput.value.text, publicationDescInput.value.text)
                                 }
                                 onDismiss()
                             },

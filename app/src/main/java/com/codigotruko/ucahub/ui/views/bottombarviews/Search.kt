@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,11 +21,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
 
 @Preview (showBackground = true)
 @Composable
-fun SearchView () {
+fun SearchView (navController: NavHostController) {
 
     val inputValue = remember { mutableStateOf(TextFieldValue()) }
 
@@ -50,7 +52,17 @@ fun SearchView () {
             }
         }
         LazyColumn() {
-            //TODO : Aca ira el historial de contenido que se busque.
+
+            item{
+                Text(
+                    text = "prueba",
+                    modifier = Modifier.
+                    clickable {
+                        navController.navigate("anotherUser_profile/${inputValue.value}")
+                    }
+                )
+
+            }
         }
     }
 

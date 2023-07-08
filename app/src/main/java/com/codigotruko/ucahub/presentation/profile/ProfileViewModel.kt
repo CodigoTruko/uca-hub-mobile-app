@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProfileViewModel (private val profileRepository: ProfileRepository, private val token: String) : ViewModel() {
+class ProfileViewModel (private val profileRepository: ProfileRepository, private val token: String, private val identifier: String) : ViewModel() {
 
 
     private val _profileResponse = MutableStateFlow<ProfileResponse?>(null)
@@ -21,19 +21,39 @@ class ProfileViewModel (private val profileRepository: ProfileRepository, privat
 
     init {
         viewModelScope.launch {
-            val result = profileRepository.getMyProfile(token)
-            Log.d("TEST PROFILE", result.toString())
+            val result = if (identifier.isNotEmpty()) {
+                profileRepository.getUserProfile(token, identifier)
+            } else {
+                profileRepository.getMyProfile(token)
+            }
             _profileResponse.value = result
         }
     }
 
+    suspend fun indents(aux: String){
+        val result = profileRepository.getUserProfile(token, aux)
+        _profileResponse.value = result
+        Log.d("", result.profile.name)
+    }
 
     companion object {
         val Factory = viewModelFactory {
             initializer {
                 val app = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as UcaHubApplication
-                ProfileViewModel(app.profileRepository, app.getToken())
+                ProfileViewModel(app.profileRepository, app.getToken(), "")
             }
         }
+    }
+}
+
+
+@Suppress("UNCHECKED_CAST")
+class ProfileViewModelFactory(
+    private val profileRepository: ProfileRepository,
+    private val token: String,
+    private val identifier: String
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return ProfileViewModel(profileRepository, token, identifier) as T
     }
 }

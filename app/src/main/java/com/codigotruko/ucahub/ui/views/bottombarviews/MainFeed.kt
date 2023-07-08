@@ -23,15 +23,14 @@ import com.codigotruko.ucahub.presentation.ComunityItem
 import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
 import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
 import com.codigotruko.ucahub.ui.views.publication.PublicationItem
+import kotlinx.coroutines.delay
 
 @Composable
-fun MainFeedView (navController: NavHostController, ) {
+fun MainFeedView (navController: NavHostController ) {
 
 
     val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
-
     val publications = publicationViewModel.feedPublications.collectAsLazyPagingItems()
-
 
     val context = LocalContext.current
     LaunchedEffect(key1 = publications.loadState) {
@@ -76,7 +75,12 @@ fun MainFeedView (navController: NavHostController, ) {
             }
         }
 
-        FloatingButton()
+        if (FloatingButton(false)) {
+            LaunchedEffect(Unit) {
+                    publicationViewModel.refreshPublications()
+                    publications.refresh()
+            }
+        }
 
         Spacer(modifier = Modifier
             .fillMaxWidth()

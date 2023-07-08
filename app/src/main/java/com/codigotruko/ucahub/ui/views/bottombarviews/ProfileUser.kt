@@ -1,6 +1,7 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import android.annotation.SuppressLint
+import android.util.Log
 
 
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,6 +37,7 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
+import com.codigotruko.ucahub.presentation.profile.ProfileViewModelFactory
 import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
@@ -47,14 +50,30 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileUserView(userIdentifier: String){
 
-    //val profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory(userIdentifier))
-    //val profile by profileViewModel.profileResponse.collectAsState()
-
-    val usuario: String = "XD"
-    val nombre: String = "XD"
-    val descripcion: String = "XD"
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
+
+    val profileViewModelFactory = ProfileViewModelFactory(app.profileRepository, app.getToken(), userIdentifier)
+    val profile: ProfileViewModel = viewModel(factory = profileViewModelFactory)
+    val profileResponse by profile.profileResponse.collectAsState()
+
+    val dataProfile = profileResponse?.profile
+
+    var faculty = "Facultad no asignada"
+    var carrer = "Carrera no asignada"
+
+    if(dataProfile?.program?.isNotEmpty() == true){
+        faculty = dataProfile.program[0].faculty[0].name
+        carrer = dataProfile.program[0].name
+    }
+
+
+    val usuario: String = dataProfile?.username ?: "xd"
+    val nombre: String = dataProfile?.name ?: ""
+    val descripcion: String = dataProfile?.description ?: ""
+
+    val carnet: String = dataProfile?.carnet ?: ""
+
     val scope = CoroutineScope(Dispatchers.Main)
 
             LazyColumn(
@@ -69,7 +88,9 @@ fun ProfileUserView(userIdentifier: String){
 
                     ButtonNormalFragment(textValue = "follow", onclick = {
                         scope.launch {
-                            app.changeStateFollow(usuario)
+                            if (usuario != null) {
+                                app.changeStateFollow(usuario)
+                            }
                         }
                     })
 
@@ -79,24 +100,26 @@ fun ProfileUserView(userIdentifier: String){
                             .fillMaxWidth()
                             .padding(16.dp)
                     ) {
-                        Text(
-                            text = usuario,
-                            fontSize = 30.sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
+                        if (usuario != null) {
+                            Text(
+                                text = usuario,
+                                fontSize = 30.sp,
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+                        }
 
                         TextProfileFragment(name = "Nombre", value = nombre)
 
-                        TextProfileFragment(name = "Carnet", value = "XXXXXXXX")
+                        TextProfileFragment(name = "Carnet", value = carnet)
 
-                        TextProfileFragment(name = "Facultad", value = "Ingenieria y Arquitectura")
+                        TextProfileFragment(name = "Facultad", value = faculty)
 
-                        TextProfileFragment(name = "Carrera", value = "Ingenieria Informatica")
+                        TextProfileFragment(name = "Carrera", value = carrer)
 
-                        TextProfileFragment(name = "Descripción", value = userIdentifier)
+                        TextProfileFragment(name = "Descripción", value = descripcion)
 
                     }
 

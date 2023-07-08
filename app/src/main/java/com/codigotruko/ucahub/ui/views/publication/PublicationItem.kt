@@ -1,6 +1,5 @@
 package com.codigotruko.ucahub.ui.views.publication
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,20 +25,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import coil.compose.rememberAsyncImagePainter
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileUserView
 import com.codigotruko.ucahub.ui.views.overlapelements.AddEditPublicationBox
 import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 import com.codigotruko.ucahub.ui.views.overlapelements.ConfirmBox
@@ -53,6 +50,8 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
     val profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
     val profile by profileViewModel.profileResponse.collectAsState()
 
+
+
     var userIdentifier = publication.author
 
     var author: String? = null
@@ -60,7 +59,6 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
 
     if (userIdentifier != null){
         if (userIdentifier.isNotEmpty()) {
-            Log.d("PERFIL PRUEBA ", publication.author.toString())
             author = userIdentifier[0].username
         }
     }
@@ -168,6 +166,7 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
     }
     // Muestra la views de comentarios.
     CommentsBox(show, { show = false }, { show = false })
-    AddEditPublicationBox(showEditBox, { showEditBox = false }, false, publication)
     ConfirmBox(showConfirmBox, { showConfirmBox = false })
+
+    AddEditPublicationBox(showEditBox, { showEditBox = false }, false, publication, false)
 }

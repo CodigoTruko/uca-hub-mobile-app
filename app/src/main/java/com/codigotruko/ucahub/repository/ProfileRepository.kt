@@ -14,5 +14,8 @@ class ProfileRepository (
         return ucaHubService.getMyProfile(token)
     }
 
+    suspend fun getUserProfile(token: String, identifier: String): ProfileResponse {
+        return ucaHubService.getUserProfile(token, identifier)
+    }
 
 }

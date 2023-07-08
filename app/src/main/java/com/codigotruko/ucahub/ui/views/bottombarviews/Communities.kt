@@ -43,9 +43,9 @@ fun CommunitiesView() {
 
         item {
 
-            CommunitieCard()
-            CommunitieCard()
-            CommunitieCard()
+            CommunitieCard(communitieMember = false)
+            CommunitieCard(communitieMember = false)
+            CommunitieCard(communitieMember = false)
 
             Button(
                 onClick = { showCommunitieBox = true },

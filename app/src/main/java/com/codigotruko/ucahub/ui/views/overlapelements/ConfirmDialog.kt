@@ -5,20 +5,16 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-
 
 @Composable
-fun LogOutBox(show: Boolean, navController: NavHostController, onDismiss: () -> Unit) {
+fun ConfirmBox(show: Boolean, onDismiss: () -> Unit) {
 
     if (show) {
         AlertDialog(
             onDismissRequest = { onDismiss() },
             confirmButton = {
-                TextButton(onClick = {
-                    onDismiss()
-                }) {
+                // TODO : Implementar acciones de borrar esta mierda.
+                TextButton(onClick = { onDismiss() }) {
                     Text(text = "Aceptar")
                 }
             },
@@ -27,8 +23,8 @@ fun LogOutBox(show: Boolean, navController: NavHostController, onDismiss: () -> 
                     Text(text = "Cancelar")
                 }
             },
-            title = { Text(text = "Cerrar Sesión", fontWeight = FontWeight.SemiBold) },
-            text = { Text(text = "¿Estas seguro que quieres cerrar sesión?") }
+            title = { Text(text = "Confirmar Acción", fontWeight = FontWeight.SemiBold) },
+            text = { Text(text = "¿Estas seguro que quieres borrar esta publicación?") }
         )
     }
 

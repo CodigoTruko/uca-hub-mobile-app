@@ -14,12 +14,12 @@ class PublicationRepository (
     private val publicationDao = database.publicationDao()
 
     @ExperimentalPagingApi
-    fun getPublicationPage(pageSize: Int, token: String) = Pager(
+    fun getPublicationPage(pageSize: Int, token: String, owner: String) = Pager(
         config = PagingConfig(
             pageSize = pageSize,
             prefetchDistance = (0.10 * pageSize).toInt()
         ),
-        remoteMediator = PublicationMediator(token, database, ucaHubService)
+        remoteMediator = PublicationMediator(token, owner, database, ucaHubService)
     ) {
         publicationDao.pagingSource()
     }.flow

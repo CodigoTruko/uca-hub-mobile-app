@@ -30,7 +30,7 @@ fun MainFeedView (navController: NavHostController, ) {
 
     val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
 
-    val publications = publicationViewModel.publications.collectAsLazyPagingItems()
+    val publications = publicationViewModel.feedPublications.collectAsLazyPagingItems()
 
 
     val context = LocalContext.current

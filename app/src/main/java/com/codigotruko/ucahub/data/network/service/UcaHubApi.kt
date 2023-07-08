@@ -1,6 +1,9 @@
 package com.codigotruko.ucahub.data.network.service
 
+import com.codigotruko.ucahub.data.db.models.Profile
+import com.codigotruko.ucahub.data.db.models.ProfileResponse
 import com.codigotruko.ucahub.data.network.response.PublicationListResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -11,26 +14,43 @@ import retrofit2.http.Query
 
 interface UcaHubApi {
     @GET("event/feed")
-    suspend fun getPublications(
+    suspend fun getFeedPublications(
         @Header("Authorization") token: String,
         @Query("skip") skip: Int,
         @Query("limit") limit: Int
         ): PublicationListResponse
 
     @GET("event/profile")
-    suspend fun getMyPublications(
+    suspend fun getUserPublications(
         @Header("Authorization") token: String,
         @Query("skip") skip: Int,
         @Query("limit") limit: Int
-    )
+    ): PublicationListResponse
+
+    @GET("user/profile")
+    suspend fun getMyProfile(
+        @Header("Authorization") token: String
+    ): ProfileResponse
+
+    @GET("user/identifier/{identifier}")
+    suspend fun getUserProfile(
+        @Header("Authorization") token: String,
+        @Path("identifier") identifier: String
+
+    ): ProfileResponse
 
     @GET("user/follows")
-    suspend fun getMyFollows(
+    suspend fun getUserFollows(
         @Header("Authorization") token: String,
     )
 
     @GET("user/follows")
-    suspend fun getMyFollowers(
+    suspend fun getUserFollowers(
+        @Header("Authorization") token: String,
+    )
+
+    @GET("user/search")
+    suspend fun getUserSearch(
         @Header("Authorization") token: String,
     )
 

@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,8 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codigotruko.ucahub.UcaHubApplication
-import com.codigotruko.ucahub.data.db.models.Author
+import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
@@ -33,7 +36,14 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun ProfileUserView(usuario: String, nombre: String, descripcion: String){
+fun ProfileUserView(userIdentifier: String){
+
+    //val profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory(userIdentifier))
+    //val profile by profileViewModel.profileResponse.collectAsState()
+
+    val usuario: String = "XD"
+    val nombre: String = "XD"
+    val descripcion: String = "XD"
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
     val scope = CoroutineScope(Dispatchers.Main)
@@ -77,7 +87,7 @@ fun ProfileUserView(usuario: String, nombre: String, descripcion: String){
 
                         TextProfileFragment(name = "Carrera", value = "Ingenieria Informatica")
 
-                        TextProfileFragment(name = "Descripción", value = descripcion)
+                        TextProfileFragment(name = "Descripción", value = userIdentifier)
 
                     }
 

@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,6 +39,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
@@ -48,11 +50,23 @@ import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 
 
 @Composable
-fun ProfileView(navController: NavHostController, userName: String?, name: String?, carnet: String?, faculty: String?, carrer: String?, description: String?, userID: String){
+fun ProfileView(navController: NavHostController){
+
+    val profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
+    val profile by profileViewModel.profileResponse.collectAsState()
+
+    val valuesProfile = profile?.profile?.program
+    var faculty: String = ""
+    var carrer: String = ""
+    if (valuesProfile != null) {
+        if (valuesProfile.isNotEmpty()){
+            faculty = valuesProfile[0].faculty[0].name
+            carrer = valuesProfile[0].name
+        }
+    }
 
     val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
-
-    val publications = publicationViewModel.publications.collectAsLazyPagingItems()
+    val publications = publicationViewModel.userPublications.collectAsLazyPagingItems()
 
     val context = LocalContext.current
     LaunchedEffect(key1 = publications.loadState) {
@@ -93,24 +107,26 @@ fun ProfileView(navController: NavHostController, userName: String?, name: Strin
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text(
-                    text = userName.toString(),
-                    fontSize = 30.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
+                profile?.profile?.username?.let {
+                    Text(
+                        text = it,
+                        fontSize = 30.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }
 
-                TextProfileFragment(name = "Nombre", value = name)
+                TextProfileFragment(name = "Nombre", value = profile?.profile?.name)
 
-                TextProfileFragment(name = "Carnet", value = carnet)
+                TextProfileFragment(name = "Carnet", value = profile?.profile?.carnet)
 
                 TextProfileFragment(name = "Facultad", value = faculty)
 
                 TextProfileFragment(name = "Carrera", value = carrer)
 
-                TextProfileFragment(name = "Descripción", value = description)
+                TextProfileFragment(name = "Descripción", value = profile?.profile?.description ?: "")
 
             }
 

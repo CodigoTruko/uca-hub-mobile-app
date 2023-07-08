@@ -4,10 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "authors")
-data class Author(
+@Entity(tableName = "programs")
+data class Program(
     @PrimaryKey var _id: String,
     @SerializedName("name") var name: String,
-    @SerializedName("username") var username: String,
-    @SerializedName("carnet") var carnet: String
+    @SerializedName("faculty") var faculty: List<Faculty>
 )

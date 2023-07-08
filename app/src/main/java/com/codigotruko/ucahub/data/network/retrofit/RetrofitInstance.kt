@@ -15,7 +15,7 @@ const val BASE_URL = "https://ucahub.tech/"
 
 object RetrofitInstance {
 
-    private var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NGExYmUxYmNlZDM1ZGU0ZDlkOTQyYmQiLCJ1c2VybmFtZSI6IkZsYW4iLCJpYXQiOjE2ODgzNDE0MzUsImV4cCI6NTE2ODgzNDE0MzV9.WBGpHzsTsVwxq9RBHapVMfFiusTLAfuhsOGZZJXhOzY"
+    private var token = ""
 
     fun setToken(token: String){
         this.token = token

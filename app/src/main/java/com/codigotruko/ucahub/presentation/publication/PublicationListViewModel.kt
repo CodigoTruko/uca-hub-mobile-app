@@ -1,6 +1,7 @@
 package com.codigotruko.ucahub.presentation.publication
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,10 +14,8 @@ import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.repository.PublicationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagingApi::class)
@@ -48,7 +47,6 @@ class PublicationListViewModel(private val publicationRepository: PublicationRep
             myPublications = refreshedMyPublications
         }
     }
-
 
     companion object {
         val Factory = viewModelFactory {

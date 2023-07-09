@@ -35,6 +35,7 @@ import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
+import com.codigotruko.ucahub.ui.theme.disabledBlueBackground
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,11 +50,18 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
     val scope = CoroutineScope(Dispatchers.Main)
 
     // Variables de los EditText.
-    val publicationTitleInput = remember { mutableStateOf(TextFieldValue()) }
-    val publicationDescInput = remember { mutableStateOf(TextFieldValue()) }
+    val publicationTitleInput = remember { mutableStateOf("") }
+    val publicationDescInput = remember { mutableStateOf("") }
 
     val editPublicationTitleInput = remember { mutableStateOf(publication?.let { TextFieldValue(it.title) }) }
     val editPublicationDescInput = remember { mutableStateOf(publication?.let { TextFieldValue(it.description) }) }
+
+    // Para validar si el Button esta disponible.
+    val isButtonEnabledTitle = remember { mutableStateOf(false) }
+    val isButtonEnabledDesc = remember { mutableStateOf(false) }
+
+    val isEnabledEditTittle = remember { mutableStateOf(true) }
+    val isEnabledEditDesc = remember { mutableStateOf(true) }
 
     if (show) {
         Dialog(onDismissRequest = { onDismiss() }) {
@@ -74,6 +82,7 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                             fontSize = 20.sp,
                             modifier = Modifier.padding(16.dp))
                     }
+
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -91,54 +100,64 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                             fontSize = 17.sp
                         )
                     }
+
                     if (addPublication) {
                         TextField(
                             value = publicationTitleInput.value,
-                            onValueChange = { publicationTitleInput.value = it },
+                            onValueChange = { newValue ->
+                                publicationTitleInput.value = newValue
+                                isButtonEnabledTitle.value = newValue.isNotEmpty() },
                             placeholder = { Text(text = "Titulo para mi publicación") },
                             singleLine = true,
                             shape = RoundedCornerShape(4.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(90.dp)
-                                .padding(16.dp))
+                                .padding(16.dp)).toString()
 
                         TextField(
                             value = publicationDescInput.value,
-                            onValueChange = { publicationDescInput.value = it },
+                            onValueChange = { newValue ->
+                                publicationDescInput.value = newValue
+                                isButtonEnabledDesc.value = newValue.isNotEmpty() },
                             placeholder = { Text(text = "Descripción para mi publicación") },
                             shape = RoundedCornerShape(4.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(160.dp)
-                                .padding(16.dp))
+                                .padding(16.dp)).toString()
                     } else {
                         editPublicationTitleInput.value?.let {
                             TextField(
                                 value = it,
-                                onValueChange = { editPublicationTitleInput.value = it },
+                                onValueChange = { newValue ->
+                                    editPublicationTitleInput.value = newValue
+                                    isEnabledEditTittle.value = newValue.text.isNotEmpty() },
                                 placeholder = { Text(text = "Titulo para mi publicación") },
                                 singleLine = true,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(90.dp)
-                                    .padding(16.dp))
+                                    .padding(16.dp)).toString()
                         }
 
                         editPublicationDescInput.value?.let {
                             TextField(
                                 value = it,
-                                onValueChange = { editPublicationDescInput.value = it },
+                                onValueChange = { newValue ->
+                                    editPublicationDescInput.value = newValue
+                                    isEnabledEditDesc.value = newValue.text.isNotEmpty() },
                                 placeholder = { Text(text = "Descripción para mi publicación") },
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(160.dp)
-                                    .padding(16.dp))
+                                    .padding(16.dp)).toString()
                         }
                     }
-                    Row() {
+
+                    Row {
                         Button(
                             onClick = { onDismiss() },
                             colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
@@ -147,19 +166,47 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                                 .padding(vertical = 8.dp)
                         ) { Text(text = "Cancelar", color = Color.White) }
                         Spacer(modifier = Modifier.width(25.dp))
-                        Button(
-                            onClick = {
-                                scope.launch {
-                                    app.createPublication(publicationTitleInput.value.text, publicationDescInput.value.text)
-                                }
-                                aux = true
-                                onDismiss()
-                            },
-                            colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
-                            shape = RoundedCornerShape(8.dp),
-                            modifier = Modifier
-                                .padding(vertical = 8.dp)
-                        ) { Text(text = "Aceptar", color = Color.White) }
+
+                        if (addPublication) {
+                            Button(
+                                onClick = {
+                                    scope.launch {
+                                        app.createPublication(
+                                            publicationTitleInput.value,
+                                            publicationDescInput.value
+                                        )
+                                    }
+                                    aux = true
+                                    onDismiss()
+                                },
+                                enabled = (isButtonEnabledTitle.value && isButtonEnabledDesc.value),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = blueBackground,
+                                    disabledContainerColor = disabledBlueBackground,
+                                    disabledContentColor = Color.White
+                                ),
+                                shape = RoundedCornerShape(8.dp),
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                            ) { Text(text = "Aceptar", color = Color.White) }
+                        } else {
+                            Button(
+                                onClick = {
+                                    // Todo : Implementar PATCH para editar.
+                                    aux = true
+                                    onDismiss()
+                                },
+                                enabled = (isEnabledEditTittle.value && isEnabledEditDesc.value),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = blueBackground,
+                                    disabledContainerColor = disabledBlueBackground,
+                                    disabledContentColor = Color.White
+                                ),
+                                shape = RoundedCornerShape(8.dp),
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                            ) { Text(text = "Aceptar", color = Color.White) }
+                        }
                     }
 
                 }

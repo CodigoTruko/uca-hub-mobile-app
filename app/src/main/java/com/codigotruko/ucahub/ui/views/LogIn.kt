@@ -55,6 +55,7 @@ fun LogInView(navController: NavHostController) {
     val email: String by loginViewModel._email.observeAsState(initial = "")
     val password: String by loginViewModel._password.observeAsState(initial = "")
     val loginEnabled by loginViewModel.loginEnable.observeAsState(initial = false)
+
     status?.let { HandleUiStatus(it, app, navController) }
 
     LazyColumn(verticalArrangement = Arrangement.Center,

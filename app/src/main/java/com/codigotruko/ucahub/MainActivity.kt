@@ -9,9 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.ui.views.LogInView
 import com.codigotruko.ucahub.ui.views.bottomnavbar.StaticItems
 import com.codigotruko.ucahub.ui.views.RegisterView
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

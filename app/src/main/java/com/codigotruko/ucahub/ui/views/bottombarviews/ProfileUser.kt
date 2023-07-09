@@ -1,7 +1,6 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import android.annotation.SuppressLint
-import android.util.Log
 
 
 import androidx.compose.foundation.background
@@ -20,7 +19,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -86,13 +84,13 @@ fun ProfileUserView(userIdentifier: String){
 
                     ImageUCAHUB()
 
-                    ButtonNormalFragment(textValue = "follow", onclick = {
+                    ButtonNormalFragment(true, textValue = "follow") {
                         scope.launch {
                             if (usuario != null) {
                                 app.changeStateFollow(usuario)
                             }
                         }
-                    })
+                    }
 
                     Column(
                         verticalArrangement = Arrangement.spacedBy(15.dp),

@@ -13,7 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 // Project Colors
 val mainBackground = Color(0xFFC5CAE9)
 val blueBackground = Color(0xFF001C64)
+val disabledBlueBackground = Color(0xFF6992FF)
 val darkWhiteBackground = Color(0xFFE8EAF6)
 val lightBlueBackground = Color(0xFF8C9EFF)
 val commentBackground = Color(0xFFD9D9D9)
-val darkRedBackground = Color(0xFF650000)

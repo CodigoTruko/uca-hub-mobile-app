@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.presentation.register
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,14 +12,25 @@ import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.data.network.ApiResponse
 import com.codigotruko.ucahub.repository.CredentialsRepository
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 
 class RegisterViewModel(private val repository: CredentialsRepository) : ViewModel() {
-    var name = MutableLiveData("")
-    var carnet = MutableLiveData("")
-    var username = MutableLiveData("")
-    var email = MutableLiveData("")
-    var password = MutableLiveData("")
+    // Las de siempre.
+    val name = MutableLiveData("")
+    val carnet = MutableLiveData("")
+    val username = MutableLiveData("")
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
 
+    // Para validar Register.
+    val _name: LiveData<String> = this.name
+    val _carnet: LiveData<String> = this.carnet
+    val _username: LiveData<String> = this.username
+    val _email: LiveData<String> = this.email
+    val _password: LiveData<String> = this.password
+
+    private val _registerEnable = MutableLiveData<Boolean>()
+    val registerEnable: LiveData<Boolean> = _registerEnable
 
     private val _status = MutableLiveData<RegisterUiStatus>(RegisterUiStatus.Resume)
     val status: LiveData<RegisterUiStatus>
@@ -45,7 +57,8 @@ class RegisterViewModel(private val repository: CredentialsRepository) : ViewMod
         register(name.value!!, carnet.value!!, username.value!!, email.value!!, password.value!!)
     }
 
-    private fun validateData(): Boolean {
+    // Tambien servira para validar si esta habilitado el register.
+    fun validateData(): Boolean {
         when {
             name.value.isNullOrEmpty() -> return false
             carnet.value.isNullOrEmpty() -> return false
@@ -67,6 +80,24 @@ class RegisterViewModel(private val repository: CredentialsRepository) : ViewMod
         email.value = ""
         password.value = ""
     }
+
+    fun onRegisterChanged(name: String, carnet: String, username: String, email: String, password: String) {
+        this.name.value = name
+        this.carnet.value = carnet
+        this.username.value = username
+        this.email.value = email
+        this.password.value = password
+        _registerEnable.value = isValidRegister(name, carnet, username, email, password)
+    }
+
+    private fun isValidRegister(
+        name: String,
+        carnet: String,
+        username: String,
+        email: String,
+        password: String
+    ): Boolean = name.length > 0 && carnet.length > 0 && username.length > 0 &&
+            Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 0
 
     companion object {
         val factory = viewModelFactory {

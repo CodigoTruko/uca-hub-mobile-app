@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +43,14 @@ fun RegisterView(navController: NavHostController){
 
     val status: RegisterUiStatus? by registerViewModel.status.observeAsState()
 
+    // Validar si el boton estara disponible.
+    val name: String by registerViewModel._name.observeAsState(initial = "")
+    val carnet: String by registerViewModel._carnet.observeAsState(initial = "")
+    val username: String by registerViewModel._username.observeAsState(initial = "")
+    val email: String by registerViewModel._email.observeAsState(initial = "")
+    val password: String by registerViewModel._password.observeAsState(initial = "")
+    val registerEnabled by registerViewModel.registerEnable.observeAsState(initial = false)
+
     status?.let { HandleUiStatus(it, navController) }
 
     LazyColumn(verticalArrangement = Arrangement.Center,
@@ -64,24 +74,20 @@ fun RegisterView(navController: NavHostController){
 
             ButtonGoogleFragment(textValue = "Registrarse con Google")
 
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
                 Text(text = "Or")
-            }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             TxtFieldRegister()
 
+            registerViewModel.onRegisterChanged(name, carnet, username, email, password)
+
             ButtonNormalFragment(
-                navController = navController,
-                textValue = "Crear cuenta",
-                destinationRoute = "mainfeed",
-                onclick = {
-                    registerViewModel.onRegister()
-                }
-            )
+                registerEnabled,
+                textValue = "Crear cuenta"
+            ) {
+                registerViewModel.onRegister()
+            }
 
 
             Text(text = "¿Ya posees una cuenta? ¡Inicia sesión aqui!",

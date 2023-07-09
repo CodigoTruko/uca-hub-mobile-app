@@ -9,9 +9,7 @@ import com.codigotruko.ucahub.data.network.service.UcaHubService
 import com.codigotruko.ucahub.repository.CredentialsRepository
 import com.codigotruko.ucahub.repository.ProfileRepository
 import com.codigotruko.ucahub.repository.PublicationRepository
-import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
 class UcaHubApplication : Application(){
 
 

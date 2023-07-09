@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.presentation.login
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -12,9 +13,16 @@ import com.codigotruko.ucahub.repository.CredentialsRepository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: CredentialsRepository) : ViewModel() {
+    // Las de siempre.
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
 
-    var email = MutableLiveData("")
-    var password = MutableLiveData("")
+    // Para validar el log in.
+    val _email: LiveData<String> = this.email
+    val _password: LiveData<String> = this.password
+
+    private val _loginEnable = MutableLiveData<Boolean>()
+    val loginEnable: LiveData<Boolean> = _loginEnable
 
     private val _status = MutableLiveData<LoginUiStatus>(LoginUiStatus.Resume)
     val status: MutableLiveData<LoginUiStatus>
@@ -37,25 +45,34 @@ class LoginViewModel(private val repository: CredentialsRepository) : ViewModel(
             _status.value = LoginUiStatus.ErrorWithMessage("Wrong information")
             return
         }
-        login(email.value!!, password.value!!)
+        login(this.email.value!!, this.password.value!!)
     }
 
+    // Tambien servira para validar si esta habilitado el log in.
     private fun validateData(): Boolean {
         when {
-            email.value.isNullOrEmpty() -> return false
-            password.value.isNullOrEmpty() -> return false
+            this.email.value.isNullOrEmpty() -> return false
+            this.password.value.isNullOrEmpty() -> return false
         }
         return true
     }
 
     fun clearData() {
-        email.value = ""
-        password.value = ""
+        this.email.value = ""
+        this.password.value = ""
     }
 
     fun clearStatus() {
         _status.value = LoginUiStatus.Resume
     }
+
+    fun onLoginChanged(email: String, password: String) {
+        this.email.value = email
+        this.password.value = password
+        _loginEnable.value = isValidLogIn(email, password)
+    }
+
+    private fun isValidLogIn(email: String, password: String): Boolean = email.length > 0 && password.length > 0
 
     companion object {
         val Factory = viewModelFactory {

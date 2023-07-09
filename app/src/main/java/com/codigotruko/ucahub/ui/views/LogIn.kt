@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
@@ -52,7 +51,10 @@ fun LogInView(navController: NavHostController) {
     val app = LocalContext.current.applicationContext as UcaHubApplication
 
     val status: LoginUiStatus? by loginViewModel.status.observeAsState()
-
+    // Validar si el boton estara disponible.
+    val email: String by loginViewModel._email.observeAsState(initial = "")
+    val password: String by loginViewModel._password.observeAsState(initial = "")
+    val loginEnabled by loginViewModel.loginEnable.observeAsState(initial = false)
     status?.let { HandleUiStatus(it, app, navController) }
 
     LazyColumn(verticalArrangement = Arrangement.Center,
@@ -96,31 +98,24 @@ fun LogInView(navController: NavHostController) {
                             .height(20.dp)
                             .width(20.dp))
 
-                    // Sirve para dar espaciado entre elementos.
-                    Spacer(modifier = Modifier.size(16.dp))
-
                     Text(text = "Sing In With Google",  color = Color.Black)
                 }
             }
 
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
                 Text(text = "Or")
-            }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             TxtFieldLogIn()
 
+            loginViewModel.onLoginChanged(email, password)
+
             ButtonNormalFragment(
-                navController = navController,
-                textValue = "Iniciar Sesión",
-                destinationRoute = "mainfeed",
-                onclick = {
-                    loginViewModel.onLogin()
-                }
-            )
+                loginEnabled,
+                textValue = "Iniciar Sesión"
+            ) {
+                loginViewModel.onLogin()
+            }
 
             Text(text = "¿Primera vez en UCA-HUB? ¡Registrate aquí!",
                 color = Color.Black.copy(alpha = 0.4f),
@@ -152,22 +147,19 @@ fun TxtFieldLogIn() {
         val loginViewModel: LoginViewModel = viewModel()
 
         loginViewModel.email.value = txtFieldFragment(placeHolder = "Usuario" )
-        loginViewModel.password.value = txtFieldFragment(placeHolder = "Contraseña", PasswordVisualTransformation() )
+        loginViewModel.password.value = txtFieldFragment(placeHolder = "Contraseña", PasswordVisualTransformation())
     }
 }
 @Composable
 private fun HandleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navController: NavHostController) {
-    Log.d("XD", "NAV")
 
     when (status) {
         is LoginUiStatus.Error -> {
             Toast.makeText(LocalContext.current, "An error has occurred", Toast.LENGTH_SHORT).show()
-            Log.d("XD", "NAV1")
 
         }
         is LoginUiStatus.ErrorWithMessage -> {
             Toast.makeText(LocalContext.current, status.message, Toast.LENGTH_SHORT).show()
-            Log.d("XD", "NAV2")
 
         }
         is LoginUiStatus.Success -> {

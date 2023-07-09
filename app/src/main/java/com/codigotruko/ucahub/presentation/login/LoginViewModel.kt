@@ -72,7 +72,7 @@ class LoginViewModel(private val repository: CredentialsRepository) : ViewModel(
         _loginEnable.value = isValidLogIn(email, password)
     }
 
-    private fun isValidLogIn(email: String, password: String): Boolean = email.length > 0 && password.length > 0
+    private fun isValidLogIn(email: String, password: String): Boolean = email.isNotEmpty() && password.isNotEmpty()
 
     companion object {
         val Factory = viewModelFactory {

@@ -96,8 +96,8 @@ class RegisterViewModel(private val repository: CredentialsRepository) : ViewMod
         username: String,
         email: String,
         password: String
-    ): Boolean = name.length > 0 && carnet.length > 0 && username.length > 0 &&
-            Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 0
+    ): Boolean = name.isNotEmpty() && carnet.isNotEmpty() && username.isNotEmpty() &&
+            Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.isNotEmpty()
 
     companion object {
         val factory = viewModelFactory {

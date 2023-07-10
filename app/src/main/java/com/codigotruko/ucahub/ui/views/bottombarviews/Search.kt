@@ -150,8 +150,6 @@ fun SearchView (navController: NavHostController) {
 @Composable
 fun SearchCard(navController: NavHostController, text: String ) {
 
-    val inputValue = remember { mutableStateOf(TextFieldValue()) }
-
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(60.dp)

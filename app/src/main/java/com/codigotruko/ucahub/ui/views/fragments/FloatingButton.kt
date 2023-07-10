@@ -24,7 +24,7 @@ import com.codigotruko.ucahub.ui.views.overlapelements.AddEditPublicationBox
 
 
 @Composable
-fun FloatingButton (_aux: Boolean): Boolean {
+fun FloatingButton (_aux: Boolean, placeRoute: String, action: () -> Unit = {}){
 
     var showAddPubliBox by rememberSaveable() { mutableStateOf(false) }
 
@@ -51,6 +51,6 @@ fun FloatingButton (_aux: Boolean): Boolean {
 
     }
 
-    return AddEditPublicationBox(showAddPubliBox, onDismiss = { showAddPubliBox = false },true, null, _aux)
+    AddEditPublicationBox(showAddPubliBox, onDismiss = { showAddPubliBox = false },true, null, _aux, placeRoute, action )
 
 }

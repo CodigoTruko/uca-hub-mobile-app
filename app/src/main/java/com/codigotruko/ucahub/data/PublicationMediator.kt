@@ -16,7 +16,6 @@ import java.io.IOException
 @OptIn (ExperimentalPagingApi::class)
 class PublicationMediator (
     private val token: String,
-    private val owner: String,
     private val database: PublicationAppDatabase,
     private val ucaHubService: UcaHubService,
 ): RemoteMediator<Int, Publication>(){
@@ -46,19 +45,11 @@ class PublicationMediator (
                     remoteKey.nextKey
                 }
             }
-            val response: PublicationListResponse? = when (owner) {
-                "feed" -> ucaHubService.getFeedPublications(
+            val response = ucaHubService.getFeedPublications(
                     token,
                     state.config.pageSize,
                     loadKey
                 )
-                "myProfile" -> ucaHubService.getUserPublications(
-                    token,
-                    state.config.pageSize,
-                    loadKey
-                )
-                else -> null
-            }
 
 
             database.withTransaction {

@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,17 +32,23 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
-import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.views.overlapelements.AddEditPublicationBox
 import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 import com.codigotruko.ucahub.ui.views.overlapelements.ConfirmBox
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
-fun PublicationItem(publication: Publication, navController: NavHostController, myPublication: Boolean) {
+fun PublicationItem(publication: Publication, navController: NavHostController, publicationRefresh: () -> Unit = {}) {
+
+    val app = LocalContext.current.applicationContext as UcaHubApplication
+    val scope = CoroutineScope(Dispatchers.Main)
 
     var show by rememberSaveable { mutableStateOf(false) }
     var showEditBox by rememberSaveable { mutableStateOf(false) }
@@ -55,7 +61,6 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
     val myProfile by myProfileViewModel.myProfileResponse.collectAsState()
 
 
-
     var userIdentifier = publication.author
 
     var author: String? = null
@@ -66,6 +71,7 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
             author = userIdentifier[0].username
         }
     }
+
 
     Card(
         colors = CardDefaults.cardColors(darkWhiteBackground),
@@ -102,11 +108,19 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                 Spacer(modifier = Modifier.width(60.dp))
 
                 if( author == profile?.profile?.username){
-                    IconButton(onClick = { showEditBox = true }) {
+                    IconButton(
+                        onClick = {
+                            showEditBox = true
+                        }
+                    ) {
                         Icon(painter = painterResource(id = R.drawable.edit_icon), contentDescription = "Boton para editar publicación.")
                     }
 
-                    IconButton(onClick = { showConfirmBox = true }) {
+                    IconButton(
+                        onClick = {
+                            showConfirmBox = true
+                        }
+                    ) {
                         Icon(painter = painterResource(id = R.drawable.delete_icon), contentDescription = "Boton para borrar publiación.")
                     }
                 }
@@ -173,7 +187,19 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
     }
     // Muestra la views de comentarios.
     CommentsBox(show, { show = false }, { show = false })
-    ConfirmBox(showConfirmBox, { showConfirmBox = false })
+    ConfirmBox(
+        showConfirmBox,
+        { showConfirmBox = false },
+        {
+            scope.launch {
+                app.deletePublication(publication._id)
+            }
+            publicationRefresh()
+        }
+    )
 
-    AddEditPublicationBox(showEditBox, { showEditBox = false }, false, publication, false)
+    AddEditPublicationBox(showEditBox, { showEditBox = false }, false, publication, false, "feed",
+        {
+            publicationRefresh()
+        })
 }

@@ -6,6 +6,7 @@ import com.codigotruko.ucahub.data.network.response.AuthorListResponse
 import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PATCH
@@ -77,5 +78,18 @@ interface UcaHubApi {
     suspend fun createPublication(
         @Header("Authorization") token: String,
         @Body requestBody: PublicationRequestBody
+    )
+
+    @POST("event")
+    suspend fun createFeedPublication(
+        @Header("Authorization") token: String,
+        @Body requestBody: PublicationRequestBody
+    )
+
+
+    @DELETE("event/{id}")
+    suspend fun deletePublication(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
     )
 }

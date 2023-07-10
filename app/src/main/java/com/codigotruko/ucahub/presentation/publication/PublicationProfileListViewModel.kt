@@ -26,11 +26,19 @@ class PublicationProfileListViewModel (private val publicationRepository: Public
 
     init {
         viewModelScope.launch {
-            val initialMyPublications = publicationRepository.getPublicationProfilePage(100, token, identifier)
+            val initialMyPublications =
+                publicationRepository.getPublicationProfilePage(100, token, identifier)
             publications = initialMyPublications
         }
     }
 
+    fun refreshPublications() {
+        viewModelScope.launch {
+            val initialMyPublications =
+                publicationRepository.getPublicationProfilePage(100, token, identifier)
+            publications = initialMyPublications
+        }
+    }
 }
 
 

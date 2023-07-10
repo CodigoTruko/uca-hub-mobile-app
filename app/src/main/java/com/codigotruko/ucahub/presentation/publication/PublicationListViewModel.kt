@@ -24,27 +24,17 @@ class PublicationListViewModel(private val publicationRepository: PublicationRep
     private val _feedPublications = MutableStateFlow<Flow<PagingData<Publication>>>(emptyFlow())
     var feedPublications: Flow<PagingData<Publication>> = _feedPublications.flatMapLatest { it }
 
-    private val _myPublications = MutableStateFlow<Flow<PagingData<Publication>>>(emptyFlow())
-    var myPublications: Flow<PagingData<Publication>> = _myPublications.flatMapLatest { it }
-
     init {
         viewModelScope.launch {
-            val initialMyPublications = publicationRepository.getPublicationPage(100, token, "myProfile")
-            myPublications = initialMyPublications
-        }
-        viewModelScope.launch {
-            val initialFeedPublications = publicationRepository.getPublicationPage(100, token, "feed")
+            val initialFeedPublications = publicationRepository.getPublicationPage(100, token)
             feedPublications = initialFeedPublications
         }
     }
 
     fun refreshPublications() {
         viewModelScope.launch {
-            val refreshedFeedPublications = publicationRepository.getPublicationPage(100, token, "feed")
+            val refreshedFeedPublications = publicationRepository.getPublicationPage(100, token)
             feedPublications  = refreshedFeedPublications
-
-            val refreshedMyPublications = publicationRepository.getPublicationPage(100, token, "myProfile")
-            myPublications = refreshedMyPublications
         }
     }
 

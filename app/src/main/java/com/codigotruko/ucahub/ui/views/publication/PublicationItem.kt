@@ -33,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.data.db.models.Publication
+import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
@@ -47,8 +48,11 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
     var showEditBox by rememberSaveable { mutableStateOf(false) }
     var showConfirmBox by rememberSaveable { mutableStateOf(false) }
 
-    val profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
-    val profile by profileViewModel.profileResponse.collectAsState()
+    val profileViewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModel.Factory)
+    val profile by profileViewModel.myProfileResponse.collectAsState()
+
+    val myProfileViewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModel.Factory)
+    val myProfile by myProfileViewModel.myProfileResponse.collectAsState()
 
 
 
@@ -79,7 +83,10 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                     .fillMaxWidth()
                     .clickable {
                         if (author != null) {
-                            navController.navigate("anotherUser_profile/$author")
+                            if(myProfile?.profile?.username != author)
+                                navController.navigate("anotherUser_profile/$author")
+                            else
+                                navController.navigate("profile_route")
                         }
                     }
             ) {

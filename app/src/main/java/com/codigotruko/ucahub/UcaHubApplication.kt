@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import com.codigotruko.ucahub.data.db.PublicationAppDatabase
 import com.codigotruko.ucahub.data.network.retrofit.RetrofitInstance
 import com.codigotruko.ucahub.data.network.service.UcaHubService
+import com.codigotruko.ucahub.repository.AuthorRepository
 import com.codigotruko.ucahub.repository.CredentialsRepository
 import com.codigotruko.ucahub.repository.ProfileRepository
 import com.codigotruko.ucahub.repository.PublicationRepository
@@ -21,6 +22,10 @@ class UcaHubApplication : Application(){
     }
     val publicationRepository by lazy {
         PublicationRepository(database, ucaHubService)
+    }
+
+    val authorRepository by lazy {
+        AuthorRepository(database, ucaHubService)
     }
 
     val profileRepository by lazy {

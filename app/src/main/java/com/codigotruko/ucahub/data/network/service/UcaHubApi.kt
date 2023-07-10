@@ -2,6 +2,7 @@ package com.codigotruko.ucahub.data.network.service
 
 import com.codigotruko.ucahub.data.db.models.Profile
 import com.codigotruko.ucahub.data.db.models.ProfileResponse
+import com.codigotruko.ucahub.data.network.response.AuthorListResponse
 import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -23,6 +24,14 @@ interface UcaHubApi {
     @GET("event/profile")
     suspend fun getUserPublications(
         @Header("Authorization") token: String,
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int
+    ): PublicationListResponse
+
+    @GET("event/profile/{identifier}")
+    suspend fun getProfilePublications(
+        @Header("Authorization") token: String,
+        @Path("identifier") identifier: String,
         @Query("skip") skip: Int,
         @Query("limit") limit: Int
     ): PublicationListResponse
@@ -52,7 +61,10 @@ interface UcaHubApi {
     @GET("user/search")
     suspend fun getUserSearch(
         @Header("Authorization") token: String,
-    )
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int,
+        @Query("keyword") keyword: String
+    ): AuthorListResponse
 
     @PATCH("user/follow/{identifier}")
     suspend fun changeFollowState(

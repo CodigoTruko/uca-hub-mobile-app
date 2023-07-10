@@ -40,7 +40,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
-import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
+import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
 import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
@@ -53,16 +53,24 @@ import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 @Composable
 fun ProfileView(navController: NavHostController){
 
-    val profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
-    val profile by profileViewModel.profileResponse.collectAsState()
+    val profileViewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModel.Factory)
+    val profile by profileViewModel.myProfileResponse.collectAsState()
 
-    val valuesProfile = profile?.profile?.program
-    var faculty: String = ""
-    var carrer: String = ""
-    if (valuesProfile != null) {
-        if (valuesProfile.isNotEmpty()){
-            faculty = valuesProfile[0].faculty[0].name
-            carrer = valuesProfile[0].name
+    val valuesProgram = profile?.profile?.program
+
+    var name = profile?.profile?.name ?: ""
+    var username = profile?.profile?.username ?: ""
+    var carnet = profile?.profile?.carnet ?: ""
+    var description = profile?.profile?.description  ?: ""
+
+    var faculty = "Facultad no asignada"
+    var carrer = "Carrera no asignada"
+
+
+    if (valuesProgram != null) {
+        if (valuesProgram.isNotEmpty()){
+            faculty = valuesProgram[0].faculty[0].name
+            carrer = valuesProgram[0].name
         }
     }
 
@@ -108,26 +116,24 @@ fun ProfileView(navController: NavHostController){
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                profile?.profile?.username?.let {
                     Text(
-                        text = it,
+                        text = username,
                         fontSize = 30.sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                     )
-                }
 
-                TextProfileFragment(name = "Nombre", value = profile?.profile?.name)
+                TextProfileFragment(name = "Nombre", value = name)
 
-                TextProfileFragment(name = "Carnet", value = profile?.profile?.carnet)
+                TextProfileFragment(name = "Carnet", value = carnet)
 
                 TextProfileFragment(name = "Facultad", value = faculty)
 
                 TextProfileFragment(name = "Carrera", value = carrer)
 
-                TextProfileFragment(name = "Descripción", value = profile?.profile?.description ?: "")
+                TextProfileFragment(name = "Descripción", value = description)
 
             }
 

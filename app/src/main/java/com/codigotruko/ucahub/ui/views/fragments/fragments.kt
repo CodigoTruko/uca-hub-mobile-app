@@ -73,7 +73,7 @@ fun ButtonNormalFragment(
             disabledContentColor = Color.White),
         enabled = buttonEnabled,
         modifier = Modifier
-            .padding(padding)
+            .padding(horizontal = padding, vertical = padding/4)
             .width(300.dp)
     ) {
         if(icon.isNotEmpty()){

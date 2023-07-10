@@ -59,13 +59,13 @@ fun RegisterView(navController: NavHostController){
                     .fillMaxSize()
                     .background(color = mainBackground)
     ){
-        item{
+        item {
 
             ImageUCAHUB()
 
             Text(
                 text = "Crear cuenta nueva",
-                fontSize =32.sp,
+                fontSize = 32.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(0.dp)
@@ -74,7 +74,7 @@ fun RegisterView(navController: NavHostController){
 
             ButtonGoogleFragment(textValue = "Registrarse con Google")
 
-                Text(text = "Or")
+            Text(text = "Or")
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -89,6 +89,7 @@ fun RegisterView(navController: NavHostController){
                 registerViewModel.onRegister()
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(text = "¿Ya posees una cuenta? ¡Inicia sesión aqui!",
                 color = Color.Black.copy(alpha = 0.4f),

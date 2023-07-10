@@ -25,7 +25,7 @@ class PublicationPagingSource(private val ucahubservice: UcaHubService) :
             val nextPage = params.key ?: 0
             val pageSize = params.loadSize
             val publicationsResult = ucahubservice
-                .getDFeedPublications( "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NGExYmUxYmNlZDM1ZGU0ZDlkOTQyYmQiLCJ1c2VybmFtZSI6IkZsYW4iLCJpYXQiOjE2ODgzMzU2NDEsImV4cCI6NTE2ODgzMzU2NDF9.Vu3U9mXp-mzTMYlaZcNaHYbmvydsGtoKqgxS1-5CSLI", pageSize, nextPage)
+                .getFeedPublications( "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NGExYmUxYmNlZDM1ZGU0ZDlkOTQyYmQiLCJ1c2VybmFtZSI6IkZsYW4iLCJpYXQiOjE2ODgzMzU2NDEsImV4cCI6NTE2ODgzMzU2NDF9.Vu3U9mXp-mzTMYlaZcNaHYbmvydsGtoKqgxS1-5CSLI", pageSize, nextPage)
             LoadResult.Page(
                 data = publicationsResult.results,
                 nextKey = if (publicationsResult.next != null) nextPage + pageSize else null,

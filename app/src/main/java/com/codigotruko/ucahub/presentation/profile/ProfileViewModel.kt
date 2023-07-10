@@ -1,4 +1,4 @@
-package com.codigotruko.ucahub.presentation.profile
+ package com.codigotruko.ucahub.presentation.profile
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -21,29 +21,11 @@ class ProfileViewModel (private val profileRepository: ProfileRepository, privat
 
     init {
         viewModelScope.launch {
-            val result = if (identifier.isNotEmpty()) {
-                profileRepository.getUserProfile(token, identifier)
-            } else {
-                profileRepository.getMyProfile(token)
-            }
-            _profileResponse.value = result
+            _profileResponse.value = profileRepository.getUserProfile(token, identifier)
         }
+
     }
 
-    suspend fun indents(aux: String){
-        val result = profileRepository.getUserProfile(token, aux)
-        _profileResponse.value = result
-        Log.d("", result.profile.name)
-    }
-
-    companion object {
-        val Factory = viewModelFactory {
-            initializer {
-                val app = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as UcaHubApplication
-                ProfileViewModel(app.profileRepository, app.getToken(), "")
-            }
-        }
-    }
 }
 
 

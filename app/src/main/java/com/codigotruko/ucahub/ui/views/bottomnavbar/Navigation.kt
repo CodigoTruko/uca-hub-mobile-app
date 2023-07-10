@@ -76,7 +76,7 @@ fun BottomNavHost(navHostController: NavHostController) {
 
             var userId = backStackEntry.arguments?.getString("userId")
 
-            ProfileUserView(userId!!)
+            ProfileUserView(navHostController, userId!!)
         }
         composable("communities_feed") {
             CommunitieFeedView()

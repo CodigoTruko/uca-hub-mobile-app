@@ -1,7 +1,5 @@
 package com.codigotruko.ucahub.data.network.service
 
-import android.util.Log
-import com.codigotruko.ucahub.data.db.models.Profile
 import com.codigotruko.ucahub.data.network.retrofit.RetrofitInstance
 
 const val BASE_URL = "https://ucahub.tech/"
@@ -10,10 +8,13 @@ class UcaHubService {
 
     private val service: UcaHubApi = RetrofitInstance.getUcaHubService()
 
-    suspend fun getDFeedPublications(token: String, limit: Int, offset: Int) =
+    suspend fun getFeedPublications(token: String, limit: Int, offset: Int) =
         service.getFeedPublications( "Bearer $token", offset, limit)
     suspend fun getUserPublications(token: String, limit: Int, offset: Int) =
         service.getUserPublications( "Bearer $token", offset, limit)
+
+    suspend fun getProfilePublications(token: String, identifier: String, limit: Int, offset: Int) =
+        service.getProfilePublications( "Bearer $token", identifier, offset, limit )
 
     suspend fun getMyProfile(token: String) =
         service.getMyProfile("Bearer $token")
@@ -26,4 +27,8 @@ class UcaHubService {
 
     suspend fun changeFollowState(token: String, identifier: String) =
         service.changeFollowState("Bearer $token", identifier)
+
+
+    suspend fun getUserSearch(token: String, limit: Int, offset: Int, text: String) =
+        service.getUserSearch("Bearer $token", offset, limit, text)
 }

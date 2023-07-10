@@ -72,6 +72,9 @@ fun MainFeedView (navController: NavHostController ) {
                 if(publications.loadState.append is LoadState.Loading) {
                     CircularProgressIndicator()
                 }
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp))
             }
         }
 
@@ -82,8 +85,5 @@ fun MainFeedView (navController: NavHostController ) {
             }
         }
 
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp))
     }
 }

@@ -1,6 +1,8 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import android.annotation.SuppressLint
+import android.util.Log
+import android.widget.Toast
 
 
 import androidx.compose.foundation.background
@@ -17,8 +19,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,14 +35,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.presentation.author.AuthorViewModel
+import com.codigotruko.ucahub.presentation.author.AuthorViewModelFactory
+import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModelFactory
+import com.codigotruko.ucahub.presentation.profile.PublicationProfileListViewModel
+import com.codigotruko.ucahub.presentation.profile.PublicationProfileListViewModelFactory
 import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
+import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,33 +60,57 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun ProfileUserView(userIdentifier: String){
+fun ProfileUserView(navController: NavHostController, userIdentifier: String){
 
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
 
+
+
     val profileViewModelFactory = ProfileViewModelFactory(app.profileRepository, app.getToken(), userIdentifier)
     val profile: ProfileViewModel = viewModel(factory = profileViewModelFactory)
     val profileResponse by profile.profileResponse.collectAsState()
+
+    val publicationViewModelFactory = PublicationProfileListViewModelFactory(app.publicationRepository, app.getToken(), userIdentifier)
+    val publicationViewModel: PublicationProfileListViewModel = viewModel(factory = publicationViewModelFactory)
+    val publications = publicationViewModel.publications.collectAsLazyPagingItems()
+
 
     val dataProfile = profileResponse?.profile
 
     var faculty = "Facultad no asignada"
     var carrer = "Carrera no asignada"
 
+
     if(dataProfile?.program?.isNotEmpty() == true){
         faculty = dataProfile.program[0].faculty[0].name
         carrer = dataProfile.program[0].name
+
     }
 
 
-    val usuario: String = dataProfile?.username ?: "xd"
+    val usuario: String = dataProfile?.username ?: ""
     val nombre: String = dataProfile?.name ?: ""
     val descripcion: String = dataProfile?.description ?: ""
 
     val carnet: String = dataProfile?.carnet ?: ""
 
     val scope = CoroutineScope(Dispatchers.Main)
+
+
+
+    val context = LocalContext.current
+    LaunchedEffect(key1 = publications.loadState) {
+        if(publications.loadState.refresh is LoadState.Error) {
+            Toast.makeText(
+                context,
+                "Error: " + (publications.loadState.refresh as LoadState.Error).error.message,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+
 
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -138,6 +176,29 @@ fun ProfileUserView(userIdentifier: String){
                     }
 
                     Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
+                }
+                items(publications){ publication ->
+                    if(publications.loadState.refresh is LoadState.Loading) {
+                        CircularProgressIndicator(
+                        )
+                    }
+                    else{
+                        if (publication != null) {
+                            PublicationItem(
+                                publication = publication,
+                                navController = navController,
+                                myPublication = true
+                            )
+                        }
+                    }
+                }
+                item {
+                    if(publications.loadState.append is LoadState.Loading) {
+                        CircularProgressIndicator()
+                    }
+                    Spacer(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp))
                 }
             }
 

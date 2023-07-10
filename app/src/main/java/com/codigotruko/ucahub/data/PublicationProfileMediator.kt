@@ -8,15 +8,14 @@ import androidx.room.withTransaction
 import com.codigotruko.ucahub.data.db.PublicationAppDatabase
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.data.db.models.RemoteKey
-import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import com.codigotruko.ucahub.data.network.service.UcaHubService
 import retrofit2.HttpException
 import java.io.IOException
 
 @OptIn (ExperimentalPagingApi::class)
-class PublicationMediator (
+class PublicationProfileMediator (
     private val token: String,
-    private val owner: String,
+    private val identifier: String,
     private val database: PublicationAppDatabase,
     private val ucaHubService: UcaHubService,
 ): RemoteMediator<Int, Publication>(){
@@ -46,19 +45,15 @@ class PublicationMediator (
                     remoteKey.nextKey
                 }
             }
-            val response: PublicationListResponse? = when (owner) {
-                "feed" -> ucaHubService.getFeedPublications(
+            val response =
+                ucaHubService.getProfilePublications(
                     token,
+                    identifier,
                     state.config.pageSize,
                     loadKey
                 )
-                "myProfile" -> ucaHubService.getUserPublications(
-                    token,
-                    state.config.pageSize,
-                    loadKey
-                )
-                else -> null
-            }
+
+
 
 
             database.withTransaction {

@@ -1,7 +1,6 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 
 
@@ -41,9 +40,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
-import com.codigotruko.ucahub.presentation.author.AuthorViewModel
-import com.codigotruko.ucahub.presentation.author.AuthorViewModelFactory
-import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
+import com.codigotruko.ucahub.presentation.author.FollowsViewModel
+import com.codigotruko.ucahub.presentation.author.FollowsViewModelFactory
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModelFactory
@@ -75,6 +73,10 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
     val publicationViewModel: PublicationProfileListViewModel = viewModel(factory = publicationViewModelFactory)
     val publications = publicationViewModel.publications.collectAsLazyPagingItems()
 
+    val myFollowsViewModelFactory = FollowsViewModelFactory(app.authorRepository, app.getToken())
+    val myFollowsViewModel: FollowsViewModel = viewModel(factory = myFollowsViewModelFactory)
+    val myFollows = myFollowsViewModel.authors.collectAsLazyPagingItems()
+
 
     val dataProfile = profileResponse?.profile
 
@@ -88,14 +90,19 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
 
     }
 
-
-    val usuario: String = dataProfile?.username ?: ""
-    val nombre: String = dataProfile?.name ?: ""
-    val descripcion: String = dataProfile?.description ?: ""
+    val username: String = dataProfile?.username ?: ""
+    val name: String = dataProfile?.name ?: ""
+    val description: String = dataProfile?.description ?: ""
 
     val carnet: String = dataProfile?.carnet ?: ""
 
     val scope = CoroutineScope(Dispatchers.Main)
+
+    var stateFollow = ""
+
+    var resultAuthor = myFollows.itemSnapshotList.find { author ->
+        author?.username  == username
+    }
 
 
 
@@ -122,10 +129,17 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
 
                     ImageUCAHUB()
 
-                    ButtonNormalFragment(true, textValue = "follow") {
+                    stateFollow = if ((resultAuthor != null) && (resultAuthor.username == username)) {
+                        "Siguiendo"
+                    } else {
+                        "Seguir"
+                    }
+                    ButtonNormalFragment(true, textValue = stateFollow) {
                         scope.launch {
-                            if (usuario != null) {
-                                app.changeStateFollow(usuario)
+                            if (username != null) {
+                                app.changeStateFollow(username)
+                                myFollowsViewModel.refreshAuthors()
+                                myFollows.refresh()
                             }
                         }
                     }
@@ -136,9 +150,9 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
                             .fillMaxWidth()
                             .padding(16.dp)
                     ) {
-                        if (usuario != null) {
+                        if (username != null) {
                             Text(
-                                text = usuario,
+                                text = username,
                                 fontSize = 30.sp,
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
@@ -147,7 +161,7 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
                             )
                         }
 
-                        TextProfileFragment(name = "Nombre", value = nombre)
+                        TextProfileFragment(name = "Nombre", value = name)
 
                         TextProfileFragment(name = "Carnet", value = carnet)
 
@@ -155,7 +169,7 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
 
                         TextProfileFragment(name = "Carrera", value = carrer)
 
-                        TextProfileFragment(name = "Descripción", value = descripcion)
+                        TextProfileFragment(name = "Descripción", value = description)
 
                     }
 

@@ -14,12 +14,34 @@ class AuthorRepository (
     private val authorDao = database.authorDao()
 
     @ExperimentalPagingApi
-    fun getAuthorPage(pageSize: Int, token: String, text: String) = Pager(
+    fun getSearchPage(pageSize: Int, token: String, text: String) = Pager(
         config = PagingConfig(
             pageSize = pageSize,
             prefetchDistance = (0.10 * pageSize).toInt()
         ),
-        remoteMediator = AuthorMediator(token, text, database, ucaHubService)
+        remoteMediator = AuthorMediator(token, text, "search", database, ucaHubService)
+    ) {
+        authorDao.pagingSource()
+    }.flow
+
+    @ExperimentalPagingApi
+    fun getFollowsPage(pageSize: Int, token: String) = Pager(
+        config = PagingConfig(
+            pageSize = pageSize,
+            prefetchDistance = (0.10 * pageSize).toInt()
+        ),
+        remoteMediator = AuthorMediator(token,  "", "follows", database, ucaHubService)
+    ) {
+        authorDao.pagingSource()
+    }.flow
+
+    @ExperimentalPagingApi
+    fun getFollowersPage(pageSize: Int, token: String) = Pager(
+        config = PagingConfig(
+            pageSize = pageSize,
+            prefetchDistance = (0.10 * pageSize).toInt()
+        ),
+        remoteMediator = AuthorMediator(token, "", "followers", database, ucaHubService)
     ) {
         authorDao.pagingSource()
     }.flow

@@ -5,12 +5,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-
+import com.codigotruko.ucahub.ui.SessionManager
 
 @Composable
-fun LogOutBox(show: Boolean, navController: NavHostController, onDismiss: () -> Unit) {
+fun LogOutBox(show: Boolean, navController: NavHostController, onDismiss: () -> Unit, sessionManager: SessionManager) {
 
     if (show) {
         AlertDialog(
@@ -18,6 +17,7 @@ fun LogOutBox(show: Boolean, navController: NavHostController, onDismiss: () -> 
             confirmButton = {
                 TextButton(onClick = {
                     onDismiss()
+                    sessionManager.clearCredentials()
                 }) {
                     Text(text = "Aceptar")
                 }

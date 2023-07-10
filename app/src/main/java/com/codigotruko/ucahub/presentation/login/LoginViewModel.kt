@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.codigotruko.ucahub.UcaHubApplication
@@ -14,8 +15,8 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: CredentialsRepository) : ViewModel() {
     // Las de siempre.
-    val email = MutableLiveData("")
-    val password = MutableLiveData("")
+    var email = MutableLiveData("")
+    var password = MutableLiveData("")
 
     // Para validar el log in.
     val _email: LiveData<String> = this.email

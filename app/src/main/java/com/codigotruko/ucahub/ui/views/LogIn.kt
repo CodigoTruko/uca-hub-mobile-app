@@ -17,8 +17,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,23 +40,29 @@ import com.codigotruko.ucahub.ui.theme.mainBackground
 
 
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.ui.SessionManager
 import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.views.fragments.txtFieldFragment
 
-
 @Composable
-fun LogInView(navController: NavHostController) {
+fun LogInView(navController: NavHostController, saveSesion: MutableState<Boolean>) {
 
     val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
     val app = LocalContext.current.applicationContext as UcaHubApplication
 
     val status: LoginUiStatus? by loginViewModel.status.observeAsState()
+
     // Validar si el boton estara disponible.
     val email: String by loginViewModel._email.observeAsState(initial = "")
     val password: String by loginViewModel._password.observeAsState(initial = "")
     val loginEnabled by loginViewModel.loginEnable.observeAsState(initial = false)
+
+    // Check box para remember login.
+    val checked = remember { mutableStateOf(false) }
 
     status?.let { HandleUiStatus(it, app, navController) }
 
@@ -108,6 +116,11 @@ fun LogInView(navController: NavHostController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             TxtFieldLogIn()
+            
+            Row (verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(checked = checked.value, onCheckedChange = { checked.value = it })
+                Text(text = "Recordar Inicio de Sesión")
+            }
 
             loginViewModel.onLoginChanged(email, password)
 
@@ -116,7 +129,13 @@ fun LogInView(navController: NavHostController) {
                 textValue = "Iniciar Sesión"
             ) {
                 loginViewModel.onLogin()
+                // Para que guarde la información
+                if (checked.value) {
+                    saveSesion.value = true
+                }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(text = "¿Primera vez en UCA-HUB? ¡Registrate aquí!",
                 color = Color.Black.copy(alpha = 0.4f),
@@ -169,7 +188,10 @@ private fun HandleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navCon
             loginViewModel.clearData()
             app.saveAuthToken(status.token)
             Log.d("TOKEN", app.getToken())
-            navController.navigate("mainfeed")
+
+            navController.navigate("mainfeed") {
+                popUpTo("login") { inclusive = true }
+            }
         }
 
         else -> {}

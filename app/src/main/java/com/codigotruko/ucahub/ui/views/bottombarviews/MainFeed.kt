@@ -125,18 +125,12 @@ fun MainFeedView (navController: NavHostController ) {
                     }
                 }
             }
-
-
-
         }
 
         FloatingButton(false, "feed",
             action = {
                 publicationViewModel.refreshPublications()
                 publications.refresh()
-            }
-        )
-
-
+            })
     }
 }

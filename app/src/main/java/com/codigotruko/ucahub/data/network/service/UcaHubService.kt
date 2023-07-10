@@ -24,6 +24,10 @@ class UcaHubService {
 
     suspend fun createPublication(token: String, title: String, description: String) =
         service.createPublication("Bearer $token", UcaHubApi.PublicationRequestBody(title, description))
+    suspend fun createFeedPublication(token: String, title: String, description: String) =
+        service.createFeedPublication("Bearer $token", UcaHubApi.PublicationRequestBody(title, description))
+    suspend fun deletePublication(token: String, id: String) =
+        service.deletePublication("Bearer $token", id)
 
     suspend fun changeFollowState(token: String, identifier: String) =
         service.changeFollowState("Bearer $token", identifier)

@@ -1,6 +1,5 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,8 +39,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
-import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
+import com.codigotruko.ucahub.presentation.profile.PublicationProfileListViewModel
+import com.codigotruko.ucahub.presentation.profile.PublicationProfileListViewModelFactory
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
 import com.codigotruko.ucahub.ui.theme.mainBackground
@@ -52,6 +53,7 @@ import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 
 @Composable
 fun ProfileView(navController: NavHostController){
+    val app = LocalContext.current.applicationContext as UcaHubApplication
 
     val profileViewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModel.Factory)
     val profile by profileViewModel.myProfileResponse.collectAsState()
@@ -74,8 +76,9 @@ fun ProfileView(navController: NavHostController){
         }
     }
 
-    val publicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
-    val publications = publicationViewModel.myPublications.collectAsLazyPagingItems()
+    val publicationViewModelFactory = PublicationProfileListViewModelFactory(app.publicationRepository, app.getToken(), name )
+    val publicationViewModel: PublicationProfileListViewModel = viewModel(factory = publicationViewModelFactory)
+    val publications = publicationViewModel.publications.collectAsLazyPagingItems()
 
     val context = LocalContext.current
     LaunchedEffect(key1 = publications.loadState) {
@@ -164,7 +167,10 @@ fun ProfileView(navController: NavHostController){
                     PublicationItem(
                         publication = publication,
                         navController = navController,
-                        myPublication = true
+                        publicationRefresh = {
+                            publicationViewModel.refreshPublications()
+                            publications.refresh()
+                        }
                     )
                 }
             }
@@ -181,13 +187,14 @@ fun ProfileView(navController: NavHostController){
     }
     EditProfileBox(showProfileBox, { showProfileBox = false }, {  })
 
-    if (FloatingButton(false)) {
-        LaunchedEffect(Unit) {
-            publicationViewModel.refreshPublications()
-            publications.refresh()
-            Log.d("PASA", "XD")
-        }
-    }
+    FloatingButton(false, "profile",
+    action = {
+        publicationViewModel.refreshPublications()
+        publications.refresh()
+    })
+
+
+
 
 }
 

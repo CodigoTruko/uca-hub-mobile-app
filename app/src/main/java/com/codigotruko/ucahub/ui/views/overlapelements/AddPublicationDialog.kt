@@ -42,9 +42,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication: Boolean, publication: Publication?, _aux: Boolean): Boolean{
-
-    var aux by remember { mutableStateOf(_aux) }
+fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication: Boolean, publication: Publication?, _aux: Boolean, placeRoute: String, action: () -> Unit = {}){
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
     val scope = CoroutineScope(Dispatchers.Main)
@@ -171,12 +169,26 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                             Button(
                                 onClick = {
                                     scope.launch {
-                                        app.createPublication(
-                                            publicationTitleInput.value,
-                                            publicationDescInput.value
-                                        )
+                                        if(placeRoute == "profile"){
+                                            app.createPublication(
+                                                publicationTitleInput.value,
+                                                publicationDescInput.value
+                                            )
+                                        }
+                                        if (placeRoute == "feed"){
+                                            app.createFeedPublication(
+                                                publicationTitleInput.value,
+                                                publicationDescInput.value
+                                            )
+                                        }
+                                        if (placeRoute == "community"){
+                                            app.createFeedPublication(
+                                                publicationTitleInput.value,
+                                                publicationDescInput.value
+                                            )
+                                        }
                                     }
-                                    aux = true
+                                    action()
                                     onDismiss()
                                 },
                                 enabled = (isButtonEnabledTitle.value && isButtonEnabledDesc.value),
@@ -193,7 +205,6 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                             Button(
                                 onClick = {
                                     // Todo : Implementar PATCH para editar.
-                                    aux = true
                                     onDismiss()
                                 },
                                 enabled = (isEnabledEditTittle.value && isEnabledEditDesc.value),
@@ -214,5 +225,4 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
         }
     }
 
-    return aux
 }

@@ -52,7 +52,7 @@ fun CommunitieFeedView () {
         }
     }
 
-    FloatingButton(false)
+    FloatingButton(false, "community")
 
     Spacer(modifier = Modifier
         .fillMaxWidth()

@@ -187,7 +187,10 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
                             PublicationItem(
                                 publication = publication,
                                 navController = navController,
-                                myPublication = true
+                                publicationRefresh = {
+                                    publicationViewModel.refreshPublications()
+                                    publications.refresh()
+                                }
                             )
                         }
                     }

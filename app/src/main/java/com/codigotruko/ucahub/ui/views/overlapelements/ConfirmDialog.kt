@@ -7,14 +7,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 
 @Composable
-fun ConfirmBox(show: Boolean, onDismiss: () -> Unit) {
+fun ConfirmBox(show: Boolean, onDismiss: () -> Unit, action: () -> Unit = {}) {
 
     if (show) {
         AlertDialog(
             onDismissRequest = { onDismiss() },
             confirmButton = {
-                // TODO : Implementar acciones de borrar esta mierda.
-                TextButton(onClick = { onDismiss() }) {
+                TextButton(onClick = {
+                    onDismiss()
+                    action()
+
+                }) {
                     Text(text = "Aceptar")
                 }
             },

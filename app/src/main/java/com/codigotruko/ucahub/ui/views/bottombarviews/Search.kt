@@ -1,14 +1,12 @@
 package com.codigotruko.ucahub.ui.views.bottombarviews
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,18 +20,15 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,13 +44,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
-import com.codigotruko.ucahub.presentation.author.AuthorViewModel
-import com.codigotruko.ucahub.presentation.author.AuthorViewModelFactory
+import com.codigotruko.ucahub.presentation.author.SearchViewModel
+import com.codigotruko.ucahub.presentation.author.SearchViewModelFactory
 import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
-import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
-import com.codigotruko.ucahub.presentation.profile.ProfileViewModelFactory
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
-import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 
 @Composable
 fun SearchView (navController: NavHostController) {
@@ -66,9 +58,9 @@ fun SearchView (navController: NavHostController) {
 
     val app = context.applicationContext as UcaHubApplication
 
-    val authorViewModelFactory = AuthorViewModelFactory(app.authorRepository, app.getToken(), inputValue.value.text)
-    val authorViewModel: AuthorViewModel = viewModel(factory = authorViewModelFactory)
-    val authors = authorViewModel.authors.collectAsLazyPagingItems()
+    val searchViewModelFactory = SearchViewModelFactory(app.authorRepository, app.getToken(), inputValue.value.text)
+    val searchViewModel: SearchViewModel = viewModel(factory = searchViewModelFactory)
+    val authors = searchViewModel.authors.collectAsLazyPagingItems()
 
 
     val myProfileViewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModel.Factory)
@@ -96,7 +88,7 @@ fun SearchView (navController: NavHostController) {
                     value = inputValue.value,
                     onValueChange = {
                         inputValue.value = it
-                        authorViewModel.refreshAuthors(inputValue.value.text)
+                        searchViewModel.refreshAuthors(inputValue.value.text)
                         authors.refresh()
                                     },
                     label = { Text(text = "Buscar") },

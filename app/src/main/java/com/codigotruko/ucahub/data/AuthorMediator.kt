@@ -9,6 +9,7 @@ import androidx.room.withTransaction
 import com.codigotruko.ucahub.data.db.PublicationAppDatabase
 import com.codigotruko.ucahub.data.db.models.Author
 import com.codigotruko.ucahub.data.db.models.RemoteKey
+import com.codigotruko.ucahub.data.network.response.AuthorListResponse
 import com.codigotruko.ucahub.data.network.service.UcaHubService
 import retrofit2.HttpException
 import java.io.IOException
@@ -17,8 +18,9 @@ import java.io.IOException
 class AuthorMediator (
     private val token: String,
     private val text: String,
+    private val request: String,
     private val database: PublicationAppDatabase,
-    private val ucaHubService: UcaHubService,
+    private val ucaHubService: UcaHubService
 ): RemoteMediator<Int, Author>(){
 
     private var remoteKeyDao = database.remoteKeyDao()
@@ -47,12 +49,26 @@ class AuthorMediator (
                 }
             }
 
-            val response = ucaHubService.getUserSearch(
+            val response: AuthorListResponse? = when(request)
+            {
+                "search" -> ucaHubService.getUserSearch(
                     token,
                     state.config.pageSize,
                     loadKey,
                     text
                 )
+                "follows" -> ucaHubService.getUserFollows(
+                    token,
+                    state.config.pageSize,
+                    loadKey
+                )
+                "followers" -> ucaHubService.getUserFollowers(
+                    token,
+                    state.config.pageSize,
+                    loadKey
+                )
+                else -> null
+            }
 
 
 

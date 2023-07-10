@@ -97,8 +97,6 @@ fun MainFeedView (navController: NavHostController ) {
             item {
                 if(publications.itemCount == 0){
 
-                    Log.d("XDFEEDDDCARDDD", publications.itemCount.toString())
-
                     Card(modifier = Modifier
                         .fillMaxWidth()
                         .height(100.dp)

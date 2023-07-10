@@ -52,12 +52,16 @@ interface UcaHubApi {
     @GET("user/follows")
     suspend fun getUserFollows(
         @Header("Authorization") token: String,
-    )
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int,
+    ): AuthorListResponse
 
-    @GET("user/follows")
+    @GET("user/followers")
     suspend fun getUserFollowers(
         @Header("Authorization") token: String,
-    )
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int,
+    ): AuthorListResponse
 
     @GET("user/search")
     suspend fun getUserSearch(

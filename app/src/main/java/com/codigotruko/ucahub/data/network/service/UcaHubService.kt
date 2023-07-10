@@ -35,4 +35,12 @@ class UcaHubService {
 
     suspend fun getUserSearch(token: String, limit: Int, offset: Int, text: String) =
         service.getUserSearch("Bearer $token", offset, limit, text)
+
+    suspend fun getUserFollowers(token: String, limit: Int, offset: Int) =
+        service.getUserFollowers("Bearer $token", offset, limit)
+
+    suspend fun getUserFollows(token: String, limit: Int, offset: Int) =
+        service.getUserFollows("Bearer $token", offset, limit)
+
+
 }

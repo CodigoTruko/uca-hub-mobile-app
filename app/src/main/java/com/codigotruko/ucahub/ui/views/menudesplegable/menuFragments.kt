@@ -72,7 +72,7 @@ fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: Co
     }
 
     // Muestra los dialogos.
-    FollowingBox(showFollowingBox, { showFollowingBox = false }, {  })
+    FollowingBox(showFollowingBox, { showFollowingBox = false }, {  }, navController)
     ChangePasswordBox(showChangePassBox, { showChangePassBox = false }, {})
     LogOutBox(showLogOutBox, navController, { showLogOutBox = false })
 

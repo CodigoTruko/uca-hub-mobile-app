@@ -6,6 +6,7 @@ import android.widget.Toast
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -80,6 +83,16 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
 
     val dataProfile = profileResponse?.profile
 
+
+
+    val isLoading = remember { mutableStateOf(true) }
+
+    LaunchedEffect(profileResponse) {
+        if (profileResponse != null) {
+            isLoading.value = false
+        }
+    }
+
     var faculty = "Facultad no asignada"
     var carrer = "Carrera no asignada"
 
@@ -104,8 +117,6 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
         author?.username  == username
     }
 
-
-
     val context = LocalContext.current
     LaunchedEffect(key1 = publications.loadState) {
         if(publications.loadState.refresh is LoadState.Error) {
@@ -117,106 +128,132 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
         }
     }
 
+    if(isLoading.value){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    }
+    else{
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = mainBackground)
+        ){
+            item{
 
+                ImageUCAHUB()
 
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = mainBackground)
-            ){
-                item{
-
-                    ImageUCAHUB()
-
-                    stateFollow = if ((resultAuthor != null) && (resultAuthor.username == username)) {
-                        "Siguiendo"
-                    } else {
-                        "Seguir"
-                    }
-                    ButtonNormalFragment(true, textValue = stateFollow) {
-                        scope.launch {
-                            if (username != null) {
-                                app.changeStateFollow(username)
-                                myFollowsViewModel.refreshAuthors()
-                                myFollows.refresh()
-                            }
-                        }
-                    }
-
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(15.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
+                stateFollow = if ((resultAuthor != null) && (resultAuthor.username == username)) {
+                    "Siguiendo"
+                } else {
+                    "Seguir"
+                }
+                ButtonNormalFragment(true, textValue = stateFollow) {
+                    scope.launch {
                         if (username != null) {
-                            Text(
-                                text = username,
-                                fontSize = 30.sp,
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            )
-                        }
-
-                        TextProfileFragment(name = "Nombre", value = name)
-
-                        TextProfileFragment(name = "Carnet", value = carnet)
-
-                        TextProfileFragment(name = "Facultad", value = faculty)
-
-                        TextProfileFragment(name = "Carrera", value = carrer)
-
-                        TextProfileFragment(name = "Descripción", value = description)
-
-                    }
-
-                    Button(
-                        onClick = {/* TODO : Hacer on click para buscar en perfil. */},
-                        colors = ButtonDefaults.buttonColors(blueBackground),
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier
-                            .padding(vertical = 16.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.search_icon),
-                            tint = Color.White,
-                            contentDescription = "Icono buscar."
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(text = "Buscar en el perfil")
-                    }
-
-                    Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
-                }
-                items(publications){ publication ->
-                    if(publications.loadState.refresh is LoadState.Loading) {
-                        CircularProgressIndicator(
-                        )
-                    }
-                    else{
-                        if (publication != null) {
-                            PublicationItem(
-                                publication = publication,
-                                navController = navController,
-                                publicationRefresh = {
-                                    publicationViewModel.refreshPublications()
-                                    publications.refresh()
-                                }
-                            )
+                            app.changeStateFollow(username)
+                            myFollowsViewModel.refreshAuthors()
+                            myFollows.refresh()
                         }
                     }
                 }
-                item {
-                    if(publications.loadState.append is LoadState.Loading) {
-                        CircularProgressIndicator()
-                    }
-                    Spacer(modifier = Modifier
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .height(60.dp))
+                        .padding(16.dp)
+                ) {
+                    if (username != null) {
+                        Text(
+                            text = username,
+                            fontSize = 30.sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                    }
+
+                    TextProfileFragment(name = "Nombre", value = name)
+
+                    TextProfileFragment(name = "Carnet", value = carnet)
+
+                    TextProfileFragment(name = "Facultad", value = faculty)
+
+                    TextProfileFragment(name = "Carrera", value = carrer)
+
+                    TextProfileFragment(name = "Descripción", value = description)
+
+                }
+
+                Button(
+                    onClick = {/* TODO : Hacer on click para buscar en perfil. */},
+                    colors = ButtonDefaults.buttonColors(blueBackground),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search_icon),
+                        tint = Color.White,
+                        contentDescription = "Icono buscar."
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(text = "Buscar en el perfil")
+                }
+
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp))
+            }
+            item {
+                if(publications.loadState.refresh is LoadState.NotLoading && publications.itemCount == 0){
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                    ) {
+                        Text(
+                            text = "Sin publicaciones aún.",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 25.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .align(alignment = Alignment.Center)
+                        )
+                    }
                 }
             }
+            items(publications){publication ->
+                if(publications.loadState.refresh is LoadState.Loading) {
+                    CircularProgressIndicator(
+                    )
+                }
+                else{
+                    if (publication != null) {
+                        PublicationItem(
+                            publication = publication,
+                            navController = navController,
+                            publicationRefresh = {
+                                publicationViewModel.refreshPublications()
+                                publications.refresh()
+                            }
+                        )
+                    }
+                }
+
+            }
+            item {
+                if(publications.loadState.append is LoadState.Loading) {
+                    CircularProgressIndicator()
+                }
+
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp))
+            }
+        }
+    }
 
 }

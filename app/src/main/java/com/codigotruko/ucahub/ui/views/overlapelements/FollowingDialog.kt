@@ -144,13 +144,6 @@ fun FollowingBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit, na
                                 )
                             }
                         }
-                        else{
-
-                        }
-
-                    }
-                    item {
-
                     }
                     item {
                         if(myFollows.loadState.append is LoadState.Loading) {

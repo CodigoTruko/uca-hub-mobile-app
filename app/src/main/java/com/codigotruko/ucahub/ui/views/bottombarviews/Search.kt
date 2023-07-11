@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -111,26 +112,39 @@ fun SearchView (navController: NavHostController) {
                     .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-            items(authors){author ->
-                if(authors.loadState.refresh is LoadState.Loading) {
+            item{
+                if(authors.loadState.refresh is LoadState.Loading){
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
                 else{
+                    if(authors.itemCount == 0){
+                        Text(
+                            text = "No se han encontrado resultados.",
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        )
+                    }
+                }
+            }
+            items(authors){author ->
+                if(authors.loadState.refresh is LoadState.NotLoading) {
                     if (author != null) {
                         if(myProfile?.profile?.username != author.username)
                             SearchCard(navController, author.username)
                     }
                 }
+
             }
             item {
                 if(authors.loadState.append is LoadState.Loading) {
                     CircularProgressIndicator()
                 }
-            }
-            item {
-
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp))

@@ -89,7 +89,7 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                     .fillMaxWidth()
                     .clickable {
                         if (author != null) {
-                            if(myProfile?.profile?.username != author)
+                            if (myProfile?.profile?.username != author)
                                 navController.navigate("anotherUser_profile/$author")
                             else
                                 navController.navigate("profile_route")
@@ -161,12 +161,22 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
+                Text(text = publication.likes.toString(),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(horizontal = 16.dp))
+
                 Icon(painter = painterResource(id = R.drawable.heart_icon),
-                    contentDescription = "Icono Comentario",
+                    contentDescription = "Icono Like",
                     modifier = Modifier
                         .width(26.dp)
                         .height(40.dp))
                 Spacer(modifier = Modifier.width(50.dp))
+
+                Text(text = publication.comments.toString(),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(horizontal = 16.dp))
 
                 IconButton(onClick = { show = true }) {
                     Icon(painter = painterResource(id = R.drawable.comments_icon),
@@ -177,11 +187,20 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                 }
 
                 Spacer(modifier = Modifier.width(50.dp))
-                Icon(painter = painterResource(id = R.drawable.bookmark_icon),
-                    contentDescription = "Icono BookMark",
-                    modifier = Modifier
-                        .width(40.dp)
-                        .height(40.dp))
+                if (1==1){
+                    Icon(painter = painterResource(id = R.drawable.bookmark_icon),
+                        contentDescription = "Icono BookMark",
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp))
+                }
+                else{
+                    Icon(painter = painterResource(id = R.drawable.send_icon),
+                        contentDescription = "Icono BookMark",
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp))
+                }
             }
         }
     }

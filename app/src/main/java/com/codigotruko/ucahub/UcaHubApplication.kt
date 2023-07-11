@@ -49,6 +49,13 @@ class UcaHubApplication : Application(){
     suspend fun deletePublication(id: String){
         ucaHubService.deletePublication(getToken(), id)
     }
+    suspend fun updatePublication(id: String, title: String, description: String){
+        ucaHubService.updatePublication(getToken(), id, title, description)
+    }
+    suspend fun changeProfileInfo(name: String, carnet: String, username: String, email: String, program: String, description: String, image: String ){
+        ucaHubService.changeProfileInfo(getToken(), name, carnet, username, email, program, description, image)
+    }
+
 
     private val prefs: SharedPreferences by lazy {
         getSharedPreferences("Retrofit", Context.MODE_PRIVATE)

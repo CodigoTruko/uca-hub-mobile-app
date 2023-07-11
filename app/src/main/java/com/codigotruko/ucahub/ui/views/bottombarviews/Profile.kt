@@ -3,6 +3,7 @@ package com.codigotruko.ucahub.ui.views.bottombarviews
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -65,6 +67,7 @@ fun ProfileView(navController: NavHostController){
     var carnet = profile?.profile?.carnet ?: ""
     var description = profile?.profile?.description  ?: ""
 
+
     var faculty = "Facultad no asignada"
     var carrer = "Carrera no asignada"
 
@@ -81,6 +84,16 @@ fun ProfileView(navController: NavHostController){
     val publications = publicationViewModel.publications.collectAsLazyPagingItems()
 
     val context = LocalContext.current
+
+
+    val isLoading = remember { mutableStateOf(true) }
+
+    LaunchedEffect(profile) {
+        if (profile != null) {
+            isLoading.value = false
+        }
+    }
+
     LaunchedEffect(key1 = publications.loadState) {
         if(publications.loadState.refresh is LoadState.Error) {
             Toast.makeText(
@@ -91,34 +104,43 @@ fun ProfileView(navController: NavHostController){
         }
     }
 
+
+
     var showProfileBox by rememberSaveable{ mutableStateOf(false) }
 
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = mainBackground)
-    ){
-        item{
 
-            ImageUCAHUB()
+    if(isLoading.value){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    }
+    else{
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = mainBackground)
+        ){
+            item{
 
-            Button(onClick = { showProfileBox = true },
-                colors = ButtonDefaults.buttonColors(blueBackground),
-                shape = RoundedCornerShape(8.dp)) {
-                Icon(painter = painterResource(id = R.drawable.edit_icon),
-                    tint = Color.White,
-                    contentDescription = "Icono editar perfil.")
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Editar", fontSize = 18.sp)
-            }
+                ImageUCAHUB()
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(15.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
+                Button(onClick = { showProfileBox = true },
+                    colors = ButtonDefaults.buttonColors(blueBackground),
+                    shape = RoundedCornerShape(8.dp)) {
+                    Icon(painter = painterResource(id = R.drawable.edit_icon),
+                        tint = Color.White,
+                        contentDescription = "Icono editar perfil.")
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(text = "Editar", fontSize = 18.sp)
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
                     Text(
                         text = username,
                         fontSize = 30.sp,
@@ -128,70 +150,101 @@ fun ProfileView(navController: NavHostController){
                             .fillMaxWidth()
                     )
 
-                TextProfileFragment(name = "Nombre", value = name)
+                    TextProfileFragment(name = "Nombre", value = name)
 
-                TextProfileFragment(name = "Carnet", value = carnet)
+                    TextProfileFragment(name = "Carnet", value = carnet)
 
-                TextProfileFragment(name = "Facultad", value = faculty)
+                    TextProfileFragment(name = "Facultad", value = faculty)
 
-                TextProfileFragment(name = "Carrera", value = carrer)
+                    TextProfileFragment(name = "Carrera", value = carrer)
 
-                TextProfileFragment(name = "Descripción", value = description)
+                    TextProfileFragment(name = "Descripción", value = description)
 
-            }
+                }
 
-            Button(
-                onClick = {/* TODO : Hacer on click para buscar en perfil. */},
-                colors = ButtonDefaults.buttonColors(blueBackground),
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier
-                    .padding(vertical = 16.dp)
-            ) {
-                androidx.compose.material.Icon(
-                    painter = painterResource(id = R.drawable.search_icon),
-                    tint = Color.White,
-                    contentDescription = "Icono buscar."
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(text = "Buscar en el perfil")
-            }
-
-        }
-        items(publications){ publication ->
-            if(publications.loadState.refresh is LoadState.Loading) {
-                CircularProgressIndicator(
-                )
-            }
-            else{
-                if (publication != null) {
-                    PublicationItem(
-                        publication = publication,
-                        navController = navController,
-                        publicationRefresh = {
-                            publicationViewModel.refreshPublications()
-                            publications.refresh()
-                        }
+                Button(
+                    onClick = {/* TODO : Hacer on click para buscar en perfil. */},
+                    colors = ButtonDefaults.buttonColors(blueBackground),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                ) {
+                    androidx.compose.material.Icon(
+                        painter = painterResource(id = R.drawable.search_icon),
+                        tint = Color.White,
+                        contentDescription = "Icono buscar."
                     )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(text = "Buscar en el perfil")
+                }
+
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp))
+            }
+            item {
+                if(publications.loadState.refresh is LoadState.NotLoading && publications.itemCount == 0){
+
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                    ) {
+                        Text(
+                            text = "Mmm... Creo que vendria bien publicar algo.",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 25.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .align(alignment = Alignment.Center)
+                        )
+                    }
                 }
             }
-        }
-        item {
-            if(publications.loadState.append is LoadState.Loading) {
-                CircularProgressIndicator()
+            items(publications){ publication ->
+                if(publications.loadState.refresh is LoadState.Loading) {
+                    CircularProgressIndicator(
+                    )
+                }
+                else{
+                    if (publication != null) {
+                        PublicationItem(
+                            publication = publication,
+                            navController = navController,
+                            publicationRefresh = {
+                                publicationViewModel.refreshPublications()
+                                publications.refresh()
+                            }
+                        )
+                    }
+                }
             }
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp))
+            item {
+                if(publications.loadState.append is LoadState.Loading) {
+                    CircularProgressIndicator()
+                }
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp))
+            }
+
         }
+        profile?.profile?.let { EditProfileBox(showProfileBox, { showProfileBox = false }, profile = it, onConfirm = {
+            profileViewModel.refreshProfile()
+            navController.navigate("profile_route")
+
+        }) }
+
+        FloatingButton(false, "profile",
+            action = {
+                publicationViewModel.refreshPublications()
+                publications.refresh()
+            }
+        )
 
     }
-    EditProfileBox(showProfileBox, { showProfileBox = false }, {  })
 
-    FloatingButton(false, "profile",
-    action = {
-        publicationViewModel.refreshPublications()
-        publications.refresh()
-    })
+
+
 
 
 

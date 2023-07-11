@@ -90,10 +90,56 @@ interface UcaHubApi {
         @Body requestBody: PublicationRequestBody
     )
 
-
     @DELETE("event/{id}")
     suspend fun deletePublication(
         @Header("Authorization") token: String,
         @Path("id") id: String
     )
+    data class ProfileRequestBody(val name: String, val carnet: String, val username: String, val email: String, val program: String, val description: String, val image: String )
+    @PATCH("user")
+    suspend fun changeProfileInfo(
+        @Header("Authorization") token: String,
+        @Body requestBody: ProfileRequestBody
+    )
+
+    @PATCH("event/{id}")
+    suspend fun updatePublication(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body requestBody: PublicationRequestBody
+    )
+
+    @GET("event/likes/{id}")
+    suspend fun getPublicationLikes(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    )
+
+    @PATCH("event/like/{id}")
+    suspend fun changeStatePublicationLike(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    )
+
+    @GET("event/comment/{id}")
+    suspend fun getPublicationComments(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    )
+
+    @POST("event/comment/{id}")
+    suspend fun createPublicationComment(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body message: String
+    )
+
+    @DELETE("event/comment")
+    suspend fun deletePublicationComment(
+        @Header("Authorization") token: String,
+        @Query("event") idEvent: String,
+        @Query("comment") idComment: String
+    )
+
+
 }

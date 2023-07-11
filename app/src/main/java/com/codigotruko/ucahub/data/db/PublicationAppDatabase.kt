@@ -12,7 +12,7 @@ import com.codigotruko.ucahub.data.db.models.Author
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.data.db.models.RemoteKey
 
-@Database(entities = [Publication::class, Author::class, RemoteKey::class], version = 3, exportSchema = false)
+@Database(entities = [Publication::class, Author::class, RemoteKey::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class PublicationAppDatabase : RoomDatabase() {
     abstract fun publicationDao(): PublicationDao

@@ -36,6 +36,7 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.presentation.ComunityItem
 import com.codigotruko.ucahub.presentation.publication.PublicationListViewModel
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
+import com.codigotruko.ucahub.ui.views.fragments.ButtonNormalFragment
 import com.codigotruko.ucahub.ui.views.fragments.FloatingButton
 import com.codigotruko.ucahub.ui.views.publication.PublicationItem
 import kotlinx.coroutines.delay
@@ -66,6 +67,39 @@ fun MainFeedView (navController: NavHostController ) {
             item {
                 ComunityItem(navController = navController)
             }
+            item {
+                if(publications.loadState.refresh is LoadState.NotLoading && publications.itemCount == 0){
+
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Spacer(modifier = Modifier.width(20.dp))
+                            Text(
+                                text = "¡Vaya!, un poco solo por aqui." +
+                                        " Sigue a alguien para ver novedades",
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 25.sp,
+                                textAlign = TextAlign.Center
+                            )
+
+
+                        }
+
+
+
+                    }
+                    ButtonNormalFragment(buttonEnabled = true, textValue = "Buscar personas", onclick = {                            navController.navigate("search_route")
+                        navController.navigate("search_route")
+                    })
+                }
+            }
             items(publications){publication ->
                 if(publications.loadState.refresh is LoadState.Loading) {
                     CircularProgressIndicator(
@@ -90,39 +124,12 @@ fun MainFeedView (navController: NavHostController ) {
                 if(publications.loadState.append is LoadState.Loading) {
                     CircularProgressIndicator()
                 }
+
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp))
             }
-            item {
-                if(publications.itemCount == 0){
 
-                    Card(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .clickable {
-                            navController.navigate("search_route")
-                        },
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Spacer(modifier = Modifier.width(20.dp))
-                            Text(
-                                text = "¡Vaya!, un poco solo por aqui." +
-                                        " Sigue a alguien para ver novedades",
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 25.sp,
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    }
-                }
-            }
         }
 
         FloatingButton(false, "feed",

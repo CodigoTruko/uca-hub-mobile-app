@@ -54,8 +54,6 @@ class PublicationProfileMediator (
                 )
 
 
-
-
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     publicationDao.clearAll()

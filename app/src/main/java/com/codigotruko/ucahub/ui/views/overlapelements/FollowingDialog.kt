@@ -68,8 +68,6 @@ fun FollowingBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit, na
         val feedPublicationViewModel: PublicationListViewModel = viewModel(factory = PublicationListViewModel.Factory)
         val feedPublications = feedPublicationViewModel.feedPublications.collectAsLazyPagingItems()
 
-        var isCircularProgressShown by remember { mutableStateOf(false) }
-
         LaunchedEffect(key1 = myFollows.loadState) {
             if(myFollows.loadState.refresh is LoadState.Error) {
                 Toast.makeText(
@@ -144,13 +142,6 @@ fun FollowingBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit, na
                                 )
                             }
                         }
-                        else{
-
-                        }
-
-                    }
-                    item {
-
                     }
                     item {
                         if(myFollows.loadState.append is LoadState.Loading) {

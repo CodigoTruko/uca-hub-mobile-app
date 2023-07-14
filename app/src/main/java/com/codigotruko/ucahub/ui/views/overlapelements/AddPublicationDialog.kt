@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,9 +31,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.data.db.models.Publication
+import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
 import com.codigotruko.ucahub.ui.theme.disabledBlueBackground
@@ -42,10 +45,24 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication: Boolean, publication: Publication?, _aux: Boolean, placeRoute: String, action: () -> Unit = {}){
+fun AddEditPublicationBox (
+    show: Boolean,
+    onDismiss: () -> Unit,
+    addPublication: Boolean,
+    publication: Publication?,
+    _aux: Boolean,
+    placeRoute: String,
+    action: () -> Unit = {},
+)
+{
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
     val scope = CoroutineScope(Dispatchers.Main)
+
+    val profileViewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModel.Factory)
+    val profile by profileViewModel.myProfileResponse.collectAsState()
+
+    val author = profile?.profile?.username
 
     // Variables de los EditText.
     val publicationTitleInput = remember { mutableStateOf("") }
@@ -60,6 +77,7 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
 
     val isEnabledEditTittle = remember { mutableStateOf(true) }
     val isEnabledEditDesc = remember { mutableStateOf(true) }
+
 
     if (show) {
         Dialog(onDismissRequest = { onDismiss() }) {
@@ -91,12 +109,13 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                             modifier = Modifier.width(25.dp)
                         )
                         Spacer(modifier = Modifier.width(10.dp))
-                        // TODO : Adaptar una variable para el nombre de usuario.
-                        androidx.compose.material.Text(
-                            text = "Nombre de usuario",
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 17.sp
-                        )
+                        if (author != null) {
+                            Text(
+                                text = author,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 17.sp
+                            )
+                        }
                     }
 
                     if (addPublication) {
@@ -204,7 +223,16 @@ fun AddEditPublicationBox (show: Boolean, onDismiss: () -> Unit, addPublication:
                         } else {
                             Button(
                                 onClick = {
-                                    // Todo : Implementar PATCH para editar.
+                                    scope.launch {
+                                        publication?._id?.let {
+                                            app.updatePublication(
+                                                it,
+                                                publicationTitleInput.value,
+                                                publicationDescInput.value
+                                            )
+                                        }
+                                    }
+                                    action()
                                     onDismiss()
                                 },
                                 enabled = (isEnabledEditTittle.value && isEnabledEditDesc.value),

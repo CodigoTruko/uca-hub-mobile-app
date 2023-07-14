@@ -27,6 +27,13 @@ class MyProfileViewModel (private val profileRepository: ProfileRepository, priv
         }
     }
 
+    fun refreshProfile(){
+        viewModelScope.launch {
+            _myProfileResponse.value = profileRepository.getMyProfile(token)
+
+        }
+    }
+
     companion object {
         val Factory = viewModelFactory {
             initializer {

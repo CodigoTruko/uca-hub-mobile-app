@@ -6,17 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.codigotruko.ucahub.data.db.dao.AuthorDao
+import com.codigotruko.ucahub.data.db.dao.CommentDao
 import com.codigotruko.ucahub.data.db.dao.PublicationDao
 import com.codigotruko.ucahub.data.db.dao.RemoteKeyDao
 import com.codigotruko.ucahub.data.db.models.Author
+import com.codigotruko.ucahub.data.db.models.Comment
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.data.db.models.RemoteKey
 
-@Database(entities = [Publication::class, Author::class, RemoteKey::class], version = 3, exportSchema = false)
+@Database(entities = [Publication::class, Author::class, Comment::class, RemoteKey::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class PublicationAppDatabase : RoomDatabase() {
     abstract fun publicationDao(): PublicationDao
     abstract fun authorDao(): AuthorDao
+    abstract fun commentDao(): CommentDao
     abstract fun remoteKeyDao(): RemoteKeyDao
 
     companion object {

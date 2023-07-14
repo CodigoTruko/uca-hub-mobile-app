@@ -3,6 +3,8 @@ package com.codigotruko.ucahub.data.network.service
 import com.codigotruko.ucahub.data.db.models.Profile
 import com.codigotruko.ucahub.data.db.models.ProfileResponse
 import com.codigotruko.ucahub.data.network.response.AuthorListResponse
+import com.codigotruko.ucahub.data.network.response.CommentListResponse
+import com.codigotruko.ucahub.data.network.response.LikeResponse
 import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -90,10 +92,64 @@ interface UcaHubApi {
         @Body requestBody: PublicationRequestBody
     )
 
-
     @DELETE("event/{id}")
     suspend fun deletePublication(
         @Header("Authorization") token: String,
         @Path("id") id: String
     )
+    data class ProfileRequestBody(val name: String, val carnet: String, val username: String, val email: String, val program: String, val description: String, val image: String )
+    @PATCH("user")
+    suspend fun changeProfileInfo(
+        @Header("Authorization") token: String,
+        @Body requestBody: ProfileRequestBody
+    )
+
+    @PATCH("event/{id}")
+    suspend fun updatePublication(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body requestBody: PublicationRequestBody
+    )
+
+    @GET("event/likes/{id}")
+    suspend fun getPublicationLikes(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int
+    ): AuthorListResponse
+
+
+    @PATCH("event/like/{id}")
+    suspend fun changeStatePublicationLike(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    ): LikeResponse
+
+
+    @GET("event/comment/{id}")
+    suspend fun getPublicationComments(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int
+    ): CommentListResponse
+
+    data class messageBody(val message: String)
+
+    @POST("event/comment/{id}")
+    suspend fun createPublicationComment(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body requestBody: messageBody
+    )
+
+    @DELETE("event/comment")
+    suspend fun deletePublicationComment(
+        @Header("Authorization") token: String,
+        @Query("event") idEvent: String,
+        @Query("comment") idComment: String
+    )
+
+
 }

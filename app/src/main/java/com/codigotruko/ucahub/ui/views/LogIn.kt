@@ -64,7 +64,7 @@ fun LogInView(navController: NavHostController, saveSesion: MutableState<Boolean
     // Check box para remember login.
     val checked = remember { mutableStateOf(false) }
 
-    status?.let { HandleUiStatus(it, app, navController) }
+    status?.let { HandleUiStatus(it, app, navController, email) }
 
     LazyColumn(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -171,7 +171,7 @@ fun TxtFieldLogIn() {
     }
 }
 @Composable
-private fun HandleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navController: NavHostController) {
+private fun HandleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navController: NavHostController, username: String) {
 
     when (status) {
         is LoginUiStatus.Error -> {
@@ -186,8 +186,7 @@ private fun HandleUiStatus(status: LoginUiStatus, app: UcaHubApplication, navCon
             val loginViewModel: LoginViewModel = viewModel()
             loginViewModel.clearStatus()
             loginViewModel.clearData()
-            app.saveAuthToken(status.token)
-            Log.d("TOKEN", app.getToken())
+            app.saveAuthToken(status.token, username)
 
             navController.navigate("mainfeed") {
                 popUpTo("login") { inclusive = true }

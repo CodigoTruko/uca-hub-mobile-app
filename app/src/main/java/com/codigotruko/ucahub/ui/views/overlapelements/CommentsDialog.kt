@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,13 +29,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.data.db.models.Author
+import com.codigotruko.ucahub.data.db.models.Comment
 import com.codigotruko.ucahub.ui.theme.commentBackground
 import com.codigotruko.ucahub.ui.theme.darkWhiteBackground
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit, comments: Flow<PagingData<Comment>>, publicationid: String) {
+
+    val comments = comments.collectAsLazyPagingItems()
+    val app = LocalContext.current.applicationContext as UcaHubApplication
+    val scope = CoroutineScope(Dispatchers.Main)
 
     if (show) {
         val inputValue = remember { mutableStateOf(TextFieldValue()) }
@@ -42,7 +57,9 @@ fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
         Dialog(onDismissRequest = { onDismiss() }) {
                 Card(
                     colors = CardDefaults.cardColors(darkWhiteBackground),
-                    modifier = Modifier.height(600.dp).width(450.dp)
+                    modifier = Modifier
+                        .height(600.dp)
+                        .width(450.dp)
                 ) {
                     Text(
                         text = "Comentarios",
@@ -58,40 +75,9 @@ fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
                             .fillMaxWidth()
                             .height(490.dp)
                     ) {
-                        item {
-
-                            Card(
-                                colors = CardDefaults.cardColors(commentBackground),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(80.dp)
-                                    .padding(4.dp)
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight(0.6f)
-                                        .padding(4.dp)
-                                ) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.imagen_perfil_prueba),
-                                        contentDescription = "Imagen de perfil",
-                                        modifier = Modifier.width(25.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(10.dp))
-                                    // TODO : Adaptar una variable para el nombre de usuario.
-                                    Text(
-                                        text = "Nombre de usuario",
-                                        fontWeight = FontWeight.SemiBold,
-                                        fontSize = 17.sp
-                                    )
-                                }
-                                // TODO : Adaptar una variable para el comentario del usuario.
-                                Text(
-                                    text = "Comentario del usuariooooooo",
-                                    modifier = Modifier.padding(horizontal = 24.dp)
-                                )
+                        items(comments) {comment ->
+                            if (comment != null) {
+                                commentItem(comment)
                             }
 
                         }
@@ -108,7 +94,12 @@ fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
                                 )
                             },
                             leadingIcon = {
-                                IconButton(onClick = { onConfirm() }) {
+                                IconButton(onClick = {
+                                    scope.launch {
+                                        app.createComment(publicationid, inputValue.value.text)
+                                    }
+                                    onConfirm()
+                                }) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.send_icon),
                                         contentDescription = "Icono Send"
@@ -123,5 +114,40 @@ fun CommentsBox(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
 
                 }
         }
+    }
+}
+
+@Composable
+fun commentItem(comment: Comment){
+    Card(
+        colors = CardDefaults.cardColors(commentBackground),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .padding(4.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.6f)
+                .padding(4.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.imagen_perfil_prueba),
+                contentDescription = "Imagen de perfil",
+                modifier = Modifier.width(25.dp)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                text = comment.author[0].username,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 17.sp
+            )
+        }
+        Text(
+            text =  comment.message,
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
     }
 }

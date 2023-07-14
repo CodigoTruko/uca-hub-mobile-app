@@ -106,7 +106,6 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun SetStatusBarColor(currentRoute: String?) {
-        Log.d("StatusBarColor", "Current route: $currentRoute")
         val statusBarColor = getColorForRoute(currentRoute)
 
         LaunchedEffect(statusBarColor) {

@@ -45,6 +45,8 @@ import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
 import com.codigotruko.ucahub.presentation.author.FollowsViewModel
 import com.codigotruko.ucahub.presentation.author.FollowsViewModelFactory
+import com.codigotruko.ucahub.presentation.author.LikesListViewModel
+import com.codigotruko.ucahub.presentation.author.LikesListViewModelFactory
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModel
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.presentation.profile.ProfileViewModelFactory
@@ -65,7 +67,8 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
 
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
-
+    val likesViewModelFactory = LikesListViewModelFactory(app.authorRepository, app.getToken())
+    val likesViewModel: LikesListViewModel = viewModel(factory = likesViewModelFactory)
 
 
     val profileViewModelFactory = ProfileViewModelFactory(app.profileRepository, app.getToken(), userIdentifier)
@@ -209,37 +212,47 @@ fun ProfileUserView(navController: NavHostController, userIdentifier: String){
                     .height(30.dp))
             }
             item {
-                if(publications.loadState.refresh is LoadState.NotLoading && publications.itemCount == 0){
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                    ) {
-                        Text(
-                            text = "Sin publicaciones aún.",
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 25.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .align(alignment = Alignment.Center)
-                        )
-                    }
-                }
-            }
-            items(publications){publication ->
-                if(publications.loadState.refresh is LoadState.Loading) {
+                if(publications.loadState.refresh is LoadState.Loading){
                     CircularProgressIndicator(
                     )
                 }
                 else{
+                    if(publications.itemCount == 0){
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                        ) {
+                            Text(
+                                text = "Sin publicaciones aún.",
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 25.sp,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.Center)
+                            )
+                        }
+                    }
+                }
+            }
+            items(publications){publication ->
+                if(publications.loadState.refresh is LoadState.NotLoading) {
                     if (publication != null) {
-                        PublicationItem(
-                            publication = publication,
-                            navController = navController,
-                            publicationRefresh = {
-                                publicationViewModel.refreshPublications()
-                                publications.refresh()
-                            }
-                        )
+
+                            PublicationItem(
+                                publication = publication,
+                                navController = navController,
+                                publicationRefresh = {
+                                    publicationViewModel.refreshPublications()
+                                    publications.refresh()
+                                },
+                                onLiked = {
+                                    scope.launch {
+                                        publicationViewModel.changeLikeState(publication._id)
+                                    }
+                                },
+                                comments = publicationViewModel.getComments(publication._id)
+
+                            )
                     }
                 }
 

@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.data.network.service
 
+import com.codigotruko.ucahub.data.network.response.LikeResponse
 import com.codigotruko.ucahub.data.network.retrofit.RetrofitInstance
 
 const val BASE_URL = "https://ucahub.tech/"
@@ -48,5 +49,17 @@ class UcaHubService {
     suspend fun getUserFollows(token: String, limit: Int, offset: Int) =
         service.getUserFollows("Bearer $token", offset, limit)
 
+    suspend fun getPublicationLikes(token: String, id: String, limit: Int, offset: Int) =
+        service.getPublicationLikes("Bearer $token", id, offset, limit)
+    suspend fun changeStatePublicationLike(token: String, id: String): LikeResponse {
+        return service.changeStatePublicationLike("Bearer $token", id)
+
+    }
+
+    suspend fun getPublicationComments(token: String, id: String, limit: Int, offset: Int) =
+        service.getPublicationComments("Bearer $token", id, offset, limit)
+
+    suspend fun createPublicationComment(token: String, id: String, message: String) =
+        service.createPublicationComment("Bearer $token", id, UcaHubApi.messageBody(message))
 
 }

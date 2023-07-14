@@ -24,4 +24,6 @@ data class Publication (
     @SerializedName("comments") var comments: Int,
 
     //@SerializedName("url") var image: String
-        )
+        ) {
+    var isLiked: Boolean = false
+}

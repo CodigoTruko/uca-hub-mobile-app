@@ -1,5 +1,6 @@
 package com.codigotruko.ucahub.ui.views.publication
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,8 +32,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.data.db.models.Author
+import com.codigotruko.ucahub.data.db.models.Comment
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
 
@@ -42,10 +47,11 @@ import com.codigotruko.ucahub.ui.views.overlapelements.CommentsBox
 import com.codigotruko.ucahub.ui.views.overlapelements.ConfirmBox
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @Composable
-fun PublicationItem(publication: Publication, navController: NavHostController, publicationRefresh: () -> Unit = {}) {
+fun PublicationItem(publication: Publication, navController: NavHostController, publicationRefresh: () -> Unit = {}, likes: Flow<PagingData<Author>>? = null, onLiked: ()->Unit, comments: Flow<PagingData<Comment>>) {
 
     val app = LocalContext.current.applicationContext as UcaHubApplication
     val scope = CoroutineScope(Dispatchers.Main)
@@ -61,10 +67,10 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
     val myProfile by myProfileViewModel.myProfileResponse.collectAsState()
 
 
+
     var userIdentifier = publication.author
 
     var author: String? = null
-
 
     if (userIdentifier != null){
         if (userIdentifier.isNotEmpty()) {
@@ -72,6 +78,7 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
         }
     }
 
+    var stateLike = publication.isLiked
 
     Card(
         colors = CardDefaults.cardColors(darkWhiteBackground),
@@ -143,14 +150,14 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(24.dp))
-
+            /*
             Image(painter = painterResource(id = R.drawable.publicacion_prueba) ,
                 contentDescription = "Imagen de Publicación",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
                     .padding(horizontal = 16.dp))
-
+             */
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(4.dp))
@@ -166,11 +173,26 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(horizontal = 16.dp))
 
-                Icon(painter = painterResource(id = R.drawable.heart_icon),
-                    contentDescription = "Icono Like",
-                    modifier = Modifier
-                        .width(26.dp)
-                        .height(40.dp))
+                Log.d("LIKES:", likes?.collectAsLazyPagingItems()?.itemCount.toString())
+                IconButton(
+                    onClick = {
+
+                        onLiked()
+                        publicationRefresh()
+
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = if (stateLike) R.drawable.send_icon else R.drawable.heart_icon),
+                        contentDescription = if (stateLike) "Icono Unlike" else "Icono Like",
+                        modifier = Modifier
+                            .width(26.dp)
+                            .height(40.dp)
+                    )
+                }
+
+
+
                 Spacer(modifier = Modifier.width(50.dp))
 
                 Text(text = publication.comments.toString(),
@@ -205,7 +227,13 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
         }
     }
     // Muestra la views de comentarios.
-    CommentsBox(show, { show = false }, { show = false })
+    CommentsBox(
+        show,
+        { show = false },
+        {
+            show = false
+            publicationRefresh()
+        }, comments, publication._id)
     ConfirmBox(
         showConfirmBox,
         { showConfirmBox = false },

@@ -3,6 +3,8 @@ package com.codigotruko.ucahub.data.network.service
 import com.codigotruko.ucahub.data.db.models.Profile
 import com.codigotruko.ucahub.data.db.models.ProfileResponse
 import com.codigotruko.ucahub.data.network.response.AuthorListResponse
+import com.codigotruko.ucahub.data.network.response.CommentListResponse
+import com.codigotruko.ucahub.data.network.response.LikeResponse
 import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -113,25 +115,33 @@ interface UcaHubApi {
     suspend fun getPublicationLikes(
         @Header("Authorization") token: String,
         @Path("id") id: String,
-    )
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int
+    ): AuthorListResponse
+
 
     @PATCH("event/like/{id}")
     suspend fun changeStatePublicationLike(
         @Header("Authorization") token: String,
         @Path("id") id: String,
-    )
+    ): LikeResponse
+
 
     @GET("event/comment/{id}")
     suspend fun getPublicationComments(
         @Header("Authorization") token: String,
         @Path("id") id: String,
-    )
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int
+    ): CommentListResponse
+
+    data class messageBody(val message: String)
 
     @POST("event/comment/{id}")
     suspend fun createPublicationComment(
         @Header("Authorization") token: String,
         @Path("id") id: String,
-        @Body message: String
+        @Body requestBody: messageBody
     )
 
     @DELETE("event/comment")

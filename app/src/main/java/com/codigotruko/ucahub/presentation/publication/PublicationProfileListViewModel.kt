@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
+import com.codigotruko.ucahub.data.db.models.Comment
 import com.codigotruko.ucahub.repository.ProfileRepository
 import com.codigotruko.ucahub.data.db.models.ProfileResponse
 import com.codigotruko.ucahub.data.db.models.Publication
@@ -24,6 +25,7 @@ class PublicationProfileListViewModel (private val publicationRepository: Public
     var publications: Flow<PagingData<Publication>> = _publications.flatMapLatest { it }
 
 
+
     init {
         viewModelScope.launch {
             val initialMyPublications =
@@ -31,6 +33,19 @@ class PublicationProfileListViewModel (private val publicationRepository: Public
             publications = initialMyPublications
         }
     }
+
+    suspend fun changeLikeState(idPublication: String) {
+        publicationRepository.changeLikeState(token, idPublication)
+    }
+
+    suspend fun createComment(idPublication: String, message: String){
+        publicationRepository.createComment(token, idPublication, message)
+    }
+
+    fun getComments(idPublication: String): Flow<PagingData<Comment>>{
+        return publicationRepository.getCommentPage(100, token, idPublication)
+    }
+
 
     fun refreshPublications() {
         viewModelScope.launch {

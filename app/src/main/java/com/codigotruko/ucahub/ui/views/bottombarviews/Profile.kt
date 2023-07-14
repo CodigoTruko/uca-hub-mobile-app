@@ -42,6 +42,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.presentation.author.LikesListViewModel
+import com.codigotruko.ucahub.presentation.author.LikesListViewModelFactory
 import com.codigotruko.ucahub.presentation.profile.MyProfileViewModel
 import com.codigotruko.ucahub.presentation.profile.PublicationProfileListViewModel
 import com.codigotruko.ucahub.presentation.profile.PublicationProfileListViewModelFactory
@@ -51,11 +53,18 @@ import com.codigotruko.ucahub.ui.theme.mainBackground
 import com.codigotruko.ucahub.ui.views.fragments.ImageUCAHUB
 import com.codigotruko.ucahub.ui.views.overlapelements.EditProfileBox
 import com.codigotruko.ucahub.ui.views.publication.PublicationItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun ProfileView(navController: NavHostController){
     val app = LocalContext.current.applicationContext as UcaHubApplication
+    val likesViewModelFactory = LikesListViewModelFactory(app.authorRepository, app.getToken())
+    val likesViewModel: LikesListViewModel = viewModel(factory = likesViewModelFactory)
+
+    val scope = CoroutineScope(Dispatchers.Main)
 
     val profileViewModel: MyProfileViewModel = viewModel(factory = MyProfileViewModel.Factory)
     val profile by profileViewModel.myProfileResponse.collectAsState()
@@ -183,29 +192,31 @@ fun ProfileView(navController: NavHostController){
                     .height(30.dp))
             }
             item {
-                if(publications.loadState.refresh is LoadState.NotLoading && publications.itemCount == 0){
+                if(publications.loadState.refresh is LoadState.Loading){
+                    CircularProgressIndicator(
+                    )
 
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                    ) {
-                        Text(
-                            text = "Mmm... Creo que vendria bien publicar algo.",
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 25.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .align(alignment = Alignment.Center)
-                        )
+                }
+                else{
+                    if (publications.itemCount == 0){
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                        ) {
+                            Text(
+                                text = "Mmm... Creo que vendria bien publicar algo.",
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 25.sp,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.Center)
+                            )
+                        }
                     }
                 }
             }
-            items(publications){ publication ->
-                if(publications.loadState.refresh is LoadState.Loading) {
-                    CircularProgressIndicator(
-                    )
-                }
-                else{
+            items(publications){publication ->
+                if(publications.loadState.refresh is LoadState.NotLoading) {
                     if (publication != null) {
                         PublicationItem(
                             publication = publication,
@@ -213,15 +224,24 @@ fun ProfileView(navController: NavHostController){
                             publicationRefresh = {
                                 publicationViewModel.refreshPublications()
                                 publications.refresh()
-                            }
+                            },
+                            onLiked = {
+                                scope.launch {
+                                    publicationViewModel.changeLikeState(publication._id)
+                                }
+                            },
+                            comments = publicationViewModel.getComments(publication._id)
+
                         )
                     }
                 }
+
             }
             item {
                 if(publications.loadState.append is LoadState.Loading) {
                     CircularProgressIndicator()
                 }
+
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp))
@@ -230,7 +250,6 @@ fun ProfileView(navController: NavHostController){
         }
         profile?.profile?.let { EditProfileBox(showProfileBox, { showProfileBox = false }, profile = it, onConfirm = {
             profileViewModel.refreshProfile()
-            navController.navigate("profile_route")
 
         }) }
 
@@ -265,6 +284,8 @@ fun TextProfileFragment(name: String?, value: String?){
         )
     }
 }
+
+
 
 /*
 private val _publications = MutableStateFlow(emptyFlow<PagingData<Publication>>())

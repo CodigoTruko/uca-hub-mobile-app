@@ -72,8 +72,14 @@ fun EditProfileBox (show: Boolean, onDismiss: () -> Unit, profile: Profile?, onC
     val items = remember { mutableStateListOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5") }
     val selectedItem = remember { mutableStateOf(items[0]) }
 
+    val optionSelectedFaculty = remember { mutableStateOf(false) }
+    val optionSelectedFacultyValue = remember { mutableStateOf("") }
+
     if (show) {
-        Dialog(onDismissRequest = { onDismiss() }) {
+        Dialog(onDismissRequest = { onDismiss()
+                                    optionSelectedFaculty.value = false
+        }
+        ) {
             Card(colors = CardDefaults.cardColors(darkWhiteBackground)) {
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -144,25 +150,9 @@ fun EditProfileBox (show: Boolean, onDismiss: () -> Unit, profile: Profile?, onC
                     }
                     */
 
-                    TextField(
-                        value = facultadProfile.value,
-                        onValueChange = { facultadProfile.value = it },
-                        placeholder = { Text(text = "Facultad") },
-                        singleLine = true,
-                        shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp))
+                    FacultadMenu(optionSelectedFaculty, optionSelectedFacultyValue)
 
-                    TextField(
-                        value = careerProfile.value,
-                        onValueChange = { careerProfile.value = it },
-                        placeholder = { Text(text = "Carrera") },
-                        singleLine = true,
-                        shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp))
+                    CarrerMenu(optionSelectedFaculty, optionSelectedFacultyValue)
 
                     descriptionProfile.value?.let { it ->
                         TextField(
@@ -177,7 +167,10 @@ fun EditProfileBox (show: Boolean, onDismiss: () -> Unit, profile: Profile?, onC
 
                     Row{
                         Button(
-                            onClick = { onDismiss() },
+                            onClick = {
+                                onDismiss()
+                                optionSelectedFaculty.value = false
+                                      },
                             colors = ButtonDefaults.buttonColors(containerColor = blueBackground),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier

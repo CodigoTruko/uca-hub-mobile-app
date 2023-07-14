@@ -60,17 +60,13 @@ fun EditProfileBox (show: Boolean, onDismiss: () -> Unit, profile: Profile?, onC
     val usernameProfile = remember { mutableStateOf(profile?.let { TextFieldValue(it.username) }) }
     val emailProfile = remember { mutableStateOf(profile?.let { TextFieldValue(it.email) }) }
 
-    val facultadProfile = remember { mutableStateOf(TextFieldValue(faculty)) }
-    val careerProfile = remember { mutableStateOf(TextFieldValue(carrer)) }
+    val careerProfile = remember { mutableStateOf("") }
     val descriptionProfile = remember { mutableStateOf(profile?.description?.let { TextFieldValue(it) }) }
 
     val context = LocalContext.current
 
     val app = context.applicationContext as UcaHubApplication
     val scope = CoroutineScope(Dispatchers.Main)
-    val expanded = remember { mutableStateOf(false) }
-    val items = remember { mutableStateListOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5") }
-    val selectedItem = remember { mutableStateOf(items[0]) }
 
     val optionSelectedFaculty = remember { mutableStateOf(false) }
     val optionSelectedFacultyValue = remember { mutableStateOf("") }
@@ -114,45 +110,9 @@ fun EditProfileBox (show: Boolean, onDismiss: () -> Unit, profile: Profile?, onC
                                 .padding(16.dp))
                     }
 
-                    /*
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        TextField(
-                            value = selectedItem.value,
-                            onValueChange = { selectedItem.value = it},
-                            placeholder = { Text(text = "Carnet") },
-                            singleLine = true,
-                            readOnly = true,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                                .clickable {
-                                    expanded.value = true
-                                },
-
-                            )
-
-                        if(expanded.value){
-                            DropdownMenu(
-                                expanded = expanded.value,
-                                onDismissRequest = { expanded.value = false }
-                            ) {
-                                items.forEach { item ->
-                                    DropdownMenuItem(onClick = {
-                                        selectedItem.value = item
-                                        expanded.value = false
-                                    }) {
-                                        Text(text = item)
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                    */
-
                     FacultadMenu(optionSelectedFaculty, optionSelectedFacultyValue)
 
-                    CarrerMenu(optionSelectedFaculty, optionSelectedFacultyValue)
+                    careerProfile.value = CarrerMenu(optionSelectedFaculty, optionSelectedFacultyValue)
 
                     descriptionProfile.value?.let { it ->
                         TextField(
@@ -190,7 +150,7 @@ fun EditProfileBox (show: Boolean, onDismiss: () -> Unit, profile: Profile?, onC
                                                             it1.text,
                                                             it3.text,
                                                             it2.text,
-                                                            "64a6d25c44d193179a848212",
+                                                            program = careerProfile.value,
                                                             it4.text,
                                                             "1"
                                                         )
@@ -201,6 +161,7 @@ fun EditProfileBox (show: Boolean, onDismiss: () -> Unit, profile: Profile?, onC
                                     }
                                     onConfirm()
                                 }
+                                optionSelectedFaculty.value = false
                                 onDismiss()
                                       },
                             colors = ButtonDefaults.buttonColors(containerColor = blueBackground),

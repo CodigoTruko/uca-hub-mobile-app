@@ -55,7 +55,6 @@ class UcaHubService {
         return service.changeStatePublicationLike("Bearer $token", id)
 
     }
-
     suspend fun getPublicationComments(token: String, id: String, limit: Int, offset: Int) =
         service.getPublicationComments("Bearer $token", id, offset, limit)
 

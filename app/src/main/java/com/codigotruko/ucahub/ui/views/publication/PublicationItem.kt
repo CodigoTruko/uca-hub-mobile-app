@@ -112,7 +112,7 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
 
                 Text(text = author ?: "Author not found", fontSize = 25.sp, fontWeight = FontWeight.Medium)
 
-                Spacer(modifier = Modifier.width(60.dp))
+                Spacer(modifier = Modifier.width(120.dp))
 
                 if( author == profile?.profile?.username){
                     IconButton(
@@ -150,14 +150,14 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(24.dp))
-            /*
+
             Image(painter = painterResource(id = R.drawable.publicacion_prueba) ,
                 contentDescription = "Imagen de Publicación",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
-                    .padding(horizontal = 16.dp))
-             */
+                    .height(220.dp)
+                    .padding(horizontal = 8.dp))
+
             Spacer(modifier = Modifier
                 .fillMaxWidth()
                 .height(4.dp))
@@ -178,20 +178,19 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                     onClick = {
 
                         onLiked()
+                        stateLike = true
                         publicationRefresh()
 
                     }
                 ) {
                     Icon(
-                        painter = painterResource(id = if (stateLike) R.drawable.send_icon else R.drawable.heart_icon),
+                        painter = painterResource(id = if (stateLike) R.drawable.red_heart else R.drawable.heart_icon),
                         contentDescription = if (stateLike) "Icono Unlike" else "Icono Like",
                         modifier = Modifier
                             .width(26.dp)
                             .height(40.dp)
                     )
                 }
-
-
 
                 Spacer(modifier = Modifier.width(50.dp))
 
@@ -209,20 +208,12 @@ fun PublicationItem(publication: Publication, navController: NavHostController, 
                 }
 
                 Spacer(modifier = Modifier.width(50.dp))
-                if (1==1){
+
                     Icon(painter = painterResource(id = R.drawable.bookmark_icon),
                         contentDescription = "Icono BookMark",
                         modifier = Modifier
                             .width(40.dp)
                             .height(40.dp))
-                }
-                else{
-                    Icon(painter = painterResource(id = R.drawable.send_icon),
-                        contentDescription = "Icono BookMark",
-                        modifier = Modifier
-                            .width(40.dp)
-                            .height(40.dp))
-                }
             }
         }
     }

@@ -171,22 +171,6 @@ fun ProfileView(navController: NavHostController){
 
                 }
 
-                Button(
-                    onClick = {/* TODO : Hacer on click para buscar en perfil. */},
-                    colors = ButtonDefaults.buttonColors(blueBackground),
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                ) {
-                    androidx.compose.material.Icon(
-                        painter = painterResource(id = R.drawable.search_icon),
-                        tint = Color.White,
-                        contentDescription = "Icono buscar."
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Buscar en el perfil")
-                }
-
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
                     .height(30.dp))

@@ -9,4 +9,5 @@ data class Author(
     @PrimaryKey var _id: String,
     @SerializedName("name") var name: String,
     @SerializedName("username") var username: String,
+    @SerializedName("carnet") var carnet: String
 )

@@ -1,6 +1,7 @@
 package com.codigotruko.ucahub.ui.views.menudesplegable
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,6 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.codigotruko.ucahub.ui.SessionManager
 import com.codigotruko.ucahub.ui.views.overlapelements.ChangePasswordBox
 import com.codigotruko.ucahub.ui.views.overlapelements.FollowingBox
 import com.codigotruko.ucahub.ui.views.overlapelements.LogOutBox
@@ -40,7 +43,7 @@ import kotlinx.coroutines.launch
 // Vista del Menu desplegable.
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: CoroutineScope, scaffoldState: ScaffoldState) {
+fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: CoroutineScope, scaffoldState: ScaffoldState, sessionManager: SessionManager) {
 
     val currentRoute = currentRoute(navController)
     var showFollowingBox by rememberSaveable() { mutableStateOf(false) }
@@ -72,9 +75,9 @@ fun Menu(menu_items: List<Destinos>, navController: NavHostController, scope: Co
     }
 
     // Muestra los dialogos.
-    FollowingBox(showFollowingBox, { showFollowingBox = false }, {  })
+    FollowingBox(showFollowingBox, { showFollowingBox = false }, {  }, navController)
     ChangePasswordBox(showChangePassBox, { showChangePassBox = false }, {})
-    LogOutBox(showLogOutBox, { showLogOutBox = false }, { showLogOutBox = false })
+    LogOutBox(showLogOutBox, navController, { showLogOutBox = false }, sessionManager = sessionManager)
 
 }
 

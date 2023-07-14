@@ -3,12 +3,25 @@ package com.codigotruko.ucahub.ui.views.bottomnavbar
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.codigotruko.ucahub.R
+import com.codigotruko.ucahub.UcaHubApplication
+import com.codigotruko.ucahub.presentation.login.LoginViewModel
+import com.codigotruko.ucahub.ui.SessionManager
+import com.codigotruko.ucahub.ui.views.LogInView
+import com.codigotruko.ucahub.ui.views.RegisterView
+import com.codigotruko.ucahub.ui.views.bottombarviews.CommunitieFeedView
 import com.codigotruko.ucahub.ui.views.bottombarviews.CommunitiesView
 import com.codigotruko.ucahub.ui.views.bottombarviews.MainFeedView
+import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileUserView
 import com.codigotruko.ucahub.ui.views.bottombarviews.ProfileView
 import com.codigotruko.ucahub.ui.views.bottombarviews.SearchView
 
@@ -45,6 +58,8 @@ sealed class NavBarElements(val tittle: String, val route: String, @DrawableRes 
 @Composable
 fun BottomNavHost(navHostController: NavHostController) {
 
+    val app = LocalContext.current.applicationContext as UcaHubApplication
+
     NavHost(
         navController = navHostController,
         startDestination = NavBarElements.Home.route
@@ -56,18 +71,20 @@ fun BottomNavHost(navHostController: NavHostController) {
             CommunitiesView()
         }
         composable(NavBarElements.Search.route) {
-            SearchView()
+            SearchView(navHostController)
         }
         composable(NavBarElements.Profile.route) {
-            ProfileView(
-                navController = navHostController,
-                userName = "Rodrigo",
-                carnet = "00078421",
-                faculty = "Ingenieria y arquitectura",
-                carrer = "Ingenieria Informatica",
-                description = "AAAAAAAAAAAAAAAAAAAAA",
-                userID = "1"
-            )
+            ProfileView(navHostController)
+        }
+        // Ruta para publicaciones que no son mias.
+        composable("anotherUser_profile/{userId}") { backStackEntry ->
+
+            var userId = backStackEntry.arguments?.getString("userId")
+
+            ProfileUserView(navHostController, userId!!)
+        }
+        composable("communities_feed") {
+            CommunitieFeedView()
         }
     }
 }

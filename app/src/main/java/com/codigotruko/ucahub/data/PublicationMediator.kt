@@ -9,6 +9,7 @@ import androidx.room.withTransaction
 import com.codigotruko.ucahub.data.db.PublicationAppDatabase
 import com.codigotruko.ucahub.data.db.models.Publication
 import com.codigotruko.ucahub.data.db.models.RemoteKey
+import com.codigotruko.ucahub.data.network.response.PublicationListResponse
 import com.codigotruko.ucahub.data.network.service.UcaHubService
 import retrofit2.HttpException
 import java.io.IOException
@@ -16,6 +17,7 @@ import java.io.IOException
 @OptIn (ExperimentalPagingApi::class)
 class PublicationMediator (
     private val token: String,
+    private val userName: String,
     private val database: PublicationAppDatabase,
     private val ucaHubService: UcaHubService,
 ): RemoteMediator<Int, Publication>(){
@@ -45,12 +47,31 @@ class PublicationMediator (
                     remoteKey.nextKey
                 }
             }
-            val response = ucaHubService.getPublications(
-                token,
-                state.config.pageSize,
-                loadKey
-            )
+            val response = ucaHubService.getFeedPublications(
+                    token,
+                    state.config.pageSize,
+                    loadKey
+                )
 
+
+            response.results.forEach { publication ->
+                var offset = 0
+                publication.isLiked = false
+                do {
+                    val likes = ucaHubService.getPublicationLikes(token, publication._id, 100, offset)
+                    offset = response.next?.toInt() ?: -1
+                    var author = likes.results.find {
+                        Log.d("publi USERNAME", it.username)
+                        Log.d("My USerNAME", userName)
+                        it.username == userName
+                    }
+                    if (author != null) {
+                        publication.isLiked = true
+                    }
+                    Log.d("PASA", publication.isLiked.toString())
+                } while (offset != -1)
+
+            }
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -58,15 +79,23 @@ class PublicationMediator (
                     remoteKeyDao.remoteKeyByQuery("all")
                 }
 
-                publicationDao.insertAll(response.results)
-                remoteKeyDao.insertOrReplace(
-                    RemoteKey("all", getOffset(response.next))
-                )
+                if (response != null) {
+                    publicationDao.insertAll(response.results)
+                }
+                if (response != null) {
+                    remoteKeyDao.insertOrReplace(
+                        RemoteKey("all", getOffset(response.next))
+                    )
+                }
             }
 
-            return MediatorResult.Success(
-                endOfPaginationReached = response.next == null
-            )
+            return if (response != null) {
+                MediatorResult.Success(
+                    endOfPaginationReached = response.next == null
+                )
+            } else {
+                MediatorResult.Error(NullPointerException("Response is null"))
+            }
 
         } catch (e: HttpException) {
             return MediatorResult.Error(e)

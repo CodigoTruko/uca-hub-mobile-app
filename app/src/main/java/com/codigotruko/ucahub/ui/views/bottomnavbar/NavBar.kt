@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.codigotruko.ucahub.ui.SessionManager
 import com.codigotruko.ucahub.ui.theme.blueBackground
 import com.codigotruko.ucahub.ui.views.menudesplegable.Destinos
 import com.codigotruko.ucahub.ui.views.menudesplegable.Menu
@@ -20,9 +21,8 @@ val listItems = listOf(
 )
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
 @Composable
-fun StaticItems(){
+fun StaticItems(sessionManager: SessionManager){
 
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
@@ -38,7 +38,7 @@ fun StaticItems(){
         scaffoldState = scaffoldState,
         topBar = { TopBar(scope, scaffoldState) },
         bottomBar = { BottomNavBar(navController = navController, items = listItems) },
-        drawerContent = { Menu(menu_items = navigationItems, navController, scope, scaffoldState) },
+        drawerContent = { Menu(menu_items = navigationItems, navController, scope, scaffoldState, sessionManager = sessionManager) },
         drawerGesturesEnabled = true,
         drawerBackgroundColor = blueBackground
     ) {

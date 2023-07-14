@@ -17,16 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codigotruko.ucahub.R
 import com.codigotruko.ucahub.ui.theme.lightBlueBackground
-import com.codigotruko.ucahub.ui.views.overlapelements.AddPublicationBox
+import com.codigotruko.ucahub.ui.views.overlapelements.AddEditPublicationBox
 
 
-@Preview (showBackground = true)
 @Composable
-fun FloatingButton () {
+fun FloatingButton (_aux: Boolean, placeRoute: String, action: () -> Unit = {}){
 
     var showAddPubliBox by rememberSaveable() { mutableStateOf(false) }
 
@@ -53,6 +51,6 @@ fun FloatingButton () {
 
     }
 
-    AddPublicationBox(showAddPubliBox, onDismiss = { showAddPubliBox = false }, {  })
+    AddEditPublicationBox(showAddPubliBox, onDismiss = { showAddPubliBox = false },true, null, _aux, placeRoute, action )
 
 }
